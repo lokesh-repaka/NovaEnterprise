@@ -1,0 +1,31 @@
+{
+  "pre-commit-gate": {
+    "PreToolUse": [
+      {
+        "matcher": "run_command",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'DIR=\"${AGY_PROJECT_DIR:-$(pwd)}\"; [ -f \"$DIR/.agents/hooks/pre-commit.sh\" ] && bash \"$DIR/.agents/hooks/pre-commit.sh\" || [ -f \"/Users/lokeshrepaka/Desktop/NovaEnterprise/.agents/hooks/pre-commit.sh\" ] && bash \"/Users/lokeshrepaka/Desktop/NovaEnterprise/.agents/hooks/pre-commit.sh\" || exit 0'",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  },
+  "agent-guard": {
+    "PreToolUse": [
+      {
+        "matcher": "invoke_subagent",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'DIR=\"${AGY_PROJECT_DIR:-$(pwd)}\"; [ -f \"$DIR/.agents/hooks/agent_guard.py\" ] && python3 \"$DIR/.agents/hooks/agent_guard.py\" || [ -f \"/Users/lokeshrepaka/Desktop/NovaEnterprise/.agents/hooks/agent_guard.py\" ] && python3 \"/Users/lokeshrepaka/Desktop/NovaEnterprise/.agents/hooks/agent_guard.py\" || exit 0'",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}
+

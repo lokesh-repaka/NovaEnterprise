@@ -1,0 +1,22 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.env
+.venv/
+env/
+venv/
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Antigravity artifacts & logs
+/.agents/agent-calls.jsonl
+/.agents.bak-*/
+/GEMINI.local.md
+/data/enterprise.db
+
