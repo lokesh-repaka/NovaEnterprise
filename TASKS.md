@@ -19,7 +19,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 
 | Task | Branch | Proves | Status |
 |------|--------|--------|--------|
-| P1-1 · Settings and JSON logging | `feature/backend-config-logging` | N1, N2 | Pending ❌ |
+| P1-1 · Settings and JSON logging | `feature/backend-config-logging` | N1, N2 | Completed ✅ |
 | P1-2 · Health routes and request-id middleware | `feature/backend-health-request-id` | N4, N5 | Pending ❌ |
 | P1-3 · Offline pytest harness and fake stores | `feature/test-harness-offline` | N1 | Pending ❌ |
 | P1-4 · Makefile and `.env.example` | `feature/makefile-env-example` | N1, N4 | Pending ❌ |
@@ -302,7 +302,7 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 
 | Phase | Name | Tasks | Done |
 |-------|------|-------|------|
-| 1 | Runtime skeleton | 4 | 0 ❌ |
+| 1 | Runtime skeleton | 4 | 1 ⏳ |
 | 2 | Persistence and domain data | 4 | 0 ❌ |
 | 3 | Identity and request guards | 4 | 0 ❌ |
 | 4 | Browse API and core contracts | 3 | 0 ❌ |
@@ -316,4 +316,4 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 12 | Frontend console shell | 4 | 0 ❌ |
 | 13 | Research and graph UI screens | 4 | 0 ❌ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **0 (0%)** |
+| **Total** | | **56** | **1 (2%)** |
