@@ -487,7 +487,7 @@ Do not write "deployed" or "passes in CI" until it has.
 
 | Phase | Name | Status |
 |---|---|---|
-| 1 | Runtime skeleton (config, llm factory, protocols, health) | not started |
+| 1 | Runtime skeleton (config, llm factory, protocols, health) | in progress (P1-1 complete) |
 | 2 | Persistence and demo data (models, seed `sample_data/`) | not started |
 | 3 | Identity and request guards (JWT, RBAC, request-id, rate limit, audit) | not started |
 | 4 | Ingestion (parse, chunk, extract, vector + DB + graph) | not started |
@@ -508,8 +508,9 @@ Phase boundaries are proposed from the dependency order in this file; adjust and
 
 - The source docs reference `05-rag.md`, `06-tools.md` and `16-observability.md` and a `README.md`, none of
   which were supplied. Tool design, memory scopes and observability details are **[TBD]**.
-- The 13 node names, the memory scope names, graph node/edge types, chunking parameters, demo user
-  emails, and the full env var list are not in the supplied docs. Fill them in as the code is written.
+- The 13 node names, the memory scope names, graph node/edge types, chunking parameters, and demo user
+  emails are not in the supplied docs. Fill them in as the code is written. Full environment variable definitions
+  and defaults are codified in `backend/app/core/config.py` (P1-1).
 - `agents/nodes/` names in section 3.1 come from the PRD; `GRAPH_NODES` is the authority for the final list.
 - PRD says "70 chunks / 85 nodes / 260 edges" for the in-memory run; treat these as observed values, not
   requirements.
