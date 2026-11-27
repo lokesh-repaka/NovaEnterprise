@@ -1,0 +1,66 @@
+[
+  {
+    "id": "svc-payments-api",
+    "name": "Payments API",
+    "tier": "tier-1",
+    "port": 8001,
+    "repo_url": "https://github.com/nova/payments-api",
+    "owner_team_id": "team-payments"
+  },
+  {
+    "id": "svc-identity",
+    "name": "Identity Service",
+    "tier": "tier-1",
+    "port": 8002,
+    "repo_url": "https://github.com/nova/identity-service",
+    "owner_team_id": "team-identity"
+  },
+  {
+    "id": "svc-data-pipeline",
+    "name": "Data Pipeline",
+    "tier": "tier-2",
+    "port": 8003,
+    "repo_url": "https://github.com/nova/data-pipeline",
+    "owner_team_id": "team-data"
+  },
+  {
+    "id": "svc-analytics",
+    "name": "Analytics Dashboard",
+    "tier": "tier-3",
+    "port": 8004,
+    "repo_url": "https://github.com/nova/analytics-dashboard",
+    "owner_team_id": "team-analytics"
+  },
+  {
+    "id": "svc-notifications",
+    "name": "Notification Service",
+    "tier": "tier-2",
+    "port": 8005,
+    "repo_url": "https://github.com/nova/notification-service",
+    "owner_team_id": "team-payments"
+  },
+  {
+    "id": "svc-billing",
+    "name": "Billing Engine",
+    "tier": "tier-1",
+    "port": 8006,
+    "repo_url": "https://github.com/nova/billing-engine",
+    "owner_team_id": "team-payments"
+  },
+  {
+    "id": "svc-customer-portal",
+    "name": "Customer Portal",
+    "tier": "tier-2",
+    "port": 8007,
+    "repo_url": "https://github.com/nova/customer-portal",
+    "owner_team_id": "team-cs"
+  },
+  {
+    "id": "svc-search",
+    "name": "Search Service",
+    "tier": "tier-2",
+    "port": 8008,
+    "repo_url": "https://github.com/nova/search-service",
+    "owner_team_id": "team-data"
+  }
+]

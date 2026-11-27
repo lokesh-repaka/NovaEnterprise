@@ -1,0 +1,72 @@
+[
+  {
+    "id": "cust-acme",
+    "name": "Acme Corp",
+    "tier": "enterprise",
+    "contract_value": 1200000.00,
+    "industry": "Fintech"
+  },
+  {
+    "id": "cust-globex",
+    "name": "Globex Corp",
+    "tier": "enterprise",
+    "contract_value": 950000.00,
+    "industry": "Logistics & Supply Chain"
+  },
+  {
+    "id": "cust-wayne",
+    "name": "Wayne Enterprises",
+    "tier": "enterprise",
+    "contract_value": 1500000.00,
+    "industry": "Defense & Technology"
+  },
+  {
+    "id": "cust-stark",
+    "name": "Stark Industries",
+    "tier": "enterprise",
+    "contract_value": 1750000.00,
+    "industry": "Aerospace & Energy"
+  },
+  {
+    "id": "cust-cyberdyne",
+    "name": "Cyberdyne Systems",
+    "tier": "enterprise",
+    "contract_value": 800000.00,
+    "industry": "AI & Robotics"
+  },
+  {
+    "id": "cust-initech",
+    "name": "Initech",
+    "tier": "mid_market",
+    "contract_value": 250000.00,
+    "industry": "Financial Software"
+  },
+  {
+    "id": "cust-hooli",
+    "name": "Hooli",
+    "tier": "mid_market",
+    "contract_value": 320000.00,
+    "industry": "Consumer Internet"
+  },
+  {
+    "id": "cust-massive",
+    "name": "Massive Dynamic",
+    "tier": "mid_market",
+    "contract_value": 280000.00,
+    "industry": "Life Sciences"
+  },
+  {
+    "id": "cust-piedpiper",
+    "name": "Pied Piper",
+    "tier": "smb",
+    "contract_value": 75000.00,
+    "industry": "Distributed Systems"
+  },
+  {
+    "id": "cust-umbrella",
+    "name": "Umbrella Corp",
+    "tier": "smb",
+    "contract_value": 90000.00,
+    "industry": "Pharmaceuticals"
+  }
+]
