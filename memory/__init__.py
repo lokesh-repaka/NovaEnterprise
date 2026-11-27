@@ -7,6 +7,11 @@ Exports:
 - In-memory reference stores for zero-dependency offline isolation (N1)
 """
 
+from memory.memory_service import (
+    MemoryService,
+    get_memory_service,
+    reset_memory_service,
+)
 from memory.org_loader import (
     DEFAULT_ORG_MEMORY_PATH,
     OrganizationalMemoryLoader,
@@ -64,6 +69,7 @@ __all__ = [
     "InMemoryWorkingMemoryStore",
     "MemoryItem",
     "MemoryScope",
+    "MemoryService",
     "OrganizationalMemory",
     "OrganizationalMemoryLoader",
     "OrganizationalMemoryStore",
@@ -74,9 +80,11 @@ __all__ = [
     "UnifiedMemoryStore",
     "WorkingMemoryState",
     "WorkingMemoryStore",
+    "get_memory_service",
     "get_org_memory_loader",
     "get_unified_memory_store",
     "load_organizational_memory",
+    "reset_memory_service",
     "reset_memory_stores",
     "reset_org_memory_loader",
 ]
