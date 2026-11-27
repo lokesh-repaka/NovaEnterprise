@@ -1,7 +1,7 @@
 You have access to the project's authoritative documentation: `TASKS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/rules/`, and architecture specifications in `docs/` (`HLD_*.md`, `LLD_*.md`, `PRD_*.md`, `BRD_*.md`, `FRD_*.md`).
 
 
-Go ahead and complete **P8-3 · Unified memory recall and update service** as defined in `TASKS.md`.
+Go ahead and complete **P9-1 · `ResearchState` schema and fake LLM provider** as defined in `TASKS.md`.
 
 
 ---

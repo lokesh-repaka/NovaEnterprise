@@ -118,7 +118,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 |------|--------|-------|--------|--------|
 | P8-1 · Four-scope memory schemas and protocols | `feature/memory-tier-schemas` | P2-3 | F15 | Completed ✅ |
 | P8-2 · Redis conversation memory and org memory loader | `feature/memory-redis-org` | P7-3 | F15 | Completed ✅ |
-| P8-3 · Unified memory recall and update service | `feature/memory-service` | P8-1, P8-2 | F15 | Pending ❌ |
+| P8-3 · Unified memory recall and update service | `feature/memory-service` | P8-1, P8-2 | F15 | Completed ✅ |
 
 ---
 
