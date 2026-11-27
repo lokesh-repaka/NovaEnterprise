@@ -42,7 +42,9 @@ class AuditMiddleware(BaseHTTPMiddleware):
     ) -> None:
         super().__init__(app)
         self.exempt_paths = (
-            set(exempt_paths) if exempt_paths is not None else DEFAULT_EXEMPT_AUDIT_PATHS
+            set(exempt_paths)
+            if exempt_paths is not None
+            else DEFAULT_EXEMPT_AUDIT_PATHS
         )
 
     def _extract_user_id(self, request: Request) -> str | None:

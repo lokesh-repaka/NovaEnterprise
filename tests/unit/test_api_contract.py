@@ -7,14 +7,18 @@ Evidence shape, and TypeScript definitions for Phase 12 frontend integration.
 
 from pathlib import Path
 
-CONTRACT_PATH = Path(__file__).resolve().parent.parent.parent / "docs" / "API_CONTRACT.md"
+CONTRACT_PATH = (
+    Path(__file__).resolve().parent.parent.parent / "docs" / "API_CONTRACT.md"
+)
 
 
 def test_api_contract_exists_and_non_empty() -> None:
     """Ensure docs/API_CONTRACT.md exists and is substantive."""
     assert CONTRACT_PATH.exists(), f"API contract file not found at {CONTRACT_PATH}"
     content = CONTRACT_PATH.read_text(encoding="utf-8")
-    assert len(content.strip()) > 1000, "API contract document must be substantive (>1000 chars)"
+    assert len(content.strip()) > 1000, (
+        "API contract document must be substantive (>1000 chars)"
+    )
 
 
 def test_api_contract_covers_global_headers_and_status_codes() -> None:
@@ -122,8 +126,17 @@ def test_api_contract_includes_typescript_client_types() -> None:
     content = CONTRACT_PATH.read_text(encoding="utf-8")
 
     assert "```typescript" in content
-    assert "export interface Customer" in content or "export interface CustomerResponse" in content
-    assert "export interface Incident" in content or "export interface IncidentResponse" in content
-    assert "export interface Service" in content or "export interface ServiceResponse" in content
+    assert (
+        "export interface Customer" in content
+        or "export interface CustomerResponse" in content
+    )
+    assert (
+        "export interface Incident" in content
+        or "export interface IncidentResponse" in content
+    )
+    assert (
+        "export interface Service" in content
+        or "export interface ServiceResponse" in content
+    )
     assert "export interface ResearchSession" in content
     assert "export interface WorkflowEvent" in content

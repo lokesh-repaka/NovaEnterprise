@@ -21,7 +21,9 @@ class GraphNode(BaseModel):
     """Property graph entity node representation."""
 
     id: str = Field(..., description="Unique node identifier")
-    label: str = Field(..., description="Entity classification label (e.g. Service, Team)")
+    label: str = Field(
+        ..., description="Entity classification label (e.g. Service, Team)"
+    )
     properties: dict[str, Any] = Field(
         default_factory=dict, description="Arbitrary entity attributes"
     )
@@ -57,9 +59,15 @@ class GraphEdge(BaseModel):
 class GraphExpansion(BaseModel):
     """Subgraph expansion output model."""
 
-    root: dict[str, Any] | None = Field(default=None, description="Focal expansion root node")
-    nodes: list[dict[str, Any]] = Field(default_factory=list, description="Discovered neighbor nodes")
-    edges: list[dict[str, Any]] = Field(default_factory=list, description="Connecting graph edges")
+    root: dict[str, Any] | None = Field(
+        default=None, description="Focal expansion root node"
+    )
+    nodes: list[dict[str, Any]] = Field(
+        default_factory=list, description="Discovered neighbor nodes"
+    )
+    edges: list[dict[str, Any]] = Field(
+        default_factory=list, description="Connecting graph edges"
+    )
 
 
 class GraphRecord(BaseModel):
@@ -317,7 +325,10 @@ class InMemoryGraphStore:
                 return []
             deps: list[dict[str, Any]] = []
             for edge in self._edges:
-                if edge["source"] == service_id and edge["type"] in ("DEPENDS_ON", "CALLS"):
+                if edge["source"] == service_id and edge["type"] in (
+                    "DEPENDS_ON",
+                    "CALLS",
+                ):
                     target_node = self._nodes.get(edge["target"])
                     if target_node:
                         deps.append(target_node)

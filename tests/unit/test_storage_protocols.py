@@ -109,7 +109,9 @@ class TestVectorStoreProtocol:
     def test_delete_and_clear(self) -> None:
         """Verify chunk deletion and complete clearing."""
         store = InMemoryVectorStore()
-        store.add_chunks([{"id": "del-1", "text": "to delete", "embedding": [0.5, 0.5]}])
+        store.add_chunks(
+            [{"id": "del-1", "text": "to delete", "embedding": [0.5, 0.5]}]
+        )
         assert store.count() == 1
 
         assert store.delete_chunk("del-1") is True
@@ -131,9 +133,9 @@ class TestVectorStoreProtocol:
     def test_add_documents_and_similarity_search_aliases(self) -> None:
         """Verify HLD §5.1 method aliases add_documents and similarity_search."""
         store = InMemoryVectorStore()
-        store.add_documents([
-            VectorChunk(id="alias-1", text="Alias test", embedding=[0.7, 0.7])
-        ])
+        store.add_documents(
+            [VectorChunk(id="alias-1", text="Alias test", embedding=[0.7, 0.7])]
+        )
         assert store.count() == 1
         results = store.similarity_search([0.7, 0.7], k=5)
         assert len(results) == 1
@@ -155,13 +157,17 @@ class TestGraphStoreProtocol:
         assert node_model["label"] == "TestLabel"
         assert node_model.to_dict()["properties"]["k"] == "v"
 
-        edge_model = GraphEdge(source="a", target="b", type="REL", properties={"weight": 1.0})
+        edge_model = GraphEdge(
+            source="a", target="b", type="REL", properties={"weight": 1.0}
+        )
         assert edge_model.source == "a"
         assert edge_model["type"] == "REL"
         assert edge_model.to_dict()["properties"]["weight"] == 1.0
 
         store = InMemoryGraphStore()
-        store.add_node("svc-payments", "Service", {"tier": "critical", "language": "python"})
+        store.add_node(
+            "svc-payments", "Service", {"tier": "critical", "language": "python"}
+        )
         store.add_node("team-payments", "Team", {"lead": "Jane Doe"})
         store.add_edge("team-payments", "svc-payments", "OWNS", {"since": "2024"})
 
@@ -333,11 +339,15 @@ class TestStoreFactories:
     def test_unsupported_factory_raises(self) -> None:
         """Verify unsupported store backends raise descriptive ValueError."""
         bad_vec_settings = Settings(vector_store="unsupported_vec")
-        with pytest.raises(ValueError, match="Unsupported vector store backend: unsupported_vec"):
+        with pytest.raises(
+            ValueError, match="Unsupported vector store backend: unsupported_vec"
+        ):
             get_vector_store(bad_vec_settings)
 
         bad_graph_settings = Settings(graph_store="unsupported_graph")
-        with pytest.raises(ValueError, match="Unsupported graph store backend: unsupported_graph"):
+        with pytest.raises(
+            ValueError, match="Unsupported graph store backend: unsupported_graph"
+        ):
             get_graph_store(bad_graph_settings)
 
 

@@ -207,7 +207,9 @@ class TestSampleDataIngestCorpus:
         assert docs_dir.exists() and docs_dir.is_dir()
 
         doc_files = sorted(docs_dir.glob("*.md"))
-        assert len(doc_files) == 15, f"Expected 15 sample documents, found {len(doc_files)}"
+        assert len(doc_files) == 15, (
+            f"Expected 15 sample documents, found {len(doc_files)}"
+        )
 
         parser = DocumentParser()
         chunker = SemanticChunker(chunk_size=512, chunk_overlap=64)
@@ -217,7 +219,9 @@ class TestSampleDataIngestCorpus:
 
         for file_path in doc_files:
             parsed = parser.parse_file(file_path)
-            assert parsed.content_hash, f"Document {file_path.name} missing content hash"
+            assert parsed.content_hash, (
+                f"Document {file_path.name} missing content hash"
+            )
             assert parsed.title, f"Document {file_path.name} missing extracted title"
 
             if parsed.flagged_injection:

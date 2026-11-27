@@ -69,17 +69,23 @@ Incident INC-2031 was addressed by ADR-042.
 
         assert len(result.relationships) >= 3
 
-        rel_signatures = {(r.source_id, r.type, r.target_id) for r in result.relationships}
+        rel_signatures = {
+            (r.source_id, r.type, r.target_id) for r in result.relationships
+        }
 
         # Check known edge patterns
         has_affected = any(
-            r.type in ("AFFECTED", "AFFECTS") and "inc-2031" in r.source_id and "payments" in r.target_id
+            r.type in ("AFFECTED", "AFFECTS")
+            and "inc-2031" in r.source_id
+            and "payments" in r.target_id
             for r in result.relationships
         )
         assert has_affected, f"Expected AFFECTED edge in {rel_signatures}"
 
         has_impacted = any(
-            r.type in ("IMPACTED", "IMPACTS") and "inc-2031" in r.source_id and "acme" in r.target_id
+            r.type in ("IMPACTED", "IMPACTS")
+            and "inc-2031" in r.source_id
+            and "acme" in r.target_id
             for r in result.relationships
         )
         assert has_impacted, f"Expected IMPACTED edge in {rel_signatures}"
@@ -116,9 +122,13 @@ Customer Acme Corp uses Identity Service.
         parser = DocumentParser()
         chunker = SemanticChunker(chunk_size=300, chunk_overlap=50)
 
-        postmortem_path = Path("sample_data/documents/postmortem-inc-2031-payments-api-outage.md")
+        postmortem_path = Path(
+            "sample_data/documents/postmortem-inc-2031-payments-api-outage.md"
+        )
         parsed_doc = parser.parse_file(postmortem_path)
-        chunks = chunker.chunk_document(parsed_doc.text, doc_id=parsed_doc.id, metadata=parsed_doc.metadata)
+        chunks = chunker.chunk_document(
+            parsed_doc.text, doc_id=parsed_doc.id, metadata=parsed_doc.metadata
+        )
 
         extractor = EntityRelationshipExtractor()
         result = extractor.extract_from_chunks(chunks)
@@ -172,5 +182,7 @@ class TestSampleDataKnowledgeGraphCorpus:
         assert graph_store.get_node("cust-acme") is not None
 
         # Verify customer impact traversal works
-        impacted = graph_store.execute_traversal("customer_impact", {"customer_id": "cust-acme"})
+        impacted = graph_store.execute_traversal(
+            "customer_impact", {"customer_id": "cust-acme"}
+        )
         assert len(impacted) >= 1

@@ -36,9 +36,16 @@ def test_browse_entities_unauthenticated_returns_401() -> None:
     """Ensure browse endpoints reject unauthenticated requests with 401."""
     app = create_app()
     with TestClient(app) as client:
-        for path in ["/api/v1/customers", "/api/v1/incidents", "/api/v1/services", "/api/v1/teams"]:
+        for path in [
+            "/api/v1/customers",
+            "/api/v1/incidents",
+            "/api/v1/services",
+            "/api/v1/teams",
+        ]:
             resp = client.get(path)
-            assert resp.status_code == 401, f"Expected 401 for unauthenticated {path}, got {resp.status_code}"
+            assert resp.status_code == 401, (
+                f"Expected 401 for unauthenticated {path}, got {resp.status_code}"
+            )
             assert "detail" in resp.json()
 
 
@@ -91,7 +98,9 @@ def test_browse_customer_by_id() -> None:
         assert data["tier"] == "enterprise"
 
         # Missing customer
-        resp_missing = client.get("/api/v1/customers/non-existent-cust", headers=headers)
+        resp_missing = client.get(
+            "/api/v1/customers/non-existent-cust", headers=headers
+        )
         assert resp_missing.status_code == 404
         assert "not found" in resp_missing.json()["detail"].lower()
 
@@ -132,7 +141,9 @@ def test_browse_incidents_list_and_filters() -> None:
             assert inc["status"] == "resolved"
 
         # 4. Filter by service
-        resp_svc = client.get("/api/v1/incidents?service_id=svc-payments-api", headers=headers)
+        resp_svc = client.get(
+            "/api/v1/incidents?service_id=svc-payments-api", headers=headers
+        )
         assert resp_svc.status_code == 200
         svc_incs = resp_svc.json()
         assert len(svc_incs) > 0
@@ -185,7 +196,9 @@ def test_browse_services_list_and_filters() -> None:
             assert svc["tier"] == "tier-1"
 
         # 3. Filter by owner team
-        resp_team = client.get("/api/v1/services?owner_team_id=team-payments", headers=headers)
+        resp_team = client.get(
+            "/api/v1/services?owner_team_id=team-payments", headers=headers
+        )
         assert resp_team.status_code == 200
         team_svcs = resp_team.json()
         assert len(team_svcs) > 0

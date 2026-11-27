@@ -13,6 +13,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.app.api.auth import router as auth_router
 from backend.app.api.customers import router as customers_router
 from backend.app.api.decisions import router as decisions_router
+from backend.app.api.documents import router as documents_router
 from backend.app.api.health import router as health_router
 from backend.app.api.incidents import router as incidents_router
 from backend.app.api.projects import router as projects_router
@@ -96,6 +97,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(decisions_router, prefix=settings.api_v1_prefix)
     app.include_router(projects_router, prefix=settings.api_v1_prefix)
     app.include_router(tickets_router, prefix=settings.api_v1_prefix)
+    app.include_router(documents_router, prefix=settings.api_v1_prefix)
 
     return app
 

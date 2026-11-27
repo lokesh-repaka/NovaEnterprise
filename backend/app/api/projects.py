@@ -28,9 +28,17 @@ def list_projects(
     _user: Annotated[AuthenticatedUser, Depends(require_role("viewer"))],
     db: Annotated[Session, Depends(get_db)],
     skip: int = Query(0, ge=0, description="Number of records to skip"),
-    limit: int = Query(50, ge=1, le=100, description="Maximum number of records to return"),
-    status_filter: str | None = Query(None, alias="status", description="Filter by project status (active, completed, archived)"),
-    team_id: str | None = Query(None, description="Filter by owning engineering team ID"),
+    limit: int = Query(
+        50, ge=1, le=100, description="Maximum number of records to return"
+    ),
+    status_filter: str | None = Query(
+        None,
+        alias="status",
+        description="Filter by project status (active, completed, archived)",
+    ),
+    team_id: str | None = Query(
+        None, description="Filter by owning engineering team ID"
+    ),
 ) -> list[ProjectResponse]:
     """List project records matching criteria."""
     repo = ProjectRepository(db)

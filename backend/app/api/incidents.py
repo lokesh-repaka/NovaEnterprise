@@ -27,9 +27,17 @@ def list_incidents(
     _user: Annotated[AuthenticatedUser, Depends(require_role("viewer"))],
     db: Annotated[Session, Depends(get_db)],
     skip: int = Query(0, ge=0, description="Number of records to skip"),
-    limit: int = Query(50, ge=1, le=100, description="Maximum number of records to return"),
-    severity: str | None = Query(None, description="Filter by severity level (SEV1, SEV2, SEV3)"),
-    status_filter: str | None = Query(None, alias="status", description="Filter by incident status (investigating, mitigated, resolved)"),
+    limit: int = Query(
+        50, ge=1, le=100, description="Maximum number of records to return"
+    ),
+    severity: str | None = Query(
+        None, description="Filter by severity level (SEV1, SEV2, SEV3)"
+    ),
+    status_filter: str | None = Query(
+        None,
+        alias="status",
+        description="Filter by incident status (investigating, mitigated, resolved)",
+    ),
     service_id: str | None = Query(None, description="Filter by impacted service ID"),
 ) -> list[IncidentResponse]:
     """List incident records matching criteria."""

@@ -61,12 +61,8 @@ class VectorSearchResult(BaseModel):
     id: str = Field(..., description="Chunk identifier")
     text: str = Field(..., description="Retrieved chunk text")
     score: float = Field(..., description="Cosine similarity score (0.0 to 1.0)")
-    metadata: dict[str, Any] = Field(
-        default_factory=dict, description="Chunk metadata"
-    )
-    locator: str | None = Field(
-        default=None, description="Citation locator string"
-    )
+    metadata: dict[str, Any] = Field(default_factory=dict, description="Chunk metadata")
+    locator: str | None = Field(default=None, description="Citation locator string")
 
     def __getitem__(self, item: str) -> Any:
         """Support dict-like subscripting for backward compatibility."""
@@ -89,9 +85,7 @@ class VectorStoreService(Protocol):
         """Add or update document chunks in the store."""
         ...
 
-    def add_documents(
-        self, documents: Sequence[VectorChunk | dict[str, Any]]
-    ) -> None:
+    def add_documents(self, documents: Sequence[VectorChunk | dict[str, Any]]) -> None:
         """Alias for add_chunks conforming to HLD §5.1 specification."""
         ...
 
@@ -158,9 +152,7 @@ class InMemoryVectorStore:
             chunk = self._normalize_chunk(raw)
             self._chunks[chunk.id] = chunk
 
-    def add_documents(
-        self, documents: Sequence[VectorChunk | dict[str, Any]]
-    ) -> None:
+    def add_documents(self, documents: Sequence[VectorChunk | dict[str, Any]]) -> None:
         """Alias for add_chunks conforming to HLD §5.1."""
         self.add_chunks(documents)
 
@@ -254,9 +246,7 @@ class QdrantVectorStore:
                 )
                 self._chunks[c.id] = c
 
-    def add_documents(
-        self, documents: Sequence[VectorChunk | dict[str, Any]]
-    ) -> None:
+    def add_documents(self, documents: Sequence[VectorChunk | dict[str, Any]]) -> None:
         """Alias conforming to HLD §5.1."""
         self.add_chunks(documents)
 
@@ -269,7 +259,9 @@ class QdrantVectorStore:
         """Search similar chunks."""
         scored: list[VectorSearchResult] = []
         for chunk_id, chunk in self._chunks.items():
-            if filters and not all(chunk.metadata.get(k) == v for k, v in filters.items()):
+            if filters and not all(
+                chunk.metadata.get(k) == v for k, v in filters.items()
+            ):
                 continue
             score = _cosine_similarity(query_vector, chunk.embedding)
             scored.append(
