@@ -1,7 +1,7 @@
 # NovaEnterprise — Task tracker
 
 > Concise checklist for GitHub-visible progress.
-> Architecture & Spec: [Claude.md](Claude.md) · System Rules: [GEMINI.md](GEMINI.md) · Git Workflow: [Git_GitHub_Workflow_Guide.md](Git_GitHub_Workflow_Guide.md) · Problem: [docs/00-problem.md](docs/00-problem.md) · PRD: [docs/01-prd.md](docs/01-prd.md) · HLD: [docs/02-hld.md](docs/02-hld.md)
+> Architecture & Spec: [Claude.md](Claude.md) · System Rules: [GEMINI.md](GEMINI.md) · Git Workflow: [Git_GitHub_Workflow_Guide.md](Git_GitHub_Workflow_Guide.md) · BRD: [docs/BRD.md](docs/BRD.md) · PRD: [docs/PRD.md](docs/PRD.md) · FRD: [docs/FRD.md](docs/FRD.md) · HLD: [docs/HLD.md](docs/HLD.md) · LLD: [docs/LLD.md](docs/LLD.md)
 
 **Branch convention:** `feature/<repo-name>` (one feature branch per sub-task; open the PR against `development`)
 **Status:** `Pending ❌` · `Completed ✅`
@@ -20,7 +20,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | Task | Branch | Proves | Status |
 |------|--------|--------|--------|
 | P1-1 · Settings and JSON logging | `feature/backend-config-logging` | N1, N2 | Completed ✅ |
-| P1-2 · Health routes and request-id middleware | `feature/backend-health-request-id` | N4, N5 | Pending ❌ |
+| P1-2 · Health routes and request-id middleware | `feature/backend-health-request-id` | N4, N5 | Completed ✅ |
 | P1-3 · Offline pytest harness and fake stores | `feature/test-harness-offline` | N1 | Pending ❌ |
 | P1-4 · Makefile and `.env.example` | `feature/makefile-env-example` | N1, N4 | Pending ❌ |
 

@@ -5,7 +5,6 @@ Guarantees offline operation by default (N1) with provider-agnostic extensibilit
 """
 
 from functools import lru_cache
-from typing import List, Optional
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -35,31 +34,52 @@ class Settings(BaseSettings):
     log_format: str = "json"
 
     # Core AI / Model settings (N1: defaults to fake, N2: provider-agnostic)
-    llm_provider: str = Field(default="fake", description="LLM provider name: fake, openai, anthropic, gemini, etc.")
-    llm_model: str = Field(default="fake-model", description="Default model name for the selected provider")
-    embedding_provider: str = Field(default="fake", description="Embedding provider: fake, openai, etc.")
-    embedding_model: str = Field(default="fake-embeddings", description="Embedding model identifier")
+    llm_provider: str = Field(
+        default="fake",
+        description="LLM provider name: fake, openai, anthropic, gemini, etc.",
+    )
+    llm_model: str = Field(
+        default="fake-model", description="Default model name for the selected provider"
+    )
+    embedding_provider: str = Field(
+        default="fake", description="Embedding provider: fake, openai, etc."
+    )
+    embedding_model: str = Field(
+        default="fake-embeddings", description="Embedding model identifier"
+    )
 
     # API keys for external providers (optional; N1: None by default)
-    openai_api_key: Optional[str] = None
-    anthropic_api_key: Optional[str] = None
-    gemini_api_key: Optional[str] = None
-    groq_api_key: Optional[str] = None
-    cohere_api_key: Optional[str] = None
-    mistral_api_key: Optional[str] = None
+    openai_api_key: str | None = None
+    anthropic_api_key: str | None = None
+    gemini_api_key: str | None = None
+    groq_api_key: str | None = None
+    cohere_api_key: str | None = None
+    mistral_api_key: str | None = None
     ollama_base_url: str = "http://localhost:11434"
 
     # Storage protocols & selections (N1: memory stores by default)
-    vector_store: str = Field(default="memory", description="Vector store backend: memory or qdrant")
-    graph_store: str = Field(default="memory", description="Graph store backend: memory or neo4j")
+    vector_store: str = Field(
+        default="memory", description="Vector store backend: memory or qdrant"
+    )
+    graph_store: str = Field(
+        default="memory", description="Graph store backend: memory or neo4j"
+    )
 
     # Agent graph execution bounds (Claude.md §7.3, §10.1)
-    max_subquestions: int = Field(default=4, description="Maximum sub-questions during decomposition (default: 4)")
-    max_corrective_rounds: int = Field(default=1, description="Maximum corrective retrieval loops (default: 1)")
+    max_subquestions: int = Field(
+        default=4, description="Maximum sub-questions during decomposition (default: 4)"
+    )
+    max_corrective_rounds: int = Field(
+        default=1, description="Maximum corrective retrieval loops (default: 1)"
+    )
 
     # Rate limits & Guardrails (N6, N7)
-    rate_limit_per_minute: int = Field(default=120, description="Requests per minute allowed per client")
-    max_upload_mb: int = Field(default=5, description="Maximum upload file size in megabytes")
+    rate_limit_per_minute: int = Field(
+        default=120, description="Requests per minute allowed per client"
+    )
+    max_upload_mb: int = Field(
+        default=5, description="Maximum upload file size in megabytes"
+    )
 
     # Persistence & Caching
     database_url: str = Field(
@@ -82,13 +102,13 @@ class Settings(BaseSettings):
     )
     jwt_algorithm: str = "HS256"
     access_token_expire_minutes: int = 60
-    supabase_url: Optional[str] = None
-    supabase_key: Optional[str] = None
-    supabase_service_role_key: Optional[str] = None
+    supabase_url: str | None = None
+    supabase_key: str | None = None
+    supabase_service_role_key: str | None = None
 
     # External store connection configurations
     qdrant_url: str = "http://localhost:6333"
-    qdrant_api_key: Optional[str] = None
+    qdrant_api_key: str | None = None
     qdrant_collection: str = "enterprise_chunks"
     neo4j_uri: str = "bolt://localhost:7687"
     neo4j_user: str = "neo4j"
@@ -96,7 +116,7 @@ class Settings(BaseSettings):
 
     # Paths and CORS
     sample_data_dir: str = "sample_data"
-    cors_origins: List[str] = ["http://localhost:3000", "http://localhost:3001"]
+    cors_origins: list[str] = ["http://localhost:3000", "http://localhost:3001"]
 
     @field_validator("max_subquestions")
     @classmethod
