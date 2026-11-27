@@ -56,26 +56,26 @@ def check_redis_health(settings: Settings) -> dict[str, Any]:
 
 
 def check_vector_store_health(settings: Settings) -> dict[str, Any]:
-    """Check vector store adapter."""
+    """Check vector store adapter via storage protocol."""
     try:
         backend = settings.vector_store.lower()
-        if backend == "memory":
-            return {"status": "ok", "detail": "memory (0 chunks)"}
-        elif backend == "qdrant":
-            return {"status": "ok", "detail": f"qdrant {settings.qdrant_url}"}
+        if backend in ("memory", "qdrant"):
+            from rag.vector_store import get_vector_store
+
+            return get_vector_store(settings).health_check()
         return {"status": "ok", "detail": f"{backend} store"}
     except Exception as e:  # noqa: BLE001
         return {"status": "degraded", "detail": f"vector store error: {e!s}"}
 
 
 def check_graph_store_health(settings: Settings) -> dict[str, Any]:
-    """Check graph store adapter."""
+    """Check graph store adapter via storage protocol."""
     try:
         backend = settings.graph_store.lower()
-        if backend == "memory":
-            return {"status": "ok", "detail": "memory (0 nodes, 0 edges)"}
-        elif backend == "neo4j":
-            return {"status": "ok", "detail": f"neo4j {settings.neo4j_uri}"}
+        if backend in ("memory", "neo4j"):
+            from rag.graph_store import get_graph_store
+
+            return get_graph_store(settings).health_check()
         return {"status": "ok", "detail": f"{backend} store"}
     except Exception as e:  # noqa: BLE001
         return {"status": "degraded", "detail": f"graph store error: {e!s}"}

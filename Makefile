@@ -32,12 +32,12 @@ test-cov: ## Run offline pytest suite with line-by-line coverage
 	$(PYTHON) -m pytest --cov=backend.app --cov=tests.mocks --cov-report=term-missing tests/unit/
 
 lint: ## Execute static analysis via ruff and mypy
-	ruff check backend/ tests/
-	mypy backend/app tests/
+	ruff check backend/ tests/ rag/
+	mypy backend/app tests/ rag/
 
 format: ## Auto-format code and sort imports using ruff
-	ruff check --fix backend/ tests/
-	ruff format backend/ tests/
+	ruff check --fix backend/ tests/ rag/
+	ruff format backend/ tests/ rag/
 
 demo: ## Run canonical multi-hop research demo (Claude.md §14)
 	@echo "Executing canonical demo for question: '$(QUESTION)'"
