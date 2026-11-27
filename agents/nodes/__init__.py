@@ -10,6 +10,11 @@ from agents.nodes.collect_evidence import (
     collect_evidence,
     collect_evidence_node,
 )
+from agents.nodes.corrective_retrieval import (
+    corrective_retrieval,
+    corrective_retrieval_node,
+    reformulate_query,
+)
 from agents.nodes.decompose import decompose, decompose_node
 from agents.nodes.execute_retrieval import execute_retrieval, execute_retrieval_node
 from agents.nodes.route_retrieval import route_retrieval, route_retrieval_node
@@ -23,10 +28,13 @@ __all__ = [
     "check_missing_evidence_node",
     "collect_evidence",
     "collect_evidence_node",
+    "corrective_retrieval",
+    "corrective_retrieval_node",
     "decompose",
     "decompose_node",
     "execute_retrieval",
     "execute_retrieval_node",
+    "reformulate_query",
     "route_retrieval",
     "route_retrieval_node",
 ]
