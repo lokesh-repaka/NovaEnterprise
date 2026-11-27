@@ -220,7 +220,6 @@ def test_get_current_user_profile_expired_and_invalid_token():
         assert synth_data["role"] == "analyst"
 
 
-
 def test_seed_demo_users_idempotence():
     """Verify seed_demo_users service function executes idempotently."""
     from backend.app.core.db import get_engine, get_session_factory
@@ -246,4 +245,3 @@ def test_seed_demo_users_idempotence():
 
     unknown = get_demo_user_by_role("nonexistent_role")
     assert unknown is None
-

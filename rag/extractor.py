@@ -26,12 +26,23 @@ if TYPE_CHECKING:
 class ExtractedEntity(BaseModel):
     """Recognized domain entity with classification and source attribution."""
 
-    id: str = Field(..., description="Canonical entity identifier (e.g. svc-payments-api)")
-    label: str = Field(..., description="Entity classification (Service, Incident, Customer, Team, ADR, Employee)")
+    id: str = Field(
+        ..., description="Canonical entity identifier (e.g. svc-payments-api)"
+    )
+    label: str = Field(
+        ...,
+        description="Entity classification (Service, Incident, Customer, Team, ADR, Employee)",
+    )
     name: str = Field(..., description="Human-readable entity name or title")
-    properties: dict[str, Any] = Field(default_factory=dict, description="Extracted entity properties")
-    source_locator: str | None = Field(default=None, description="Citation locator of chunk where identified")
-    confidence: float = Field(default=1.0, description="Extraction confidence score (0.0 to 1.0)")
+    properties: dict[str, Any] = Field(
+        default_factory=dict, description="Extracted entity properties"
+    )
+    source_locator: str | None = Field(
+        default=None, description="Citation locator of chunk where identified"
+    )
+    confidence: float = Field(
+        default=1.0, description="Extraction confidence score (0.0 to 1.0)"
+    )
 
     def to_graph_node(self) -> GraphNode:
         """Convert extracted entity to GraphNode model for GraphStoreService."""
@@ -51,8 +62,13 @@ class ExtractedRelationship(BaseModel):
 
     source_id: str = Field(..., description="Source node canonical ID")
     target_id: str = Field(..., description="Target node canonical ID")
-    type: str = Field(..., description="Relationship verb (AFFECTED, IMPACTED, OWNS, ADDRESSED_BY, DEPENDS_ON)")
-    properties: dict[str, Any] = Field(default_factory=dict, description="Relationship metadata")
+    type: str = Field(
+        ...,
+        description="Relationship verb (AFFECTED, IMPACTED, OWNS, ADDRESSED_BY, DEPENDS_ON)",
+    )
+    properties: dict[str, Any] = Field(
+        default_factory=dict, description="Relationship metadata"
+    )
     source_locator: str | None = Field(default=None, description="Citation locator")
     confidence: float = Field(default=1.0, description="Extraction confidence score")
 
@@ -72,11 +88,15 @@ class ExtractedRelationship(BaseModel):
 class ExtractionResult(BaseModel):
     """Consolidated entity and relationship extraction payload."""
 
-    entities: list[ExtractedEntity] = Field(default_factory=list, description="Extracted domain entities")
+    entities: list[ExtractedEntity] = Field(
+        default_factory=list, description="Extracted domain entities"
+    )
     relationships: list[ExtractedRelationship] = Field(
         default_factory=list, description="Extracted domain relationships"
     )
-    doc_id: str | None = Field(default=None, description="Originating document identifier")
+    doc_id: str | None = Field(
+        default=None, description="Originating document identifier"
+    )
 
     def index_into_graph_store(self, graph_store: GraphStoreService) -> None:
         """Populate extracted nodes and edges into any GraphStoreService conforming backend."""
@@ -98,7 +118,9 @@ class EntityRelationshipExtractor:
 
     def __init__(self, sample_data_dir: Path | str | None = None) -> None:
         """Initialize extractor with canonical domain entity dictionaries."""
-        self.sample_data_dir = Path(sample_data_dir) if sample_data_dir else Path("sample_data")
+        self.sample_data_dir = (
+            Path(sample_data_dir) if sample_data_dir else Path("sample_data")
+        )
         self._services: dict[str, str] = {}
         self._teams: dict[str, str] = {}
         self._customers: dict[str, str] = {}
@@ -251,7 +273,9 @@ class EntityRelationshipExtractor:
 
         # 2. Extract Services
         for name_key, svc_id in self._services.items():
-            if svc_id not in entities_by_id and re.search(rf"\b{re.escape(name_key)}\b", text_lower):
+            if svc_id not in entities_by_id and re.search(
+                rf"\b{re.escape(name_key)}\b", text_lower
+            ):
                 entities_by_id[svc_id] = ExtractedEntity(
                     id=svc_id,
                     label="Service",
@@ -262,7 +286,9 @@ class EntityRelationshipExtractor:
 
         # 3. Extract Teams
         for name_key, team_id in self._teams.items():
-            if team_id not in entities_by_id and re.search(rf"\b{re.escape(name_key)}\b", text_lower):
+            if team_id not in entities_by_id and re.search(
+                rf"\b{re.escape(name_key)}\b", text_lower
+            ):
                 entities_by_id[team_id] = ExtractedEntity(
                     id=team_id,
                     label="Team",
@@ -273,7 +299,9 @@ class EntityRelationshipExtractor:
 
         # 4. Extract Customers
         for name_key, cust_id in self._customers.items():
-            if cust_id not in entities_by_id and re.search(rf"\b{re.escape(name_key)}\b", text_lower):
+            if cust_id not in entities_by_id and re.search(
+                rf"\b{re.escape(name_key)}\b", text_lower
+            ):
                 entities_by_id[cust_id] = ExtractedEntity(
                     id=cust_id,
                     label="Customer",
@@ -320,7 +348,9 @@ class EntityRelationshipExtractor:
 
         # Link from document metadata if available
         meta_target_svc = doc_meta.get("target_service") or doc_meta.get("service")
-        matched_svc = self._match_service(str(meta_target_svc)) if meta_target_svc else None
+        matched_svc = (
+            self._match_service(str(meta_target_svc)) if meta_target_svc else None
+        )
         if matched_svc:
             for inc in incidents:
                 relationships.append(
@@ -362,9 +392,14 @@ class EntityRelationshipExtractor:
             sent_lower = sent.lower()
 
             # (Incident)-[:AFFECTED]->(Service)
-            if any(k in sent_lower for k in ("affect", "outage", "degrade", "latency", "incident")):
+            if any(
+                k in sent_lower
+                for k in ("affect", "outage", "degrade", "latency", "incident")
+            ):
                 for inc in incidents:
-                    if inc.id in sent_lower or re.search(rf"\b{re.escape(inc.name.lower())}\b", sent_lower):
+                    if inc.id in sent_lower or re.search(
+                        rf"\b{re.escape(inc.name.lower())}\b", sent_lower
+                    ):
                         for svc in services:
                             relationships.append(
                                 ExtractedRelationship(
@@ -376,7 +411,10 @@ class EntityRelationshipExtractor:
                             )
 
             # (Incident)-[:IMPACTED]->(Customer)
-            if any(k in sent_lower for k in ("impact", "disrupt", "failed", "suffer", "customer")):
+            if any(
+                k in sent_lower
+                for k in ("impact", "disrupt", "failed", "suffer", "customer")
+            ):
                 for inc in incidents:
                     for cust in customers:
                         relationships.append(
@@ -389,7 +427,17 @@ class EntityRelationshipExtractor:
                         )
 
             # (Incident)-[:ADDRESSED_BY]->(ADR)
-            if any(k in sent_lower for k in ("address", "decision", "adopt", "prevent", "corrective", "adr")):
+            if any(
+                k in sent_lower
+                for k in (
+                    "address",
+                    "decision",
+                    "adopt",
+                    "prevent",
+                    "corrective",
+                    "adr",
+                )
+            ):
                 for inc in incidents:
                     for adr in adrs:
                         relationships.append(
@@ -455,13 +503,19 @@ class EntityRelationshipExtractor:
             metadata=doc.metadata,
         )
 
-    def extract_from_chunks(self, chunks: list[ParsedChunk]) -> ExtractionResult:
+    def extract_from_chunks(
+        self,
+        chunks: list[ParsedChunk],
+        doc_id: str | None = None,
+        doc_title: str | None = None,
+    ) -> ExtractionResult:
         """Aggregate and deduplicate extractions across a document's semantic chunks."""
         entities_by_id: dict[str, ExtractedEntity] = {}
         relationships: list[ExtractedRelationship] = []
         seen_edges: set[tuple[str, str, str]] = set()
 
-        doc_id = chunks[0].doc_id if chunks else None
+        if doc_id is None and chunks:
+            doc_id = chunks[0].doc_id
 
         for chunk in chunks:
             chunk_result = self.extract_from_chunk(chunk)

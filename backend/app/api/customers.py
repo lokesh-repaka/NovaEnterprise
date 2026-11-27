@@ -27,8 +27,12 @@ def list_customers(
     _user: Annotated[AuthenticatedUser, Depends(require_role("viewer"))],
     db: Annotated[Session, Depends(get_db)],
     skip: int = Query(0, ge=0, description="Number of records to skip"),
-    limit: int = Query(50, ge=1, le=100, description="Maximum number of records to return"),
-    tier: str | None = Query(None, description="Filter by customer tier (enterprise, standard, smb)"),
+    limit: int = Query(
+        50, ge=1, le=100, description="Maximum number of records to return"
+    ),
+    tier: str | None = Query(
+        None, description="Filter by customer tier (enterprise, standard, smb)"
+    ),
 ) -> list[CustomerResponse]:
     """List enterprise customer records."""
     repo = CustomerRepository(db)

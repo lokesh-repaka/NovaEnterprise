@@ -32,7 +32,9 @@ class ParsedChunk(BaseModel):
 
     id: str = Field(..., description="Unique chunk identifier")
     doc_id: str = Field(..., description="Parent document identifier")
-    chunk_index: int = Field(..., description="0-indexed position within parent document")
+    chunk_index: int = Field(
+        ..., description="0-indexed position within parent document"
+    )
     text: str = Field(..., description="Chunk text content")
     section_title: str | None = Field(
         default=None, description="Immediate heading under which chunk occurs"
@@ -148,6 +150,31 @@ class SemanticChunker:
             idx += step
 
         return chunks
+
+    def chunk(
+        self,
+        doc_or_text: Any,
+        doc_id: str | None = None,
+        metadata: dict[str, Any] | None = None,
+    ) -> list[ParsedChunk]:
+        """Convenience method accepting either a ParsedDocument or raw text + doc_id."""
+        if hasattr(doc_or_text, "text") and hasattr(doc_or_text, "id"):
+            meta = dict(getattr(doc_or_text, "metadata", None) or {})
+            meta["doc_type"] = getattr(doc_or_text, "doc_type", "")
+            meta["title"] = getattr(doc_or_text, "title", "")
+            meta["filename"] = getattr(doc_or_text, "filename", "")
+            meta["content_hash"] = getattr(doc_or_text, "content_hash", "")
+            meta["flagged_injection"] = getattr(doc_or_text, "flagged_injection", False)
+            return self.chunk_document(
+                text=doc_or_text.text,
+                doc_id=doc_or_text.id,
+                metadata=meta,
+            )
+        if doc_id is None:
+            raise ValueError("doc_id is required when chunking raw text")
+        return self.chunk_document(
+            text=str(doc_or_text), doc_id=doc_id, metadata=metadata
+        )
 
     def chunk_document(
         self,

@@ -80,11 +80,21 @@ class DocumentParser:
         name_lower = filename.lower()
         content_lower = content[:500].lower()
 
-        if "postmortem" in name_lower or "incident" in name_lower or "inc-" in name_lower:
+        if (
+            "postmortem" in name_lower
+            or "incident" in name_lower
+            or "inc-" in name_lower
+        ):
             return "postmortem"
-        elif "adr-" in name_lower or "decision" in name_lower or "architecture decision" in content_lower:
+        elif (
+            "adr-" in name_lower
+            or "decision" in name_lower
+            or "architecture decision" in content_lower
+        ):
             return "adr"
-        elif "policy" in name_lower or "retention" in name_lower or "rbac" in name_lower:
+        elif (
+            "policy" in name_lower or "retention" in name_lower or "rbac" in name_lower
+        ):
             return "policy"
         elif "meeting-notes" in name_lower or "meeting" in name_lower:
             return "meeting_notes"
@@ -100,7 +110,9 @@ class DocumentParser:
             return "text"
         return "markdown"
 
-    def _extract_markdown_metadata(self, text: str, filename: str) -> tuple[str, dict[str, Any]]:
+    def _extract_markdown_metadata(
+        self, text: str, filename: str
+    ) -> tuple[str, dict[str, Any]]:
         """Extract H1 title and key-value properties from markdown content."""
         title = Path(filename).stem.replace("-", " ").title()
         metadata: dict[str, Any] = {}
@@ -118,10 +130,21 @@ class DocumentParser:
                 clean_line = stripped.strip("*_` ").strip()
                 if ":" in clean_line:
                     raw_k, raw_v = clean_line.split(":", 1)
-                    k = raw_k.strip("*_` ").strip().lower().replace(" ", "_").replace("-", "_")
+                    k = (
+                        raw_k.strip("*_` ")
+                        .strip()
+                        .lower()
+                        .replace(" ", "_")
+                        .replace("-", "_")
+                    )
                     v = raw_v.strip("*_` ").strip()
                     # Filter out non-metadata keys
-                    if k and v and k not in ("http", "https", "note", "attention") and len(k) < 40:
+                    if (
+                        k
+                        and v
+                        and k not in ("http", "https", "note", "attention")
+                        and len(k) < 40
+                    ):
                         metadata[k] = v
 
         return title, metadata
@@ -224,6 +247,17 @@ class DocumentParser:
         # Standard text-based formats (.md, .txt)
         text_content = data.decode("utf-8", errors="replace")
         return self.parse_text(text_content, filename, doc_id=doc_id)
+
+    def parse(
+        self,
+        data: bytes | str,
+        filename: str,
+        doc_id: str | None = None,
+    ) -> ParsedDocument:
+        """Parse raw content (bytes or string) into a structured ParsedDocument."""
+        if isinstance(data, bytes):
+            return self.parse_bytes(data=data, filename=filename, doc_id=doc_id)
+        return self.parse_text(content=data, filename=filename, doc_id=doc_id)
 
     def parse_file(
         self,

@@ -45,7 +45,7 @@ demo: ## Run canonical multi-hop research demo (Claude.md §14)
 
 ingest: ## Index and chunk enterprise documentation into vector & graph stores
 	@echo "Ingestion command: Indexing documents from sample_data/ into stores..."
-	@$(PYTHON) -c "from tests.mocks.fake_stores import InMemoryVectorStore; s = InMemoryVectorStore(); print(s.get_status_detail())"
+	$(PYTHON) -m rag.ingest
 
 seed-graph: ## Populate knowledge graph entities and relationships
 	@echo "Rebuilding knowledge graph from sample_data/..."

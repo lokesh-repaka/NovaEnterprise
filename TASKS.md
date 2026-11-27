@@ -77,7 +77,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | P5-1 · `VectorStoreService` and `GraphStoreService` protocols | `feature/rag-storage-protocols` | P2-4 | N3 | Completed ✅ |
 | P5-2 · Document parsing and semantic chunking | `feature/rag-document-chunking` | P5-1 | F13 | Completed ✅ |
 | P5-3 · Entity and relationship extraction | `feature/rag-entity-extraction` | P5-2 | F13 | Completed ✅ |
-| P5-4 · Ingest command and document upload API | `feature/rag-ingest-api` | P5-3 | F13, N7 | Pending ❌ |
+| P5-4 · Ingest command and document upload API | `feature/rag-ingest-api` | P5-3 | F13, N7 | Completed ✅ |
 
 ---
 
@@ -306,7 +306,7 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 2 | Persistence and domain data | 4 | 4 ✅ |
 | 3 | Identity and request guards | 4 | 4 ✅ |
 | 4 | Browse API and core contracts | 3 | 3 ✅ |
-| 5 | Storage protocols and RAG ingestion | 4 | 3 ⏳ |
+| 5 | Storage protocols and RAG ingestion | 4 | 4 ✅ |
 | 6 | Multi-store retrieval paths | 4 | 0 ❌ |
 | 7 | Rules and guardrails | 4 | 0 ❌ |
 | 8 | Tiered memory system | 3 | 0 ❌ |
@@ -316,4 +316,4 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 12 | Frontend console shell | 4 | 0 ❌ |
 | 13 | Research and graph UI screens | 4 | 0 ❌ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **18 (32%)** |
+| **Total** | | **56** | **19 (34%)** |

@@ -2,6 +2,7 @@
 
 from collections.abc import Generator
 from functools import lru_cache
+from pathlib import Path
 from typing import Any
 
 from sqlalchemy import Engine, create_engine
@@ -22,6 +23,10 @@ def _get_cached_engine(database_url: str) -> Engine:
         connect_args["check_same_thread"] = False
         if ":memory:" in database_url:
             engine_kwargs["poolclass"] = StaticPool
+        else:
+            db_path_str = database_url.split("sqlite:///")[-1]
+            if db_path_str:
+                Path(db_path_str).parent.mkdir(parents=True, exist_ok=True)
 
     return create_engine(database_url, connect_args=connect_args, **engine_kwargs)
 

@@ -38,7 +38,9 @@ def test_browse_decisions_unauthenticated_returns_401() -> None:
     with TestClient(app) as client:
         for path in ["/api/v1/decisions", "/api/v1/projects", "/api/v1/tickets"]:
             resp = client.get(path)
-            assert resp.status_code == 401, f"Expected 401 for unauthenticated {path}, got {resp.status_code}"
+            assert resp.status_code == 401, (
+                f"Expected 401 for unauthenticated {path}, got {resp.status_code}"
+            )
             assert "detail" in resp.json()
 
 
@@ -126,7 +128,9 @@ def test_browse_projects_list_and_filters() -> None:
             assert prj["status"] == "active"
 
         # 3. Filter by owner team
-        resp_team = client.get("/api/v1/projects?team_id=team-payments", headers=headers)
+        resp_team = client.get(
+            "/api/v1/projects?team_id=team-payments", headers=headers
+        )
         assert resp_team.status_code == 200
         team_prjs = resp_team.json()
         assert len(team_prjs) > 0
@@ -208,7 +212,9 @@ def test_browse_ticket_by_id() -> None:
         assert data["project_id"] == "proj-1"
 
         # Missing ticket
-        resp_missing = client.get("/api/v1/tickets/non-existent-ticket", headers=headers)
+        resp_missing = client.get(
+            "/api/v1/tickets/non-existent-ticket", headers=headers
+        )
         assert resp_missing.status_code == 404
 
 

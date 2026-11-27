@@ -27,9 +27,17 @@ def list_tickets(
     _user: Annotated[AuthenticatedUser, Depends(require_role("viewer"))],
     db: Annotated[Session, Depends(get_db)],
     skip: int = Query(0, ge=0, description="Number of records to skip"),
-    limit: int = Query(50, ge=1, le=100, description="Maximum number of records to return"),
-    status_filter: str | None = Query(None, alias="status", description="Filter by ticket status (open, in_progress, resolved, closed)"),
-    priority: str | None = Query(None, description="Filter by ticket priority (P0, P1, P2, P3)"),
+    limit: int = Query(
+        50, ge=1, le=100, description="Maximum number of records to return"
+    ),
+    status_filter: str | None = Query(
+        None,
+        alias="status",
+        description="Filter by ticket status (open, in_progress, resolved, closed)",
+    ),
+    priority: str | None = Query(
+        None, description="Filter by ticket priority (P0, P1, P2, P3)"
+    ),
     project_id: str | None = Query(None, description="Filter by associated project ID"),
     assignee_id: str | None = Query(None, description="Filter by assigned employee ID"),
 ) -> list[TicketResponse]:
