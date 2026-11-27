@@ -11,6 +11,8 @@ from agents.nodes import (
     analyze_query_node,
     assess_complexity,
     assess_complexity_node,
+    decompose,
+    decompose_node,
 )
 from agents.rules import (
     MAX_SUBQUESTIONS,
@@ -44,6 +46,8 @@ __all__ = [
     "assess_complexity",
     "assess_complexity_node",
     "classify_complexity",
+    "decompose",
+    "decompose_node",
     "decompose_query_rules",
     "detect_retrieval_strategy",
     "enforce_routing_floor",
