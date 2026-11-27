@@ -12,10 +12,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from backend.app.api.auth import router as auth_router
 from backend.app.api.customers import router as customers_router
+from backend.app.api.decisions import router as decisions_router
 from backend.app.api.health import router as health_router
 from backend.app.api.incidents import router as incidents_router
+from backend.app.api.projects import router as projects_router
 from backend.app.api.services import router as services_router
 from backend.app.api.teams import router as teams_router
+from backend.app.api.tickets import router as tickets_router
 from backend.app.core.config import Settings, get_settings
 from backend.app.core.db import init_db
 from backend.app.core.logging import get_logger, setup_logging
@@ -90,6 +93,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(incidents_router, prefix=settings.api_v1_prefix)
     app.include_router(services_router, prefix=settings.api_v1_prefix)
     app.include_router(teams_router, prefix=settings.api_v1_prefix)
+    app.include_router(decisions_router, prefix=settings.api_v1_prefix)
+    app.include_router(projects_router, prefix=settings.api_v1_prefix)
+    app.include_router(tickets_router, prefix=settings.api_v1_prefix)
 
     return app
 

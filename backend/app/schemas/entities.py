@@ -61,6 +61,22 @@ class DecisionSummary(BaseModel):
     decided_at: datetime | None = Field(default=None, description="Date decision was ratified")
 
 
+class DecisionResponse(BaseModel):
+    """Architectural Decision Record (ADR) representation."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str = Field(..., description="ADR identifier (e.g. adr-012)")
+    title: str = Field(..., description="ADR title")
+    status: str = Field(..., description="Decision status (proposed, accepted, superseded, rejected)")
+    context: str | None = Field(default=None, description="Problem context and background")
+    decision: str | None = Field(default=None, description="Chosen technical architecture decision")
+    consequences: str | None = Field(default=None, description="Pros, cons, and operational consequences")
+    incident_id: str | None = Field(default=None, description="Associated incident ID if applicable")
+    decided_at: datetime | None = Field(default=None, description="Timestamp decision was ratified")
+    created_at: datetime = Field(..., description="Timestamp record created")
+
+
 class ProjectSummary(BaseModel):
     """Compact summary of an internal engineering initiative."""
 
@@ -69,6 +85,39 @@ class ProjectSummary(BaseModel):
     id: str = Field(..., description="Project identifier (e.g. prj-pci-dss)")
     name: str = Field(..., description="Project initiative name")
     status: str = Field(..., description="Project status (active, completed)")
+
+
+class ProjectResponse(BaseModel):
+    """Internal strategic or platform initiative representation."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str = Field(..., description="Project identifier (e.g. prj-pci-dss)")
+    name: str = Field(..., description="Project name")
+    description: str | None = Field(default=None, description="Project goals and scope")
+    owner_team_id: str | None = Field(default=None, description="Owning engineering team ID")
+    status: str = Field(..., description="Project status (active, completed, archived)")
+    created_at: datetime = Field(..., description="Timestamp record created")
+
+
+class TicketResponse(BaseModel):
+    """Issue or task ticket representation."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str = Field(..., description="Ticket identifier (e.g. tkt-101)")
+    title: str = Field(..., description="Ticket summary")
+    status: str = Field(..., description="Ticket status (open, in_progress, resolved, closed)")
+    priority: str = Field(..., description="Ticket priority (P0, P1, P2, P3)")
+    project_id: str | None = Field(default=None, description="Associated project ID")
+    assignee_id: str | None = Field(default=None, description="Assigned employee ID")
+    created_at: datetime = Field(..., description="Timestamp record created")
+
+
+class ProjectDetailResponse(ProjectResponse):
+    """Project detail representation with tracked tickets."""
+
+    tickets: list[TicketResponse] = Field(default_factory=list, description="Tickets tracked within this project")
 
 
 class TeamResponse(BaseModel):
