@@ -63,7 +63,7 @@ class TokenBucketRateLimiter:
         redis_key = f"{self.key_prefix}:{client_key}"
 
         # Fetch current bucket state from Redis
-        raw = self.redis.hmget(redis_key, ["tokens", "last_refreshed"])  # type: ignore[arg-type]
+        raw = self.redis.hmget(redis_key, ["tokens", "last_refreshed"])
         tokens_raw, last_refreshed_raw = raw[0], raw[1]
 
         if tokens_raw is None or last_refreshed_raw is None:

@@ -4,7 +4,7 @@ import uuid
 from typing import Any
 
 from sqlalchemy import func, select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from backend.app.models.research import CitationRecord, ResearchSession, WorkflowEvent
 from backend.app.repositories.base import BaseRepository
@@ -60,13 +60,26 @@ class ResearchSessionRepository(BaseRepository[ResearchSession]):
         )
         return list(self.db.scalars(stmt).all())
 
-    def list_recent(self, limit: int = 50) -> list[ResearchSession]:
-        """List recent sessions ordered by creation time."""
+    def get_with_relations(self, session_id: str) -> ResearchSession | None:
+        """Fetch session with citations and events eagerly loaded."""
         stmt = (
             select(ResearchSession)
-            .order_by(ResearchSession.created_at.desc())
-            .limit(limit)
+            .options(
+                selectinload(ResearchSession.citations),
+                selectinload(ResearchSession.events),
+            )
+            .where(ResearchSession.id == session_id)
         )
+        return self.db.scalars(stmt).first()
+
+    def list_recent(
+        self, limit: int = 50, status: str | None = None
+    ) -> list[ResearchSession]:
+        """List recent sessions ordered by creation time, optionally filtered by status."""
+        stmt = select(ResearchSession)
+        if status:
+            stmt = stmt.where(ResearchSession.status == status)
+        stmt = stmt.order_by(ResearchSession.created_at.desc()).limit(limit)
         return list(self.db.scalars(stmt).all())
 
 

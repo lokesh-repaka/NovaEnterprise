@@ -89,17 +89,23 @@ class ResearchService:
             )
             return session
 
-    def get_session(self, session_id: str) -> ResearchSession | None:
-        """Retrieve a research session by ID."""
+    def get_session(
+        self, session_id: str, load_relations: bool = True
+    ) -> ResearchSession | None:
+        """Retrieve a research session by ID, optionally eager-loading citations and events."""
         with self._session_factory() as db:
             repo = ResearchSessionRepository(db)
+            if load_relations:
+                return repo.get_with_relations(session_id)
             return repo.get(session_id)
 
-    def list_recent_sessions(self, limit: int = 50) -> list[ResearchSession]:
-        """List recently created research sessions."""
+    def list_recent_sessions(
+        self, limit: int = 50, status: str | None = None
+    ) -> list[ResearchSession]:
+        """List recently created research sessions, optionally filtered by status."""
         with self._session_factory() as db:
             repo = ResearchSessionRepository(db)
-            return repo.list_recent(limit=limit)
+            return repo.list_recent(limit=limit, status=status)
 
     def list_events(self, session_id: str) -> list[WorkflowEvent]:
         """Retrieve all recorded workflow telemetry events for a session chronologically."""

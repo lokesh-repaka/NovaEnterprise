@@ -9,9 +9,11 @@ Implements:
 
 from __future__ import annotations
 
-from typing import Annotated
+import json
+from typing import Annotated, Any
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Query, status
+from fastapi.responses import StreamingResponse
 
 from backend.app.core.logging import get_logger
 from backend.app.core.security import AuthenticatedUser, Role, require_role
@@ -89,6 +91,9 @@ def create_research_session(
 def list_research_sessions(
     skip: int = Query(0, ge=0, description="Pagination skip offset"),
     limit: int = Query(20, ge=1, le=100, description="Page size limit"),
+    status: str | None = Query(
+        None, description="Optional status filter: running, completed, failed"
+    ),
     current_user: Annotated[
         AuthenticatedUser,
         Depends(require_role(Role.VIEWER, Role.ANALYST, Role.ADMIN)),
@@ -96,7 +101,7 @@ def list_research_sessions(
     service: Annotated[ResearchService, Depends(_get_service)] = None,  # type: ignore[assignment]
 ) -> list[ResearchSessionSummary]:
     """Retrieve list of research sessions with status summaries."""
-    sessions = service.list_recent_sessions(limit=limit + skip)
+    sessions = service.list_recent_sessions(limit=limit + skip, status=status)
     page = sessions[skip : skip + limit]
     return [
         ResearchSessionSummary(
@@ -137,6 +142,7 @@ def get_research_session(
     # Format citations from relationship records or session payload
     citations = [
         {
+            "citation_id": idx + 1,
             "id": c.id,
             "locator": c.locator,
             "document_id": c.document_id,
@@ -144,17 +150,35 @@ def get_research_session(
             "snippet": c.text_snippet,
             "score": c.score,
         }
-        for c in (session.citations or [])
+        for idx, c in enumerate(session.citations or [])
     ]
+
+    # Collect unique strategies used from sub_questions
+    strategies_used: list[str] = []
+    for sq in session.sub_questions or []:
+        st = sq.get("strategy")
+        if st and st not in strategies_used:
+            strategies_used.append(st)
+
+    # Collect corrective rounds and verification ratio from events
+    corrective_rounds = 0
+    verification_ratio = 1.0 if session.status == "completed" else 0.0
+    for e in session.events or []:
+        if e.node_name == "corrective_retrieval":
+            corrective_rounds += 1
+        if e.node_name == "verify_evidence" and e.payload:
+            vr = e.payload.get("verification_ratio")
+            if isinstance(vr, (int, float)):
+                verification_ratio = float(vr)
 
     return ResearchSessionResponse(
         session_id=session.id,
         status=session.status,
         question=session.question,
         complexity=session.complexity,
-        strategies_used=[],
-        corrective_rounds=0,
-        verification_ratio=1.0 if session.status == "completed" else 0.0,
+        strategies_used=strategies_used,
+        corrective_rounds=corrective_rounds,
+        verification_ratio=verification_ratio,
         answer=session.answer,
         citations=citations,
         sub_questions=session.sub_questions or [],
@@ -200,3 +224,49 @@ def get_research_session_events(
         )
         for e in events
     ]
+
+
+@router.get(
+    "/{session_id}/stream",
+    summary="Stream live workflow telemetry events via SSE",
+    description="Streams real-time or historical node transition events as Server-Sent Events (text/event-stream).",
+)
+def stream_research_events(
+    session_id: str,
+    current_user: Annotated[
+        AuthenticatedUser,
+        Depends(require_role(Role.VIEWER, Role.ANALYST, Role.ADMIN)),
+    ] = None,  # type: ignore[assignment]
+    service: Annotated[ResearchService, Depends(_get_service)] = None,  # type: ignore[assignment]
+) -> StreamingResponse:
+    """Stream telemetry events using Server-Sent Events (text/event-stream)."""
+    session = service.get_session(session_id)
+    if session is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Research session '{session_id}' not found",
+        )
+
+    def event_generator() -> Any:
+        events = service.list_events(session_id)
+        for e in events:
+            event_data = {
+                "event_id": e.id,
+                "session_id": e.session_id,
+                "node_name": e.node_name,
+                "event_type": e.event_type,
+                "payload": e.payload or {},
+                "latency_ms": e.latency_ms,
+                "timestamp": e.timestamp.isoformat() if e.timestamp else None,
+            }
+            yield f"event: {e.event_type or 'workflow_event'}\ndata: {json.dumps(event_data)}\n\n"
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+            "X-Accel-Buffering": "no",
+        },
+    )
