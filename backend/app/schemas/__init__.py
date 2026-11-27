@@ -35,6 +35,13 @@ from backend.app.schemas.entities import (
     TeamResponse,
     TicketResponse,
 )
+from backend.app.schemas.research import (
+    ResearchCreateRequest,
+    ResearchCreateResponse,
+    ResearchSessionResponse,
+    ResearchSessionSummary,
+    WorkflowEventResponse,
+)
 
 __all__ = [
     "Citation",
@@ -57,6 +64,10 @@ __all__ = [
     "ProjectDetailResponse",
     "ProjectResponse",
     "ProjectSummary",
+    "ResearchCreateRequest",
+    "ResearchCreateResponse",
+    "ResearchSessionResponse",
+    "ResearchSessionSummary",
     "ServiceResponse",
     "SubQuestion",
     "TeamDetailResponse",
@@ -64,4 +75,5 @@ __all__ = [
     "TicketResponse",
     "TokenResponse",
     "UserProfileResponse",
+    "WorkflowEventResponse",
 ]

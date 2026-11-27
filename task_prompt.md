@@ -1,7 +1,7 @@
 You have access to the project's authoritative documentation: `TASKS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/rules/`, and architecture specifications in `docs/` (`HLD_*.md`, `LLD_*.md`, `PRD_*.md`, `BRD_*.md`, `FRD_*.md`).
 
 
-Go ahead and complete **P10-3 · BackgroundTask runner and 202 session API** as defined in `TASKS.md`.
+Go ahead and complete **P10-4 · Status polling and event stream API** as defined in `TASKS.md`.
 
 
 ---
@@ -47,7 +47,7 @@ This workflow incorporates the official **roadmap.sh Code Review Standard** and 
   - **Golden Verification:** Verify that the canonical **NanoCore Reference Scenario** reproduces exact values (`7.68` days cover, `1.32` days gap, `24,420` units shortage, `$2,448,105.00` exposure).
 * **Verify Green:** Re-run pytest to verify all tests pass:
   ```bash
-  pytest tests/<target_path> -v
+  pytest tests/<target_path> -v¯¸
   ```
 
 ---
