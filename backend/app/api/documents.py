@@ -7,7 +7,6 @@ Provides:
 - GET /api/v1/documents/{id}: Retrieve document metadata and semantic chunks (viewer+)
 """
 
-from pathlib import Path
 from typing import Annotated
 
 from fastapi import (
@@ -41,8 +40,7 @@ logger = get_logger("api.documents")
 
 router = APIRouter(prefix="/documents", tags=["Documents"])
 
-# Supported file extensions for document upload (Claude.md §8, PRD §N7)
-ALLOWED_EXTENSIONS = {".md", ".markdown", ".txt", ".pdf"}
+from backend.app.core.upload_validator import validate_upload
 
 
 async def _process_document_upload(
@@ -53,44 +51,36 @@ async def _process_document_upload(
 ) -> DocumentUploadResponse:
     """Validate upload payload and execute end-to-end ingestion pipeline."""
     filename = file.filename or "uploaded_document.txt"
-    suffix = Path(filename).suffix.lower()
 
-    # 1. Enforce extension allowlist (N7)
-    if suffix not in ALLOWED_EXTENSIONS:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=(
-                f"Unsupported file extension '{suffix}'. "
-                f"Allowed extensions are: {', '.join(sorted(ALLOWED_EXTENSIONS))} (N7)"
-            ),
-        )
-
-    # 2. Enforce file size limit (N7)
-    max_bytes = settings.max_upload_mb * 1024 * 1024
+    # 1. Enforce validation (extension, size, empty file) and scrub secrets (N7, N8, BRD §242)
     content = await file.read()
-    if len(content) > max_bytes:
+    validation = validate_upload(
+        file_data=content,
+        filename=filename,
+        max_mb=settings.max_upload_mb,
+        scrub=True,
+    )
+    if not validation.is_valid:
         raise HTTPException(
-            status_code=status.HTTP_413_CONTENT_TOO_LARGE,
-            detail=(
-                f"File size ({len(content)} bytes) exceeds maximum allowed limit "
-                f"of {settings.max_upload_mb} MB ({max_bytes} bytes) (N7)"
-            ),
+            status_code=validation.status_code,
+            detail=validation.error_detail,
         )
 
     logger.info(
-        "User '%s' (role=%s) uploading document '%s' (%d bytes)",
+        "User '%s' (role=%s) uploading document '%s' (%d bytes, %d secrets scrubbed)",
         current_user.id,
         current_user.role,
         filename,
         len(content),
+        validation.secrets_scrubbed_count,
     )
 
-    # 3. Ingest into stores and relational DB (F13, N8)
+    # 2. Ingest into stores and relational DB (F13, N8)
     vector_store = get_vector_store(settings)
     graph_store = get_graph_store(settings)
 
     result = ingest_document(
-        data=content,
+        data=validation.content_bytes,
         filename=filename,
         db=db,
         vector_store=vector_store,

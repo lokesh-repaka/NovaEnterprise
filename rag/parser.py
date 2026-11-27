@@ -170,11 +170,19 @@ class DocumentParser:
         metadata["filename"] = filename
         metadata["doc_type"] = doc_type
 
+        # Secret scrubbing (N8, BRD §242)
+        from backend.app.core.upload_validator import scrub_secrets
+
+        scrub_res = scrub_secrets(content)
+        clean_content = scrub_res.scrubbed_text
+        if scrub_res.secrets_detected > 0:
+            metadata["secrets_scrubbed"] = scrub_res.secrets_detected
+
         # Prompt injection inspection (N8, F13)
-        has_injection, matched_pattern = detect_prompt_injection(content)
-        sanitized_text = content
+        has_injection, matched_pattern = detect_prompt_injection(clean_content)
+        sanitized_text = clean_content
         if has_injection:
-            sanitized_text = wrap_untrusted_data(content)
+            sanitized_text = wrap_untrusted_data(clean_content)
             metadata["flagged_injection"] = True
             metadata["sanitized"] = True
             metadata["injection_pattern"] = matched_pattern
