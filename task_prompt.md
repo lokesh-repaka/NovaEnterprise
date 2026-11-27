@@ -1,7 +1,7 @@
 You have access to the project's authoritative documentation: `TASKS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/rules/`, and architecture specifications in `docs/` (`HLD_*.md`, `LLD_*.md`, `PRD_*.md`, `BRD_*.md`, `FRD_*.md`).
 
 
-Go ahead and complete **P5-3 · Entity and relationship extraction**  as defined in `TASKS.md`.
+Go ahead and complete **P5-4 · Ingest command and document upload API**  as defined in `TASKS.md`.
 
 
 ---
