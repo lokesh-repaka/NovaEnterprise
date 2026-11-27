@@ -15,6 +15,7 @@ from backend.app.api.health import router as health_router
 from backend.app.core.config import Settings, get_settings
 from backend.app.core.db import init_db
 from backend.app.core.logging import get_logger, setup_logging
+from backend.app.middleware.audit import AuditMiddleware
 from backend.app.middleware.rate_limit import RateLimitMiddleware
 from backend.app.middleware.request_context import RequestContextMiddleware
 
@@ -51,10 +52,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         lifespan=lifespan,
     )
 
-    # 1. Rate Limiting Middleware (Redis token-bucket - N6)
+    # =========================================================================
+    # Canonical Middleware Pipeline Order (P3-4 / Claude.md §10)
+    # In Starlette, middlewares execute in reverse order of addition:
+    #   Request Context (outermost) -> CORS -> Rate Limit -> Audit (innermost) -> Endpoint
+    # =========================================================================
+
+    # 1. Audit Logging Middleware (Innermost: records state modifications after rate limiting)
+    app.add_middleware(AuditMiddleware)
+
+    # 2. Rate Limiting Middleware (Redis token-bucket - N6: blocks excessive requests before audit)
     app.add_middleware(RateLimitMiddleware)
 
-    # 2. CORS Middleware
+    # 3. CORS Middleware (evaluates cross-origin requests & preflight OPTIONS)
     if settings.cors_origins:
         app.add_middleware(
             CORSMiddleware,
@@ -64,7 +74,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             allow_headers=["*"],
         )
 
-    # 3. Request Context & Tracking Middleware (X-Request-ID propagation - N5)
+    # 4. Request Context & Tracking Middleware (Outermost: ensures X-Request-ID on all responses - N5)
     app.add_middleware(RequestContextMiddleware)
 
     # 3. Unprefixed Health Routes (/health, /health/ready - Claude.md §10)
