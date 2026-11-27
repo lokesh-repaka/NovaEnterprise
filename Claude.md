@@ -490,7 +490,7 @@ Do not write "deployed" or "passes in CI" until it has.
 | 1 | Runtime skeleton (config, llm factory, protocols, health) | complete ✅ |
 | 2 | Persistence and demo data (models, seed `sample_data/`) | complete ✅ |
 | 3 | Identity and request guards (JWT, RBAC, request-id, rate limit, audit) | complete ✅ |
-| 4 | Ingestion (parse, chunk, extract, vector + DB + graph) | not started |
+| 4 | Ingestion (P5-1 protocols complete ✅; parse, chunk, extract) | in progress ⏳ |
 | 5 | Retrieval paths (hybrid, SQL + validator, graph traversals) | not started |
 | 6 | Rules and guardrails (`rules.py`, injection handling) | not started |
 | 7 | Research workflow (13 nodes, corrective loop, verification) | not started |
