@@ -15,6 +15,7 @@ from backend.app.api.health import router as health_router
 from backend.app.core.config import Settings, get_settings
 from backend.app.core.db import init_db
 from backend.app.core.logging import get_logger, setup_logging
+from backend.app.middleware.rate_limit import RateLimitMiddleware
 from backend.app.middleware.request_context import RequestContextMiddleware
 
 
@@ -50,8 +51,8 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         lifespan=lifespan,
     )
 
-    # 1. Request Context & Tracking Middleware (X-Request-ID propagation - N5)
-    app.add_middleware(RequestContextMiddleware)
+    # 1. Rate Limiting Middleware (Redis token-bucket - N6)
+    app.add_middleware(RateLimitMiddleware)
 
     # 2. CORS Middleware
     if settings.cors_origins:
@@ -62,6 +63,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             allow_methods=["*"],
             allow_headers=["*"],
         )
+
+    # 3. Request Context & Tracking Middleware (X-Request-ID propagation - N5)
+    app.add_middleware(RequestContextMiddleware)
 
     # 3. Unprefixed Health Routes (/health, /health/ready - Claude.md §10)
     app.include_router(health_router)

@@ -50,12 +50,9 @@ def check_database_health(settings: Settings) -> dict[str, Any]:
 
 def check_redis_health(settings: Settings) -> dict[str, Any]:
     """Check Redis cache/rate-limiter backend."""
-    try:
-        if settings.use_fakeredis:
-            return {"status": "ok", "detail": "fakeredis (in-memory)"}
-        return {"status": "ok", "detail": f"redis: {settings.redis_url}"}
-    except Exception as e:  # noqa: BLE001
-        return {"status": "degraded", "detail": f"redis error: {e!s}"}
+    from backend.app.core.redis import check_redis_connection
+
+    return check_redis_connection(settings)
 
 
 def check_vector_store_health(settings: Settings) -> dict[str, Any]:
