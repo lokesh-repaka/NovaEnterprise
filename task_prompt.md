@@ -1,7 +1,7 @@
 You have access to the project's authoritative documentation: `TASKS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/rules/`, and architecture specifications in `docs/` (`HLD_*.md`, `LLD_*.md`, `PRD_*.md`, `BRD_*.md`, `FRD_*.md`).
 
 
-Go ahead and complete **P3-2 · Demo auth routes and token issuance**  as defined in `TASKS.md`.
+Go ahead and complete **P3-3 · Redis token-bucket rate limit**  as defined in `TASKS.md`.
 
 
 ---

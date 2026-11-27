@@ -65,7 +65,7 @@ Non-goals for v1:
 
 Enforced by `require_role` in `backend/app/core/security.py`.
 Proof: `tests/api/test_api.py::test_auth_required_and_rbac` (a viewer gets `403` on `POST /api/v1/research`).
-Auth: JWT (demo login or Supabase). Demo user emails **[TBD]**.
+Auth: JWT (demo login or Supabase). Demo user emails: `admin@novaenterprise.io` (admin), `analyst@novaenterprise.io` (analyst), `viewer@novaenterprise.io` (viewer). Password: `demo_password`.
 
 ---
 
@@ -489,7 +489,7 @@ Do not write "deployed" or "passes in CI" until it has.
 |---|---|---|
 | 1 | Runtime skeleton (config, llm factory, protocols, health) | complete ✅ |
 | 2 | Persistence and demo data (models, seed `sample_data/`) | complete ✅ |
-| 3 | Identity and request guards (JWT, RBAC, request-id, rate limit, audit) | in progress (P3-1 complete) |
+| 3 | Identity and request guards (JWT, RBAC, request-id, rate limit, audit) | in progress (P3-1, P3-2 complete) |
 | 4 | Ingestion (parse, chunk, extract, vector + DB + graph) | not started |
 | 5 | Retrieval paths (hybrid, SQL + validator, graph traversals) | not started |
 | 6 | Rules and guardrails (`rules.py`, injection handling) | not started |

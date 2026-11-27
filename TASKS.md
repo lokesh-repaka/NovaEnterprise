@@ -48,7 +48,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | Task | Branch | Needs | Proves | Status |
 |------|--------|-------|--------|--------|
 | P3-1 · JWT and `require_role` guard | `feature/jwt-rbac-security` | P2-1 | F1, F17 | Completed ✅ |
-| P3-2 · Demo auth routes and token issuance | `feature/auth-demo-tokens` | P3-1 | F1 | Pending ❌ |
+| P3-2 · Demo auth routes and token issuance | `feature/auth-demo-tokens` | P3-1 | F1 | Completed ✅ |
 | P3-3 · Redis token-bucket rate limit | `feature/rate-limit-redis` | P1-2 | N6 | Pending ❌ |
 | P3-4 · Audit middleware and middleware order | `feature/audit-middleware` | P3-1, P3-3 | N5 | Pending ❌ |
 
