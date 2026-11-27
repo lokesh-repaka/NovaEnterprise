@@ -1,4 +1,4 @@
-"""Specialist agent and workflow execution nodes for NovaEnterprise (Phase 9, Claude.md §7.3)."""
+"""Specialist agent and workflow execution nodes for NovaEnterprise (Phase 9, Phase 10, Claude.md §7.3)."""
 
 from agents.nodes.analyze_query import analyze_query, analyze_query_node
 from agents.nodes.assess_complexity import assess_complexity, assess_complexity_node
@@ -17,6 +17,7 @@ from agents.nodes.corrective_retrieval import (
 )
 from agents.nodes.decompose import decompose, decompose_node
 from agents.nodes.execute_retrieval import execute_retrieval, execute_retrieval_node
+from agents.nodes.recall_memory import recall_memory, recall_memory_node
 from agents.nodes.route_retrieval import route_retrieval, route_retrieval_node
 from agents.nodes.synthesize_answer import (
     synthesize_answer,
@@ -54,6 +55,8 @@ __all__ = [
     "execute_retrieval_node",
     "memory_update",
     "memory_update_node",
+    "recall_memory",
+    "recall_memory_node",
     "reformulate_query",
     "route_retrieval",
     "route_retrieval_node",

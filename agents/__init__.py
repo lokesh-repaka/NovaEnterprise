@@ -6,6 +6,13 @@ Provides:
 - Specialist agents (agents/specialists/)
 """
 
+from agents.graph import (
+    GRAPH_EDGES,
+    GRAPH_NODES,
+    build_graph,
+    get_compiled_graph,
+    route_after_check_missing,
+)
 from agents.nodes import (
     analyze_query,
     analyze_query_node,
@@ -23,6 +30,8 @@ from agents.nodes import (
     execute_retrieval_node,
     memory_update,
     memory_update_node,
+    recall_memory,
+    recall_memory_node,
     reformulate_query,
     route_retrieval,
     route_retrieval_node,
@@ -52,6 +61,8 @@ from agents.rules import (
 from agents.state import ResearchState, ResearchStateDict
 
 __all__ = [
+    "GRAPH_EDGES",
+    "GRAPH_NODES",
     "MAX_SUBQUESTIONS",
     "AnalysisResult",
     "ComplexityLevel",
@@ -66,6 +77,7 @@ __all__ = [
     "analyze_query_rules",
     "assess_complexity",
     "assess_complexity_node",
+    "build_graph",
     "check_missing_evidence",
     "check_missing_evidence_node",
     "classify_complexity",
@@ -80,9 +92,13 @@ __all__ = [
     "enforce_routing_floor",
     "execute_retrieval",
     "execute_retrieval_node",
+    "get_compiled_graph",
     "memory_update",
     "memory_update_node",
+    "recall_memory",
+    "recall_memory_node",
     "reformulate_query",
+    "route_after_check_missing",
     "route_retrieval",
     "route_retrieval_node",
     "synthesize_answer",

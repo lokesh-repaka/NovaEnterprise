@@ -38,6 +38,8 @@ class ResearchStateDict(TypedDict, total=False):
     verification_ratio: float
     answer: str
     citations: list[dict[str, Any]]
+    citations_verified: bool
+    unresolved_citations: list[int]
     errors: list[str]
     status: Literal["running", "completed", "failed"]
     strategies_used: list[str]
@@ -100,6 +102,14 @@ class ResearchState(BaseModel):
     citations: list[dict[str, Any]] = Field(
         default_factory=list,
         description="Array of citation mappings linking [n] tokens to evidence locators",
+    )
+    citations_verified: bool = Field(
+        default=False,
+        description="Whether all citations in synthesized answer were mathematically verified",
+    )
+    unresolved_citations: list[int] = Field(
+        default_factory=list,
+        description="List of citation index numbers that could not be verified against evidence",
     )
     errors: list[str] = Field(
         default_factory=list,
