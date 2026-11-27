@@ -1,7 +1,7 @@
 You have access to the project's authoritative documentation: `TASKS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/rules/`, and architecture specifications in `docs/` (`HLD_*.md`, `LLD_*.md`, `PRD_*.md`, `BRD_*.md`, `FRD_*.md`).
 
 
-Go ahead and complete **P2-2 · DB schema, migrations, and RLS policies**  as defined in `TASKS.md`.
+Go ahead and complete **P2-3 · Repository layer**  as defined in `TASKS.md`.
 
 
 ---
