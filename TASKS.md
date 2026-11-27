@@ -131,7 +131,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 |------|--------|-------|--------|--------|
 | P9-1 · `ResearchState` schema and fake LLM provider | `feature/workflow-state-schemas` | P6-1, P7-1, P8-3 | N1, N2 | Completed ✅ |
 | P9-2 · Query analysis and complexity assessment node | `feature/agent-nodes-analyze` | P9-1 | F2, F3 | Completed ✅ |
-| P9-3 · Sub-question decomposition node | `feature/agent-nodes-decompose` | P9-1 | F4 | Pending ❌ |
+| P9-3 · Sub-question decomposition node | `feature/agent-nodes-decompose` | P9-1 | F4 | Completed ✅ |
 | P9-4 · Retrieval routing and execution node | `feature/agent-nodes-retrieval` | P9-1 | F5, F6, F7, F8 | Pending ❌ |
 | P9-5 · Evidence collection and missing-evidence node | `feature/agent-nodes-evidence` | P9-1 | F9 | Pending ❌ |
 | P9-6 · Bounded corrective retrieval loop node | `feature/agent-nodes-corrective` | P9-2, P9-3, P9-4, P9-5 | F9 | Pending ❌ |
@@ -310,10 +310,10 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 6 | Multi-store retrieval paths | 4 | 4 ✅ |
 | 7 | Rules and guardrails | 4 | 4 ✅ |
 | 8 | Tiered memory system | 3 | 3 ✅ |
-| 9 | Specialist agents and workflow nodes | 8 | 2 ⏳ |
+| 9 | Specialist agents and workflow nodes | 8 | 3 ⏳ |
 | 10 | LangGraph research workflow engine | 4 | 0 ❌ |
 | 11 | Graph explorer, documents, and approvals API | 3 | 0 ❌ |
 | 12 | Frontend console shell | 4 | 0 ❌ |
 | 13 | Research and graph UI screens | 4 | 0 ❌ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **29 (52%)** |
+| **Total** | | **56** | **30 (54%)** |
