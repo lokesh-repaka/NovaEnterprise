@@ -22,6 +22,16 @@ from agents.nodes.synthesize_answer import (
     synthesize_answer,
     synthesize_answer_node,
 )
+from agents.nodes.update_memory import (
+    memory_update,
+    memory_update_node,
+    update_memory,
+    update_memory_node,
+)
+from agents.nodes.verify_citations import (
+    verify_citations,
+    verify_citations_node,
+)
 from agents.nodes.verify_evidence import (
     verify_evidence,
     verify_evidence_node,
@@ -42,11 +52,17 @@ __all__ = [
     "decompose_node",
     "execute_retrieval",
     "execute_retrieval_node",
+    "memory_update",
+    "memory_update_node",
     "reformulate_query",
     "route_retrieval",
     "route_retrieval_node",
     "synthesize_answer",
     "synthesize_answer_node",
+    "update_memory",
+    "update_memory_node",
+    "verify_citations",
+    "verify_citations_node",
     "verify_evidence",
     "verify_evidence_node",
 ]
