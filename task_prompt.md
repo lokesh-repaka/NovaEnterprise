@@ -1,7 +1,7 @@
 You have access to the project's authoritative documentation: `TASKS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/rules/`, and architecture specifications in `docs/` (`HLD_*.md`, `LLD_*.md`, `PRD_*.md`, `BRD_*.md`, `FRD_*.md`).
 
 
-Go ahead and complete **P6-3 · Graph retrieval with typed Cypher traversals**  as defined in `TASKS.md`.
+Go ahead and complete **P6-4 · Hybrid retriever — semantic + BM25 + RRF + rerank**  as defined in `TASKS.md`.
 
 
 ---
