@@ -21,7 +21,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 |------|--------|--------|--------|
 | P1-1 · Settings and JSON logging | `feature/backend-config-logging` | N1, N2 | Completed ✅ |
 | P1-2 · Health routes and request-id middleware | `feature/backend-health-request-id` | N4, N5 | Completed ✅ |
-| P1-3 · Offline pytest harness and fake stores | `feature/test-harness-offline` | N1 | Pending ❌ |
+| P1-3 · Offline pytest harness and fake stores | `feature/test-harness-offline` | N1 | Completed ✅ |
 | P1-4 · Makefile and `.env.example` | `feature/makefile-env-example` | N1, N4 | Pending ❌ |
 
 ---
