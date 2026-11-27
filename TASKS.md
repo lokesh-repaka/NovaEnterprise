@@ -129,7 +129,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 
 | Task | Branch | Needs | Proves | Status |
 |------|--------|-------|--------|--------|
-| P9-1 · `ResearchState` schema and fake LLM provider | `feature/workflow-state-schemas` | P6-1, P7-1, P8-3 | N1, N2 | Pending ❌ |
+| P9-1 · `ResearchState` schema and fake LLM provider | `feature/workflow-state-schemas` | P6-1, P7-1, P8-3 | N1, N2 | Completed ✅ |
 | P9-2 · Query analysis and complexity assessment node | `feature/agent-nodes-analyze` | P9-1 | F2, F3 | Pending ❌ |
 | P9-3 · Sub-question decomposition node | `feature/agent-nodes-decompose` | P9-1 | F4 | Pending ❌ |
 | P9-4 · Retrieval routing and execution node | `feature/agent-nodes-retrieval` | P9-1 | F5, F6, F7, F8 | Pending ❌ |
