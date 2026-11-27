@@ -91,7 +91,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | P6-1 · Common `Evidence` schema and locators | `feature/rag-evidence-schema` | P5-1 | F5–F8 | Completed ✅ |
 | P6-2 · SQL retrieval with `validate_sql()` and templates | `feature/rag-sql-retrieval` | P6-1 | F7 | Completed ✅ |
 | P6-3 · Graph retrieval with typed Cypher traversals | `feature/rag-graph-retrieval` | P6-1 | F8, F14 | Completed ✅ |
-| P6-4 · Hybrid retriever — semantic + BM25 + RRF + rerank | `feature/rag-hybrid-retriever` | P6-1 | F6 | Pending ❌ |
+| P6-4 · Hybrid retriever — semantic + BM25 + RRF + rerank | `feature/rag-hybrid-retriever` | P6-1 | F6 | Completed ✅ |
 
 ---
 

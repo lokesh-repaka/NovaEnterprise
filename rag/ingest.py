@@ -41,24 +41,29 @@ SUPPORTED_EXTENSIONS = {".md", ".markdown", ".txt", ".pdf"}
 def generate_offline_embedding(text: str, dim: int = 384) -> list[float]:
     """Generate a deterministic, unit-normalized embedding vector offline (N1, N2).
 
-    Uses SHA-256 seed hashing to produce a reproducible pseudo-random vector
+    Uses word-level SHA-256 seed hashing to produce a reproducible pseudo-random vector
     normalized via L2 norm, compatible with cosine similarity vector search
     without any external network or provider calls.
     """
-    digest = hashlib.sha256(text.encode("utf-8")).digest()
-    seed_ints = list(digest)
+    import re
 
-    raw_vec: list[float] = []
-    for i in range(dim):
-        byte_val = seed_ints[i % len(seed_ints)]
-        # Deterministic variation across dimensions
-        val = (byte_val ^ ((i * 31) & 0xFF)) / 128.0 - 1.0
-        raw_vec.append(val)
+    words = re.findall(r"\b[a-zA-Z0-9_\-\.]+\b", text.lower())
+    if not words:
+        words = [text.strip()] if text.strip() else ["empty"]
 
-    norm = math.sqrt(sum(x * x for x in raw_vec))
+    accum: list[float] = [0.0] * dim
+    for word in words:
+        digest = hashlib.sha256(word.encode("utf-8")).digest()
+        seed_ints = list(digest)
+        for i in range(dim):
+            byte_val = seed_ints[i % len(seed_ints)]
+            val = (byte_val ^ ((i * 31) & 0xFF)) / 128.0 - 1.0
+            accum[i] += val
+
+    norm = math.sqrt(sum(x * x for x in accum))
     if norm == 0.0:
         norm = 1.0
-    return [round(x / norm, 6) for x in raw_vec]
+    return [round(x / norm, 6) for x in accum]
 
 
 class DocumentIngestionResult(BaseModel):
