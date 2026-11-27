@@ -13,6 +13,10 @@ from agents.nodes import (
     assess_complexity_node,
     decompose,
     decompose_node,
+    execute_retrieval,
+    execute_retrieval_node,
+    route_retrieval,
+    route_retrieval_node,
 )
 from agents.rules import (
     MAX_SUBQUESTIONS,
@@ -51,4 +55,8 @@ __all__ = [
     "decompose_query_rules",
     "detect_retrieval_strategy",
     "enforce_routing_floor",
+    "execute_retrieval",
+    "execute_retrieval_node",
+    "route_retrieval",
+    "route_retrieval_node",
 ]

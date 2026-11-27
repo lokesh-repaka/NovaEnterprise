@@ -3,6 +3,8 @@
 from agents.nodes.analyze_query import analyze_query, analyze_query_node
 from agents.nodes.assess_complexity import assess_complexity, assess_complexity_node
 from agents.nodes.decompose import decompose, decompose_node
+from agents.nodes.execute_retrieval import execute_retrieval, execute_retrieval_node
+from agents.nodes.route_retrieval import route_retrieval, route_retrieval_node
 
 __all__ = [
     "analyze_query",
@@ -11,4 +13,8 @@ __all__ = [
     "assess_complexity_node",
     "decompose",
     "decompose_node",
+    "execute_retrieval",
+    "execute_retrieval_node",
+    "route_retrieval",
+    "route_retrieval_node",
 ]
