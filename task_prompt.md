@@ -1,7 +1,7 @@
 You have access to the project's authoritative documentation: `TASKS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/rules/`, and architecture specifications in `docs/` (`HLD_*.md`, `LLD_*.md`, `PRD_*.md`, `BRD_*.md`, `FRD_*.md`).
 
 
-Go ahead and complete **P8-1 · Four-scope memory schemas and protocols** as defined in `TASKS.md`.
+Go ahead and complete **P8-2 · Redis conversation memory and org memory loader** as defined in `TASKS.md`.
 
 
 ---
