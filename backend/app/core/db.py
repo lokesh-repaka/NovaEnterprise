@@ -6,22 +6,30 @@ from typing import Any
 
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.pool import StaticPool
 
+import backend.app.models  # noqa: F401 - ensure all models are registered on Base.metadata
 from backend.app.core.config import get_settings
 from backend.app.models.base import Base
 
 
 @lru_cache
-def get_engine(database_url: str | None = None) -> Engine:
-    """Create or return a cached SQLAlchemy engine."""
-    if database_url is None:
-        database_url = get_settings().database_url
-
+def _get_cached_engine(database_url: str) -> Engine:
+    """Create or return a cached SQLAlchemy engine for a resolved connection string."""
     connect_args: dict[str, Any] = {}
+    engine_kwargs: dict[str, Any] = {}
     if "sqlite" in database_url:
         connect_args["check_same_thread"] = False
+        if ":memory:" in database_url:
+            engine_kwargs["poolclass"] = StaticPool
 
-    return create_engine(database_url, connect_args=connect_args)
+    return create_engine(database_url, connect_args=connect_args, **engine_kwargs)
+
+
+def get_engine(database_url: str | None = None) -> Engine:
+    """Create or return a cached SQLAlchemy engine."""
+    url = database_url if database_url is not None else get_settings().database_url
+    return _get_cached_engine(url)
 
 
 def get_session_factory(engine: Engine | None = None) -> sessionmaker[Session]:

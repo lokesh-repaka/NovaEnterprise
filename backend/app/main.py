@@ -10,8 +10,10 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.app.api.auth import router as auth_router
 from backend.app.api.health import router as health_router
 from backend.app.core.config import Settings, get_settings
+from backend.app.core.db import init_db
 from backend.app.core.logging import get_logger, setup_logging
 from backend.app.middleware.request_context import RequestContextMiddleware
 
@@ -30,6 +32,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
         settings.environment,
         settings.llm_provider == "fake",
     )
+    # Ensure database tables are initialized
+    init_db()
     yield
     logger.info("Shutting down %s", settings.app_name)
 
@@ -61,6 +65,9 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     # 3. Unprefixed Health Routes (/health, /health/ready - Claude.md §10)
     app.include_router(health_router)
+
+    # 4. API v1 Routers (/api/v1/auth - Claude.md §12)
+    app.include_router(auth_router, prefix=settings.api_v1_prefix)
 
     return app
 
