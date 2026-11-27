@@ -89,6 +89,22 @@ class ServiceRepository(BaseRepository[Service]):
         )
         return list(self.db.scalars(stmt).all())
 
+    def list_services(
+        self,
+        skip: int = 0,
+        limit: int = 50,
+        tier: str | None = None,
+        owner_team_id: str | None = None,
+    ) -> list[Service]:
+        """List services with optional tier and team filters and pagination."""
+        stmt = select(Service)
+        if tier is not None:
+            stmt = stmt.where(Service.tier == tier)
+        if owner_team_id is not None:
+            stmt = stmt.where(Service.owner_team_id == owner_team_id)
+        stmt = stmt.order_by(Service.name.asc()).offset(skip).limit(limit)
+        return list(self.db.scalars(stmt).all())
+
 
 class CustomerRepository(BaseRepository[Customer]):
     """Repository for Customer entities."""
@@ -115,6 +131,19 @@ class CustomerRepository(BaseRepository[Customer]):
             .where(Customer.industry == industry)
             .order_by(Customer.name.asc())
         )
+        return list(self.db.scalars(stmt).all())
+
+    def list_customers(
+        self,
+        skip: int = 0,
+        limit: int = 50,
+        tier: str | None = None,
+    ) -> list[Customer]:
+        """List customers with optional tier filtering and pagination."""
+        stmt = select(Customer)
+        if tier is not None:
+            stmt = stmt.where(Customer.tier == tier)
+        stmt = stmt.order_by(Customer.name.asc()).offset(skip).limit(limit)
         return list(self.db.scalars(stmt).all())
 
 
@@ -165,6 +194,25 @@ class IncidentRepository(BaseRepository[Incident]):
             .where(Incident.occurred_at >= start_date, Incident.occurred_at <= end_date)
             .order_by(Incident.occurred_at.asc())
         )
+        return list(self.db.scalars(stmt).all())
+
+    def list_incidents(
+        self,
+        skip: int = 0,
+        limit: int = 50,
+        severity: str | None = None,
+        status: str | None = None,
+        service_id: str | None = None,
+    ) -> list[Incident]:
+        """List incidents with optional severity, status, and service filters and pagination."""
+        stmt = select(Incident)
+        if severity is not None:
+            stmt = stmt.where(Incident.severity == severity)
+        if status is not None:
+            stmt = stmt.where(Incident.status == status)
+        if service_id is not None:
+            stmt = stmt.where(Incident.impacted_service_id == service_id)
+        stmt = stmt.order_by(Incident.created_at.desc()).offset(skip).limit(limit)
         return list(self.db.scalars(stmt).all())
 
     def get_with_relations(self, incident_id: str) -> Incident | None:
