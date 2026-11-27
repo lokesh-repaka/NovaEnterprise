@@ -61,7 +61,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 
 | Task | Branch | Needs | Proves | Status |
 |------|--------|-------|--------|--------|
-| P4-1 · API contract doc (`docs/API_CONTRACT.md`) | `feature/api-contract-docs` | P3-1 | — | Pending ❌ |
+| P4-1 · API contract doc (`docs/API_CONTRACT.md`) | `feature/api-contract-docs` | P3-1 | — | Completed ✅ |
 | P4-2 · Customer, incident, service, and team endpoints | `feature/api-browse-entities` | P4-1 | F14 | Pending ❌ |
 | P4-3 · Decisions (ADR) and project/ticket endpoints | `feature/api-browse-decisions` | P4-1 | F14 | Pending ❌ |
 
@@ -302,10 +302,10 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 
 | Phase | Name | Tasks | Done |
 |-------|------|-------|------|
-| 1 | Runtime skeleton | 4 | 1 ⏳ |
-| 2 | Persistence and domain data | 4 | 0 ❌ |
-| 3 | Identity and request guards | 4 | 0 ❌ |
-| 4 | Browse API and core contracts | 3 | 0 ❌ |
+| 1 | Runtime skeleton | 4 | 4 ✅ |
+| 2 | Persistence and domain data | 4 | 4 ✅ |
+| 3 | Identity and request guards | 4 | 4 ✅ |
+| 4 | Browse API and core contracts | 3 | 1 ⏳ |
 | 5 | Storage protocols and RAG ingestion | 4 | 0 ❌ |
 | 6 | Multi-store retrieval paths | 4 | 0 ❌ |
 | 7 | Rules and guardrails | 4 | 0 ❌ |
@@ -316,4 +316,4 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 12 | Frontend console shell | 4 | 0 ❌ |
 | 13 | Research and graph UI screens | 4 | 0 ❌ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **1 (2%)** |
+| **Total** | | **56** | **13 (23%)** |
