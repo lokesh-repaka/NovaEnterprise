@@ -305,7 +305,8 @@ class InMemoryGraphStore:
             if not customer_id:
                 return []
             subgraph = self.expand(customer_id, max_depth=2)
-            return subgraph.get("nodes", [])
+            nodes = subgraph.get("nodes", [])
+            return list(nodes) if isinstance(nodes, list) else []
 
         elif traversal_type == "team_ownership":
             team_id = params.get("team_id")
@@ -339,7 +340,8 @@ class InMemoryGraphStore:
             if not incident_id:
                 return []
             subgraph = self.expand(incident_id, max_depth=2)
-            return subgraph.get("nodes", [])
+            nodes = subgraph.get("nodes", [])
+            return list(nodes) if isinstance(nodes, list) else []
 
         # Default fallback: return all nodes
         return list(self._nodes.values())
