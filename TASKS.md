@@ -35,7 +35,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 |------|--------|-------|--------|--------|
 | P2-1 · SQLAlchemy models (all entities) | `feature/sqlalchemy-models` | P1-1 | — | Completed ✅ |
 | P2-2 · DB schema, migrations, and RLS policies | `feature/db-schema-rls` | P2-1 | — | Completed ✅ |
-| P2-3 · Repository layer | `feature/repository-layer` | P2-1 | — | Pending ❌ |
+| P2-3 · Repository layer | `feature/repository-layer` | P2-1 | — | Completed ✅ |
 | P2-4 · Sample data seed and fiscal calendar | `feature/sample-data-bootstrap` | P2-3 | F13 | Pending ❌ |
 
 ---
