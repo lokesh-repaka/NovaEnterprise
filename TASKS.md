@@ -89,7 +89,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | Task | Branch | Needs | Proves | Status |
 |------|--------|-------|--------|--------|
 | P6-1 · Common `Evidence` schema and locators | `feature/rag-evidence-schema` | P5-1 | F5–F8 | Completed ✅ |
-| P6-2 · SQL retrieval with `validate_sql()` and templates | `feature/rag-sql-retrieval` | P6-1 | F7 | Pending ❌ |
+| P6-2 · SQL retrieval with `validate_sql()` and templates | `feature/rag-sql-retrieval` | P6-1 | F7 | Completed ✅ |
 | P6-3 · Graph retrieval with typed Cypher traversals | `feature/rag-graph-retrieval` | P6-1 | F8, F14 | Pending ❌ |
 | P6-4 · Hybrid retriever — semantic + BM25 + RRF + rerank | `feature/rag-hybrid-retriever` | P6-1 | F6 | Pending ❌ |
 
@@ -307,7 +307,7 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 3 | Identity and request guards | 4 | 4 ✅ |
 | 4 | Browse API and core contracts | 3 | 3 ✅ |
 | 5 | Storage protocols and RAG ingestion | 4 | 4 ✅ |
-| 6 | Multi-store retrieval paths | 4 | 1 ⏳ |
+| 6 | Multi-store retrieval paths | 4 | 2 ⏳ |
 | 7 | Rules and guardrails | 4 | 0 ❌ |
 | 8 | Tiered memory system | 3 | 0 ❌ |
 | 9 | Specialist agents and workflow nodes | 8 | 0 ❌ |
@@ -316,4 +316,4 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 12 | Frontend console shell | 4 | 0 ❌ |
 | 13 | Research and graph UI screens | 4 | 0 ❌ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **20 (36%)** |
+| **Total** | | **56** | **21 (38%)** |
