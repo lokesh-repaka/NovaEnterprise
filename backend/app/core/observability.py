@@ -79,10 +79,16 @@ def filter_telemetry_payload(data: Any) -> Any:
     """Recursively scrub raw prompts, chain-of-thought, and secrets from telemetry (N9).
 
     Guarantees:
+    - Serializes Pydantic models to dicts for JSON safety.
     - Strips internal system prompts and chain-of-thought tokens.
     - Scrubs embedded secrets and credentials in text values.
     - Preserves operational metrics, decisions, query summaries, and locators.
     """
+    if hasattr(data, "model_dump"):
+        data = data.model_dump()
+    elif hasattr(data, "dict") and callable(data.dict):
+        data = data.dict()
+
     if isinstance(data, dict):
         clean_dict: dict[str, Any] = {}
         for key, val in data.items():
