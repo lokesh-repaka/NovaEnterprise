@@ -24,6 +24,10 @@ from agents.nodes import (
     reformulate_query,
     route_retrieval,
     route_retrieval_node,
+    synthesize_answer,
+    synthesize_answer_node,
+    verify_evidence,
+    verify_evidence_node,
 )
 from agents.rules import (
     MAX_SUBQUESTIONS,
@@ -73,4 +77,8 @@ __all__ = [
     "reformulate_query",
     "route_retrieval",
     "route_retrieval_node",
+    "synthesize_answer",
+    "synthesize_answer_node",
+    "verify_evidence",
+    "verify_evidence_node",
 ]

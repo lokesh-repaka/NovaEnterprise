@@ -18,6 +18,14 @@ from agents.nodes.corrective_retrieval import (
 from agents.nodes.decompose import decompose, decompose_node
 from agents.nodes.execute_retrieval import execute_retrieval, execute_retrieval_node
 from agents.nodes.route_retrieval import route_retrieval, route_retrieval_node
+from agents.nodes.synthesize_answer import (
+    synthesize_answer,
+    synthesize_answer_node,
+)
+from agents.nodes.verify_evidence import (
+    verify_evidence,
+    verify_evidence_node,
+)
 
 __all__ = [
     "analyze_query",
@@ -37,4 +45,8 @@ __all__ = [
     "reformulate_query",
     "route_retrieval",
     "route_retrieval_node",
+    "synthesize_answer",
+    "synthesize_answer_node",
+    "verify_evidence",
+    "verify_evidence_node",
 ]

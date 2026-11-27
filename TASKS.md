@@ -135,7 +135,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | P9-4 · Retrieval routing and execution node | `feature/agent-nodes-retrieval` | P9-1 | F5, F6, F7, F8 | Completed ✅ |
 | P9-5 · Evidence collection and missing-evidence node | `feature/agent-nodes-evidence` | P9-1 | F9 | Completed ✅ |
 | P9-6 · Bounded corrective retrieval loop node | `feature/agent-nodes-corrective` | P9-2, P9-3, P9-4, P9-5 | F9 | Completed ✅ |
-| P9-7 · Evidence verification and citation synthesis | `feature/agent-nodes-synthesis` | P9-5, P9-6 | F10, F11 | Pending ❌ |
+| P9-7 · Evidence verification and citation synthesis | `feature/agent-nodes-synthesis` | P9-5, P9-6 | F10, F11 | Completed ✅ |
 | P9-8 · Citation verification and memory update node | `feature/agent-nodes-verification` | P9-7 | F12, F15 | Pending ❌ |
 
 ---
@@ -316,4 +316,4 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 12 | Frontend console shell | 4 | 0 ❌ |
 | 13 | Research and graph UI screens | 4 | 0 ❌ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **33 (59%)** |
+| **Total** | | **56** | **34 (61%)** |
