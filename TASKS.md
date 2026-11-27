@@ -150,7 +150,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | P10-1 · `StateGraph` wiring — 13 nodes and conditional edges | `feature/langgraph-workflow-wiring` | Phase 9 ✓ | F1–F12 | Completed ✅ |
 | P10-2 · Node telemetry and per-node state persistence | `feature/workflow-tracer-persistence` | P10-1 | F16 | Completed ✅ |
 | P10-3 · `BackgroundTask` runner and 202 session API | `feature/api-research-lifecycle` | P10-1, P3-1 | F1 | Completed ✅ |
-| P10-4 · Status polling and event stream API | `feature/api-research-events` | P10-2, P10-3 | F1, F16 | Pending ❌ |
+| P10-4 · Status polling and event stream API | `feature/api-research-events` | P10-2, P10-3 | F1, F16 | Completed ✅ |
 
 ---
 
@@ -311,9 +311,9 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 7 | Rules and guardrails | 4 | 4 ✅ |
 | 8 | Tiered memory system | 3 | 3 ✅ |
 | 9 | Specialist agents and workflow nodes | 8 | 8 ✅ |
-| 10 | LangGraph research workflow engine | 4 | 3 ⏳ |
+| 10 | LangGraph research workflow engine | 4 | 4 ✅ |
 | 11 | Graph explorer, documents, and approvals API | 3 | 0 ❌ |
 | 12 | Frontend console shell | 4 | 0 ❌ |
 | 13 | Research and graph UI screens | 4 | 0 ❌ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **38 (68%)** |
+| **Total** | | **56** | **39 (70%)** |
