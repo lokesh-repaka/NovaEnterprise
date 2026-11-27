@@ -1,0 +1,44 @@
+[
+  {
+    "id": "proj-1",
+    "name": "Payments Resilience and PgBouncer Integration",
+    "description": "Deploy PgBouncer sidecars, tune connection pools, and eliminate latency spikes in Payments API.",
+    "owner_team_id": "team-payments",
+    "status": "completed"
+  },
+  {
+    "id": "proj-2",
+    "name": "Identity Zero-Trust Migration",
+    "description": "Multi-region Keycloak clustering, SPIFFE/SPIRE workload identities, and token-bucket rate limiting.",
+    "owner_team_id": "team-identity",
+    "status": "active"
+  },
+  {
+    "id": "proj-3",
+    "name": "Real-time Pipeline Streaming Engine",
+    "description": "Upgrade event bus to Apache Kafka and integrate Delta Lake CDC for incremental pipeline ingestion.",
+    "owner_team_id": "team-data",
+    "status": "active"
+  },
+  {
+    "id": "proj-4",
+    "name": "Enterprise Customer Portal Modernization",
+    "description": "Re-architect customer dashboard with Next.js 15, SSR caching, and real-time incident status widgets.",
+    "owner_team_id": "team-cs",
+    "status": "active"
+  },
+  {
+    "id": "proj-5",
+    "name": "SRE Observability Mesh and OpenTelemetry Rollout",
+    "description": "Standardize distributed tracing with OpenTelemetry across all tier-1 and tier-2 microservices.",
+    "owner_team_id": "team-sre",
+    "status": "active"
+  },
+  {
+    "id": "proj-6",
+    "name": "Financial Intelligence Analytics Hub",
+    "description": "Consolidate ARR/MRR metrics, customer churn forecasting, and SLA penalty attribution dashboards.",
+    "owner_team_id": "team-analytics",
+    "status": "active"
+  }
+]

@@ -1,0 +1,82 @@
+[
+  {
+    "id": "dec-adr-042",
+    "title": "ADR-042: Adopt PgBouncer for Connection Pooling",
+    "status": "approved",
+    "incident_id": "inc-2031",
+    "context": "Incident INC-2031 caused connection pool exhaustion during a sudden traffic surge on Payments API.",
+    "decision": "Deploy PgBouncer as a transaction-mode connection pooler sidecar for all tier-1 services.",
+    "consequences": "Reduced idle Postgres connection count by 78%, capped max active client pool to 100, eliminated latency spikes.",
+    "decided_at": "2026-05-20T14:00:00Z"
+  },
+  {
+    "id": "dec-adr-043",
+    "title": "ADR-043: Redis Cluster Multi-Region Caching",
+    "status": "approved",
+    "incident_id": "inc-2028",
+    "context": "Global SSO latency in INC-2028 showed cross-region lock contention during JWKS token verification.",
+    "decision": "Migrate from centralized single-region Redis to active-active replicated Redis Cluster.",
+    "consequences": "P99 token validation latency dropped from 420ms to 12ms across international endpoints.",
+    "decided_at": "2026-05-18T10:00:00Z"
+  },
+  {
+    "id": "dec-adr-044",
+    "title": "ADR-044: Kafka Event Streaming for Payment Notifications",
+    "status": "accepted",
+    "incident_id": "inc-2022",
+    "context": "Direct synchronous notifications caused thread starvation and backpressure during payment bursts.",
+    "decision": "Adopt Apache Kafka with 3-day retention topics for decoupled event dispatch.",
+    "consequences": "Guaranteed at-least-once message delivery with zero loss during downstream outages.",
+    "decided_at": "2026-02-15T16:00:00Z"
+  },
+  {
+    "id": "dec-adr-045",
+    "title": "ADR-045: Circuit Breaker Pattern for External Billing Gateway",
+    "status": "approved",
+    "incident_id": "inc-2024",
+    "context": "External billing processor timeouts caused cascading resource exhaustion in Payments API.",
+    "decision": "Implement Resilience4j / Tenacity circuit breaker with exponential backoff and fast failure.",
+    "consequences": "Immediate fallback responses for users and protected backend connection pools.",
+    "decided_at": "2026-04-10T11:00:00Z"
+  },
+  {
+    "id": "dec-adr-046",
+    "title": "ADR-046: Incremental Snapshotting for Data Lake Pipelines",
+    "status": "approved",
+    "incident_id": "inc-2025",
+    "context": "Full-table daily scans caused high disk I/O and executor OOM in Spark pipelines.",
+    "decision": "Transition to Delta Lake incremental change data capture (CDC) with time-travel checkpoints.",
+    "consequences": "ETL job execution time reduced from 4.5 hours to 18 minutes.",
+    "decided_at": "2026-04-25T15:30:00Z"
+  },
+  {
+    "id": "dec-adr-047",
+    "title": "ADR-047: Elasticsearch Replica Sharding Optimization",
+    "status": "accepted",
+    "incident_id": "inc-2030",
+    "context": "Unbalanced shard allocation caused disk saturation on Elasticsearch primary nodes.",
+    "decision": "Implement index lifecycle management (ILM) with automated rollover at 30GB per shard.",
+    "consequences": "Prevented read-only index lockouts and stabilized search latency.",
+    "decided_at": "2026-05-25T09:30:00Z"
+  },
+  {
+    "id": "dec-adr-048",
+    "title": "ADR-048: Automated Rate Limiting on Token Refresh Endpoints",
+    "status": "proposed",
+    "incident_id": "inc-2032",
+    "context": "Client reconnect storms overwhelmed authentication endpoints following network partitions.",
+    "decision": "Deploy Redis token-bucket rate limiter enforcing 60 requests/minute per client IP.",
+    "consequences": "Shields Keycloak from credential stuffing and thundering herd reconnection storms.",
+    "decided_at": "2026-07-12T13:00:00Z"
+  },
+  {
+    "id": "dec-adr-049",
+    "title": "ADR-049: Asynchronous Webhook Retry Backoff with Dead Letter Queue",
+    "status": "approved",
+    "incident_id": "inc-2029",
+    "context": "Synchronous retries against unresponsive partner webhooks blocked billing worker threads.",
+    "decision": "Introduce dedicated SQS Dead Letter Queue with 5 exponential backoff retry attempts.",
+    "consequences": "Isolated third-party partner downtime from core enterprise billing generation.",
+    "decided_at": "2026-05-15T17:00:00Z"
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "tick-01",
+    "title": "Configure PgBouncer transaction-mode sidecars in Kubernetes",
+    "status": "resolved",
+    "priority": "P0",
+    "project_id": "proj-1",
+    "assignee_id": "emp-02"
+  },
+  {
+    "id": "tick-02",
+    "title": "Benchmark Payments API connection pool throughput under simulated 5x load",
+    "status": "resolved",
+    "priority": "P1",
+    "project_id": "proj-1",
+    "assignee_id": "emp-03"
+  },
+  {
+    "id": "tick-03",
+    "title": "Set up Grafana alerts for PostgreSQL active server connection saturation",
+    "status": "resolved",
+    "priority": "P1",
+    "project_id": "proj-1",
+    "assignee_id": "emp-16"
+  },
+  {
+    "id": "tick-04",
+    "title": "Implement Redis Cluster active-active multi-region replication for Keycloak JWKS",
+    "status": "in_progress",
+    "priority": "P0",
+    "project_id": "proj-2",
+    "assignee_id": "emp-06"
+  },
+  {
+    "id": "tick-05",
+    "title": "Conduct automated penetration testing on OAuth2 PKCE token exchange",
+    "status": "open",
+    "priority": "P1",
+    "project_id": "proj-2",
+    "assignee_id": "emp-07"
+  },
+  {
+    "id": "tick-06",
+    "title": "Provision Kafka broker clusters with 3x replication factor in staging",
+    "status": "resolved",
+    "priority": "P1",
+    "project_id": "proj-3",
+    "assignee_id": "emp-09"
+  },
+  {
+    "id": "tick-07",
+    "title": "Configure Delta Lake CDC checkpointing for transactional payment audit logs",
+    "status": "in_progress",
+    "priority": "P2",
+    "project_id": "proj-3",
+    "assignee_id": "emp-10"
+  },
+  {
+    "id": "tick-08",
+    "title": "Develop SLA downtime impact calculator component in customer portal",
+    "status": "in_progress",
+    "priority": "P2",
+    "project_id": "proj-4",
+    "assignee_id": "emp-13"
+  },
+  {
+    "id": "tick-09",
+    "title": "Integrate Keycloak SSO login flow into Next.js customer portal frontend",
+    "status": "open",
+    "priority": "P1",
+    "project_id": "proj-4",
+    "assignee_id": "emp-14"
+  },
+  {
+    "id": "tick-10",
+    "title": "Deploy OpenTelemetry collector daemonsets across all Kubernetes worker nodes",
+    "status": "resolved",
+    "priority": "P1",
+    "project_id": "proj-5",
+    "assignee_id": "emp-16"
+  },
+  {
+    "id": "tick-11",
+    "title": "Inject traceparent W3C context headers into outgoing Payments API requests",
+    "status": "resolved",
+    "priority": "P1",
+    "project_id": "proj-5",
+    "assignee_id": "emp-17"
+  },
+  {
+    "id": "tick-12",
+    "title": "Define Chaos Mesh experiment for database primary failover under active traffic",
+    "status": "open",
+    "priority": "P2",
+    "project_id": "proj-5",
+    "assignee_id": "emp-15"
+  },
+  {
+    "id": "tick-13",
+    "title": "Create automated ARR impact report for tier-1 service downtime incidents",
+    "status": "in_progress",
+    "priority": "P2",
+    "project_id": "proj-6",
+    "assignee_id": "emp-19"
+  },
+  {
+    "id": "tick-14",
+    "title": "Build SQL pipeline for historical customer SLA penalty credit calculation",
+    "status": "open",
+    "priority": "P2",
+    "project_id": "proj-6",
+    "assignee_id": "emp-20"
+  },
+  {
+    "id": "tick-15",
+    "title": "Export weekly executive reliability scorecards to corporate Slack channels",
+    "status": "resolved",
+    "priority": "P3",
+    "project_id": "proj-6",
+    "assignee_id": "emp-18"
+  }
+]

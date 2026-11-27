@@ -1,0 +1,71 @@
+{
+  "company_info": {
+    "name": "NovaEnterprise Inc.",
+    "domain": "nova.io",
+    "headquarters": "San Francisco, CA",
+    "default_currency": "USD"
+  },
+  "fiscal_calendar": {
+    "fiscal_year": 2026,
+    "fiscal_year_start": "2026-01-01",
+    "fiscal_year_end": "2026-12-31",
+    "current_quarter": "2026-Q3",
+    "last_quarter": "2026-Q2",
+    "quarters": {
+      "2026-Q1": {
+        "start_date": "2026-01-01T00:00:00Z",
+        "end_date": "2026-03-31T23:59:59Z",
+        "status": "closed",
+        "name": "Fiscal Q1 2026"
+      },
+      "2026-Q2": {
+        "start_date": "2026-04-01T00:00:00Z",
+        "end_date": "2026-06-30T23:59:59Z",
+        "status": "closed",
+        "name": "Fiscal Q2 2026"
+      },
+      "2026-Q3": {
+        "start_date": "2026-07-01T00:00:00Z",
+        "end_date": "2026-09-30T23:59:59Z",
+        "status": "active",
+        "name": "Fiscal Q3 2026"
+      },
+      "2026-Q4": {
+        "start_date": "2026-10-01T00:00:00Z",
+        "end_date": "2026-12-31T23:59:59Z",
+        "status": "future",
+        "name": "Fiscal Q4 2026"
+      }
+    }
+  },
+  "service_tiers": {
+    "tier-1": {
+      "description": "Mission-critical customer-facing transactional services",
+      "availability_sla": 0.9999,
+      "max_downtime_quarter_min": 13.14,
+      "sev1_response_sla_min": 15
+    },
+    "tier-2": {
+      "description": "Core internal platforms and processing pipelines",
+      "availability_sla": 0.999,
+      "max_downtime_quarter_min": 131.4,
+      "sev1_response_sla_min": 30
+    },
+    "tier-3": {
+      "description": "Non-critical internal tooling and reporting dashboards",
+      "availability_sla": 0.995,
+      "max_downtime_quarter_min": 657.0,
+      "sev1_response_sla_min": 120
+    }
+  },
+  "service_ownership": {
+    "svc-payments-api": "team-payments",
+    "svc-identity": "team-identity",
+    "svc-data-pipeline": "team-data",
+    "svc-analytics": "team-analytics",
+    "svc-notifications": "team-payments",
+    "svc-billing": "team-payments",
+    "svc-customer-portal": "team-cs",
+    "svc-search": "team-data"
+  }
+}

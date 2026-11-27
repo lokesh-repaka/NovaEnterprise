@@ -1,0 +1,142 @@
+[
+  {
+    "id": "emp-01",
+    "name": "Marcus Vance",
+    "email": "marcus.vance@nova.io",
+    "role": "Engineering Lead",
+    "team_id": "team-payments"
+  },
+  {
+    "id": "emp-02",
+    "name": "Alice Chen",
+    "email": "alice.chen@nova.io",
+    "role": "Staff Software Engineer",
+    "team_id": "team-payments"
+  },
+  {
+    "id": "emp-03",
+    "name": "Bob Martin",
+    "email": "bob.martin@nova.io",
+    "role": "Senior Software Engineer",
+    "team_id": "team-payments"
+  },
+  {
+    "id": "emp-04",
+    "name": "Carol Diaz",
+    "email": "carol.diaz@nova.io",
+    "role": "Software Engineer II",
+    "team_id": "team-payments"
+  },
+  {
+    "id": "emp-05",
+    "name": "Elena Rostova",
+    "email": "elena.rostova@nova.io",
+    "role": "Security & Identity Lead",
+    "team_id": "team-identity"
+  },
+  {
+    "id": "emp-06",
+    "name": "Dan Kim",
+    "email": "dan.kim@nova.io",
+    "role": "Senior Security Engineer",
+    "team_id": "team-identity"
+  },
+  {
+    "id": "emp-07",
+    "name": "Fatima Al-Mansoor",
+    "email": "fatima.almansoor@nova.io",
+    "role": "IAM Infrastructure Engineer",
+    "team_id": "team-identity"
+  },
+  {
+    "id": "emp-08",
+    "name": "Rajiv Patel",
+    "email": "rajiv.patel@nova.io",
+    "role": "Data Platform Lead",
+    "team_id": "team-data"
+  },
+  {
+    "id": "emp-09",
+    "name": "George Brooks",
+    "email": "george.brooks@nova.io",
+    "role": "Senior Data Engineer",
+    "team_id": "team-data"
+  },
+  {
+    "id": "emp-10",
+    "name": "Hannah Abbott",
+    "email": "hannah.abbott@nova.io",
+    "role": "Pipeline Infrastructure Engineer",
+    "team_id": "team-data"
+  },
+  {
+    "id": "emp-11",
+    "name": "Sarah Jenkins",
+    "email": "sarah.jenkins@nova.io",
+    "role": "VP Customer Success",
+    "team_id": "team-cs"
+  },
+  {
+    "id": "emp-12",
+    "name": "Ian Wright",
+    "email": "ian.wright@nova.io",
+    "role": "Principal Technical Account Manager",
+    "team_id": "team-cs"
+  },
+  {
+    "id": "emp-13",
+    "name": "Julia Santos",
+    "email": "julia.santos@nova.io",
+    "role": "Senior Enterprise CSM",
+    "team_id": "team-cs"
+  },
+  {
+    "id": "emp-14",
+    "name": "Kevin Zhang",
+    "email": "kevin.zhang@nova.io",
+    "role": "Technical Escalation Lead",
+    "team_id": "team-cs"
+  },
+  {
+    "id": "emp-15",
+    "name": "David O'Connor",
+    "email": "david.oconnor@nova.io",
+    "role": "Head of Site Reliability",
+    "team_id": "team-sre"
+  },
+  {
+    "id": "emp-16",
+    "name": "Liam Murphy",
+    "email": "liam.murphy@nova.io",
+    "role": "Staff SRE",
+    "team_id": "team-sre"
+  },
+  {
+    "id": "emp-17",
+    "name": "Nina Simone",
+    "email": "nina.simone@nova.io",
+    "role": "Observability Engineer",
+    "team_id": "team-sre"
+  },
+  {
+    "id": "emp-18",
+    "name": "Maya Lin",
+    "email": "maya.lin@nova.io",
+    "role": "Head of Analytics",
+    "team_id": "team-analytics"
+  },
+  {
+    "id": "emp-19",
+    "name": "Omar Farooq",
+    "email": "omar.farooq@nova.io",
+    "role": "Senior BI Analyst",
+    "team_id": "team-analytics"
+  },
+  {
+    "id": "emp-20",
+    "name": "Priya Sharma",
+    "email": "priya.sharma@nova.io",
+    "role": "Data Analyst II",
+    "team_id": "team-analytics"
+  }
+]

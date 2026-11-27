@@ -1,0 +1,44 @@
+[
+  {
+    "id": "team-payments",
+    "name": "Payments Platform",
+    "lead": "Marcus Vance",
+    "slack_channel": "#team-payments",
+    "description": "Responsible for payment gateway integrations, billing pipelines, and transaction processing."
+  },
+  {
+    "id": "team-identity",
+    "name": "Identity",
+    "lead": "Elena Rostova",
+    "slack_channel": "#team-identity",
+    "description": "Core authentication, OAuth2/OIDC, Keycloak SSO, and RBAC governance."
+  },
+  {
+    "id": "team-data",
+    "name": "Data Platform",
+    "lead": "Rajiv Patel",
+    "slack_channel": "#team-data",
+    "description": "Distributed data pipelines, event streaming, data warehousing, and lakehouse storage."
+  },
+  {
+    "id": "team-cs",
+    "name": "Customer Success",
+    "lead": "Sarah Jenkins",
+    "slack_channel": "#team-customer-success",
+    "description": "Strategic enterprise customer advocacy, technical account management, and support escalation."
+  },
+  {
+    "id": "team-sre",
+    "name": "SRE",
+    "lead": "David O'Connor",
+    "slack_channel": "#team-sre",
+    "description": "Site reliability engineering, observability infrastructure, incident response, and chaos testing."
+  },
+  {
+    "id": "team-analytics",
+    "name": "Analytics",
+    "lead": "Maya Lin",
+    "slack_channel": "#team-analytics",
+    "description": "Enterprise reporting, business intelligence dashboards, and revenue metrics."
+  }
+]
