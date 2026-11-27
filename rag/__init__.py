@@ -9,6 +9,12 @@ from rag.chunker import (
     SemanticChunker,
     estimate_tokens,
 )
+from rag.extractor import (
+    EntityRelationshipExtractor,
+    ExtractedEntity,
+    ExtractedRelationship,
+    ExtractionResult,
+)
 from rag.graph_store import (
     GraphEdge,
     GraphExpansion,
@@ -39,6 +45,10 @@ from rag.vector_store import (
 
 __all__ = [
     "DocumentParser",
+    "EntityRelationshipExtractor",
+    "ExtractedEntity",
+    "ExtractedRelationship",
+    "ExtractionResult",
     "GraphEdge",
     "GraphExpansion",
     "GraphNode",
