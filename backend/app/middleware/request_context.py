@@ -19,9 +19,13 @@ REQUEST_ID_HEADER = "X-Request-ID"
 class RequestContextMiddleware(BaseHTTPMiddleware):
     """ASGI Middleware to propagate and correlate X-Request-ID across the request lifecycle."""
 
-    async def dispatch(self, request: Request, call_next: RequestResponseEndpoint) -> Response:
+    async def dispatch(
+        self, request: Request, call_next: RequestResponseEndpoint
+    ) -> Response:
         # Check incoming headers for an existing request ID (case-insensitive)
-        incoming_id = request.headers.get("x-request-id") or request.headers.get(REQUEST_ID_HEADER)
+        incoming_id = request.headers.get("x-request-id") or request.headers.get(
+            REQUEST_ID_HEADER
+        )
 
         if incoming_id and incoming_id.strip():
             request_id = incoming_id.strip()

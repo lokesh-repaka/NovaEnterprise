@@ -3,6 +3,7 @@
 Verifies /health (liveness) and /health/ready (readiness adapter check) unprefixed routes.
 """
 
+from collections.abc import Generator
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -20,7 +21,7 @@ from backend.app.main import create_app
 
 
 @pytest.fixture
-def client() -> TestClient:
+def client() -> Generator[TestClient, None, None]:
     """Create a test client against the NovaEnterprise main FastAPI app."""
     app = create_app()
     with TestClient(app) as test_client:
