@@ -496,7 +496,7 @@ Do not write "deployed" or "passes in CI" until it has.
 | 7 | Research workflow (13 nodes, corrective loop, verification) | not started |
 | 8 | Research API (202 + background task + polling + events) | not started |
 | 9 | Memory (four scopes) | not started |
-| 10 | Documents, graph and approval APIs (P4-1 API contract complete) | in progress ⏳ |
+| 10 | Documents, graph and approval APIs (P4-1, P4-2 complete) | in progress ⏳ |
 | 11 | Frontend (search, research, knowledge graph, documents) | not started |
 | 12 | Evaluation and delivery | not started |
 
