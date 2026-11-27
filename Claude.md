@@ -272,9 +272,25 @@ analyze_query → assess_complexity → decompose → route_retrieval → (retri
   → verify_evidence → synthesize_answer → verify_citations → (memory update) → END
 ```
 
-The exact 13-node list and edge set **[TBD]**: `GRAPH_NODES` in `agents/graph.py` is the authority once
-written; copy it here. `tests/.../test_graph_shape_matches_frontend_assumptions` guards the shape the UI
-renders (`docs/FRONTEND_ASSUMPTIONS.md`).
+The exact 13-node list and edge set: `GRAPH_NODES` in `agents/graph.py` is the authority:
+```python
+GRAPH_NODES = [
+    "recall_memory",
+    "analyze_query",
+    "assess_complexity",
+    "decompose",
+    "route_retrieval",
+    "execute_retrieval",
+    "collect_evidence",
+    "check_missing_evidence",
+    "corrective_retrieval",
+    "verify_evidence",
+    "synthesize_answer",
+    "verify_citations",
+    "update_memory",
+]
+```
+`tests/unit/test_langgraph_workflow_wiring.py::test_graph_shape_matches_frontend_assumptions` guards the shape the UI renders (`docs/FRONTEND_ASSUMPTIONS.md`).
 
 Rules:
 - Every node is wrapped in `tracer.node(...)`, returns a **partial** state dict, and never lets telemetry raise.
