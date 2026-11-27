@@ -19,4 +19,5 @@ htmlcov/
 /.agents.bak-*/
 /GEMINI.local.md
 /data/enterprise.db
+*.pdf
 

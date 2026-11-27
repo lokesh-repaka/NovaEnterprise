@@ -3,12 +3,12 @@
 Provides JSON-formatted logs with request-id context propagation across async tasks.
 """
 
-from contextvars import ContextVar
-from datetime import datetime, timezone
 import json
 import logging
 import sys
-from typing import Any, Dict, Optional, TextIO
+from contextvars import ContextVar
+from datetime import datetime, timezone
+from typing import Any, TextIO
 
 STANDARD_LOG_ATTRS = {
     "args",
@@ -37,15 +37,15 @@ STANDARD_LOG_ATTRS = {
 }
 
 # Context variable to hold the request_id across coroutines / threads
-_request_id_ctx_var: ContextVar[Optional[str]] = ContextVar("request_id", default=None)
+_request_id_ctx_var: ContextVar[str | None] = ContextVar("request_id", default=None)
 
 
-def get_request_id() -> Optional[str]:
+def get_request_id() -> str | None:
     """Retrieve the current request ID from context."""
     return _request_id_ctx_var.get()
 
 
-def set_request_id(request_id: Optional[str]) -> None:
+def set_request_id(request_id: str | None) -> None:
     """Set the current request ID in context."""
     _request_id_ctx_var.set(request_id)
 
@@ -58,7 +58,7 @@ class JSONFormatter(logging.Formatter):
         message = record.getMessage()
 
         # Base log payload
-        log_payload: Dict[str, Any] = {
+        log_payload: dict[str, Any] = {
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "level": record.levelname,
             "logger": record.name,
@@ -93,9 +93,9 @@ class JSONFormatter(logging.Formatter):
 
 
 def setup_logging(
-    log_level: Optional[str] = None,
-    log_format: Optional[str] = None,
-    stream: Optional[TextIO] = None,
+    log_level: str | None = None,
+    log_format: str | None = None,
+    stream: TextIO | None = None,
 ) -> None:
     """Configure root logger with structured JSON formatting or standard text."""
     if log_level is None or log_format is None:
@@ -105,7 +105,7 @@ def setup_logging(
             settings = get_settings()
             log_level = log_level or settings.log_level
             log_format = log_format or settings.log_format
-        except Exception:
+        except Exception:  # noqa: BLE001
             log_level = log_level or "INFO"
             log_format = log_format or "json"
 

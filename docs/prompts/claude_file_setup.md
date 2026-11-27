@@ -1,0 +1,1 @@
+you have access to the problem.md , prd.md and hld.md file for a project create a claude.md file for this project which is brain of the application i have attached a sample claude.md file for the some other project take it as a reference
