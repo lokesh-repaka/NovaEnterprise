@@ -7,6 +7,13 @@ from backend.app.schemas.auth import (
     TokenResponse,
     UserProfileResponse,
 )
+from backend.app.schemas.common import (
+    Citation,
+    Evidence,
+    EvidenceSource,
+    EvidenceSourceType,
+    SubQuestion,
+)
 from backend.app.schemas.documents import (
     DocumentChunkDetail,
     DocumentDetailResponse,
@@ -30,6 +37,7 @@ from backend.app.schemas.entities import (
 )
 
 __all__ = [
+    "Citation",
     "CustomerResponse",
     "DecisionResponse",
     "DecisionSummary",
@@ -40,6 +48,9 @@ __all__ = [
     "DocumentResponse",
     "DocumentUploadResponse",
     "EmployeeResponse",
+    "Evidence",
+    "EvidenceSource",
+    "EvidenceSourceType",
     "IncidentDetailResponse",
     "IncidentResponse",
     "LoginRequest",
@@ -47,6 +58,7 @@ __all__ = [
     "ProjectResponse",
     "ProjectSummary",
     "ServiceResponse",
+    "SubQuestion",
     "TeamDetailResponse",
     "TeamResponse",
     "TicketResponse",
