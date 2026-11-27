@@ -6,6 +6,12 @@ Provides:
 - Specialist agents (agents/specialists/)
 """
 
+from agents.nodes import (
+    analyze_query,
+    analyze_query_node,
+    assess_complexity,
+    assess_complexity_node,
+)
 from agents.rules import (
     MAX_SUBQUESTIONS,
     AnalysisResult,
@@ -32,7 +38,11 @@ __all__ = [
     "RetrievalStrategy",
     "RoutingDecision",
     "SubQuestion",
+    "analyze_query",
+    "analyze_query_node",
     "analyze_query_rules",
+    "assess_complexity",
+    "assess_complexity_node",
     "classify_complexity",
     "decompose_query_rules",
     "detect_retrieval_strategy",
