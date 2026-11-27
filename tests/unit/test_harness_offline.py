@@ -89,7 +89,9 @@ def test_fake_llm_structured_json(fake_llm):
 
     # Custom structured response
     fake_llm.set_response("custom_struct", {"custom_prop": 123})
-    assert fake_llm.generate_structured("query with custom_struct") == {"custom_prop": 123}
+    assert fake_llm.generate_structured("query with custom_struct") == {
+        "custom_prop": 123
+    }
 
     # Default fallback structured object
     fallback = fake_llm.generate_structured("query with no schema")
@@ -144,9 +146,15 @@ def test_in_memory_vector_store(in_memory_vector_store, fake_llm):
 def test_in_memory_graph_store(in_memory_graph_store):
     """Test InMemoryGraphStore node insertion, edge traversal, and detail reporting."""
     # Add nodes
-    in_memory_graph_store.add_node("cust-01", label="Customer", properties={"name": "Acme Corp"})
-    in_memory_graph_store.add_node("srv-01", label="Service", properties={"name": "Payments API"})
-    in_memory_graph_store.add_node("inc-01", label="Incident", properties={"name": "INC-8891"})
+    in_memory_graph_store.add_node(
+        "cust-01", label="Customer", properties={"name": "Acme Corp"}
+    )
+    in_memory_graph_store.add_node(
+        "srv-01", label="Service", properties={"name": "Payments API"}
+    )
+    in_memory_graph_store.add_node(
+        "inc-01", label="Incident", properties={"name": "INC-8891"}
+    )
 
     # Add edges
     in_memory_graph_store.add_edge(
@@ -208,11 +216,15 @@ def test_fake_redis_fixture(fake_redis):
 
 def test_sqlite_session_fixture(db_session):
     """Test SQLite in-memory database session fixture."""
-    db_session.execute(text("CREATE TABLE test_items (id INTEGER PRIMARY KEY, name TEXT);"))
+    db_session.execute(
+        text("CREATE TABLE test_items (id INTEGER PRIMARY KEY, name TEXT);")
+    )
     db_session.execute(text("INSERT INTO test_items (name) VALUES ('Test Item 1');"))
     db_session.commit()
 
-    result = db_session.execute(text("SELECT name FROM test_items WHERE id = 1;")).scalar()
+    result = db_session.execute(
+        text("SELECT name FROM test_items WHERE id = 1;")
+    ).scalar()
     assert result == "Test Item 1"
 
 

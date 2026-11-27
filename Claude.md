@@ -487,7 +487,7 @@ Do not write "deployed" or "passes in CI" until it has.
 
 | Phase | Name | Status |
 |---|---|---|
-| 1 | Runtime skeleton (config, llm factory, protocols, health) | in progress (P1-1, P1-2, P1-3 complete) |
+| 1 | Runtime skeleton (config, llm factory, protocols, health) | complete ✅ |
 | 2 | Persistence and demo data (models, seed `sample_data/`) | not started |
 | 3 | Identity and request guards (JWT, RBAC, request-id, rate limit, audit) | not started |
 | 4 | Ingestion (parse, chunk, extract, vector + DB + graph) | not started |
