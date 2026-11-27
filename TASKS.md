@@ -103,7 +103,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | Task | Branch | Needs | Proves | Status |
 |------|--------|-------|--------|--------|
 | P7-1 · Complexity and routing rules (`agents/rules.py`) | `feature/policy-routing-rules` | P2-1 | F3, F5 | Completed ✅ |
-| P7-2 · Injection isolation and vendor note flagging | `feature/guardrails-injection-isolation` | P2-1 | N8 | Pending ❌ |
+| P7-2 · Injection isolation and vendor note flagging | `feature/guardrails-injection-isolation` | P2-1 | N8 | Completed ✅ |
 | P7-3 · Upload validation and secret scrub | `feature/guardrails-upload-scrub` | P2-1 | N7, N8 | Pending ❌ |
 | P7-4 · Observability tracer (`observability.py`) | `feature/observability-tracer` | P2-1 | F16, N9 | Pending ❌ |
 
