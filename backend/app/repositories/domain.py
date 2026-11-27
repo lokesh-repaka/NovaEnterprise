@@ -257,6 +257,22 @@ class DecisionRepository(BaseRepository[Decision]):
         )
         return list(self.db.scalars(stmt).all())
 
+    def list_decisions(
+        self,
+        skip: int = 0,
+        limit: int = 50,
+        status: str | None = None,
+        incident_id: str | None = None,
+    ) -> list[Decision]:
+        """List decisions with optional status and incident filters and pagination."""
+        stmt = select(Decision)
+        if status is not None:
+            stmt = stmt.where(Decision.status == status)
+        if incident_id is not None:
+            stmt = stmt.where(Decision.incident_id == incident_id)
+        stmt = stmt.order_by(Decision.created_at.desc()).offset(skip).limit(limit)
+        return list(self.db.scalars(stmt).all())
+
 
 class ProjectRepository(BaseRepository[Project]):
     """Repository for Project entities."""
@@ -281,6 +297,34 @@ class ProjectRepository(BaseRepository[Project]):
             .order_by(Project.created_at.desc())
         )
         return list(self.db.scalars(stmt).all())
+
+    def list_projects(
+        self,
+        skip: int = 0,
+        limit: int = 50,
+        status: str | None = None,
+        team_id: str | None = None,
+    ) -> list[Project]:
+        """List projects with optional status and owning team filters and pagination."""
+        stmt = select(Project)
+        if status is not None:
+            stmt = stmt.where(Project.status == status)
+        if team_id is not None:
+            stmt = stmt.where(Project.owner_team_id == team_id)
+        stmt = stmt.order_by(Project.created_at.desc()).offset(skip).limit(limit)
+        return list(self.db.scalars(stmt).all())
+
+    def get_with_relations(self, project_id: str) -> Project | None:
+        """Fetch project with owner team and tracked tickets eagerly loaded."""
+        stmt = (
+            select(Project)
+            .where(Project.id == project_id)
+            .options(
+                selectinload(Project.owner_team),
+                selectinload(Project.tickets),
+            )
+        )
+        return self.db.scalars(stmt).first()
 
 
 class TicketRepository(BaseRepository[Ticket]):
@@ -323,4 +367,26 @@ class TicketRepository(BaseRepository[Ticket]):
             .where(Ticket.priority == priority)
             .order_by(Ticket.created_at.desc())
         )
+        return list(self.db.scalars(stmt).all())
+
+    def list_tickets(
+        self,
+        skip: int = 0,
+        limit: int = 50,
+        status: str | None = None,
+        priority: str | None = None,
+        project_id: str | None = None,
+        assignee_id: str | None = None,
+    ) -> list[Ticket]:
+        """List tickets with optional status, priority, project, and assignee filters."""
+        stmt = select(Ticket)
+        if status is not None:
+            stmt = stmt.where(Ticket.status == status)
+        if priority is not None:
+            stmt = stmt.where(Ticket.priority == priority)
+        if project_id is not None:
+            stmt = stmt.where(Ticket.project_id == project_id)
+        if assignee_id is not None:
+            stmt = stmt.where(Ticket.assignee_id == assignee_id)
+        stmt = stmt.order_by(Ticket.created_at.desc()).offset(skip).limit(limit)
         return list(self.db.scalars(stmt).all())

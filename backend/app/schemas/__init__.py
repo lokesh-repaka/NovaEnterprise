@@ -9,18 +9,23 @@ from backend.app.schemas.auth import (
 )
 from backend.app.schemas.entities import (
     CustomerResponse,
+    DecisionResponse,
     DecisionSummary,
     EmployeeResponse,
     IncidentDetailResponse,
     IncidentResponse,
+    ProjectDetailResponse,
+    ProjectResponse,
     ProjectSummary,
     ServiceResponse,
     TeamDetailResponse,
     TeamResponse,
+    TicketResponse,
 )
 
 __all__ = [
     "CustomerResponse",
+    "DecisionResponse",
     "DecisionSummary",
     "DemoTokenRequest",
     "DemoUser",
@@ -28,10 +33,13 @@ __all__ = [
     "IncidentDetailResponse",
     "IncidentResponse",
     "LoginRequest",
+    "ProjectDetailResponse",
+    "ProjectResponse",
     "ProjectSummary",
     "ServiceResponse",
     "TeamDetailResponse",
     "TeamResponse",
+    "TicketResponse",
     "TokenResponse",
     "UserProfileResponse",
 ]
