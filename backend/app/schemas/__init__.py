@@ -35,6 +35,13 @@ from backend.app.schemas.entities import (
     TeamResponse,
     TicketResponse,
 )
+from backend.app.schemas.graph import (
+    CypherQueryRequest,
+    CypherQueryResponse,
+    GraphDataResponse,
+    GraphEdgeResponse,
+    GraphNodeResponse,
+)
 from backend.app.schemas.research import (
     ResearchCreateRequest,
     ResearchCreateResponse,
@@ -46,6 +53,8 @@ from backend.app.schemas.research import (
 __all__ = [
     "Citation",
     "CustomerResponse",
+    "CypherQueryRequest",
+    "CypherQueryResponse",
     "DecisionResponse",
     "DecisionSummary",
     "DemoTokenRequest",
@@ -58,6 +67,9 @@ __all__ = [
     "Evidence",
     "EvidenceSource",
     "EvidenceSourceType",
+    "GraphDataResponse",
+    "GraphEdgeResponse",
+    "GraphNodeResponse",
     "IncidentDetailResponse",
     "IncidentResponse",
     "LoginRequest",

@@ -161,7 +161,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 
 | Task | Branch | Needs | Proves | Status |
 |------|--------|-------|--------|--------|
-| P11-1 · Graph browsing, node expansion, and read-only Cypher | `feature/api-graph-explorer` | P6-3, P3-1 | F14 | Pending ❌ |
+| P11-1 · Graph browsing, node expansion, and read-only Cypher | `feature/api-graph-explorer` | P6-3, P3-1 | F14 | Completed ✅ |
 | P11-2 · Document delete approval gate and admin workflow | `feature/api-approval-workflow` | P5-4, P3-1 | F17 | Pending ❌ |
 | P11-3 · `make demo` — canonical question end-to-end runner | `feature/cli-demo-runner` | P11-1, P11-2, P10-4 | N4 | Pending ❌ |
 
@@ -312,8 +312,8 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 8 | Tiered memory system | 3 | 3 ✅ |
 | 9 | Specialist agents and workflow nodes | 8 | 8 ✅ |
 | 10 | LangGraph research workflow engine | 4 | 4 ✅ |
-| 11 | Graph explorer, documents, and approvals API | 3 | 0 ❌ |
+| 11 | Graph explorer, documents, and approvals API | 3 | 1 ⏳ |
 | 12 | Frontend console shell | 4 | 0 ❌ |
 | 13 | Research and graph UI screens | 4 | 0 ❌ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **39 (70%)** |
+| **Total** | | **56** | **40 (71%)** |
