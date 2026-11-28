@@ -5,7 +5,7 @@
 # Guaranteed 100% offline-compatible by default.
 # ==============================================================================
 
-.PHONY: help setup backend test test-cov eval lint format demo ingest seed-graph clean frontend-dev frontend-build frontend-test frontend-lint
+.PHONY: help setup backend test test-cov eval lint format demo ingest seed-graph clean frontend-dev frontend-build frontend-test frontend-lint docker-build-backend docker-build-frontend docker-build
 
 PYTHON ?= python3
 PORT ?= 8001
@@ -69,3 +69,12 @@ frontend-test: ## Run frontend Vitest test suite
 
 frontend-lint: ## Run frontend ESLint and TypeScript checks
 	cd frontend && npm run lint && npm run type-check
+
+docker-build-backend: ## Build backend Docker container image
+	docker build -f Dockerfile.backend -t nova-backend:latest .
+
+docker-build-frontend: ## Build frontend Next.js standalone container image
+	docker build -f Dockerfile.frontend -t nova-frontend:latest .
+
+docker-build: docker-build-backend docker-build-frontend ## Build both container images
+

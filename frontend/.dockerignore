@@ -1,0 +1,27 @@
+# ==============================================================================
+# Frontend .dockerignore for NovaEnterprise
+# ==============================================================================
+
+# Version Control
+.git
+.gitignore
+
+# Node Dependencies & Build Artifacts
+node_modules
+.next
+dist
+build
+coverage
+
+# Environment & Local Secrets
+.env
+.env*.local
+*.pem
+*.key
+
+# Caches & Logs
+.npm
+.eslintcache
+tsconfig.tsbuildinfo
+*.log
+.DS_Store
