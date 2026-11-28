@@ -1,0 +1,79 @@
+[
+  {
+    "id": "eval-01-canonical",
+    "name": "Canonical 4-Way Multi-Hop Research Question",
+    "description": "Multi-hop query spanning SQL incidents, Graph service dependencies and ownership, and Vector document decisions.",
+    "question": "Which customers were impacted by the Payments API last quarter, what incidents occurred, which teams own those services, and what decisions were taken to prevent recurrence?",
+    "expected_complexity": "complex",
+    "expected_strategies": ["graph", "sql", "vector"],
+    "requires_multi_hop": true,
+    "expected_hops": [
+      "customers_impacted",
+      "incidents_occurred",
+      "team_ownership",
+      "prevention_decisions"
+    ],
+    "expected_sql_tables": ["incidents"],
+    "expected_cypher_relationships": ["OWNED_BY", "DEPENDS_ON"],
+    "expected_key_facts": [
+      "Payments API",
+      "INC-2031",
+      "team-payments",
+      "webhook"
+    ],
+    "min_citations": 1
+  },
+  {
+    "id": "eval-02-data-retention",
+    "name": "Single-Store Policy Lookup",
+    "description": "Single-store unstructured vector search into enterprise data retention policy documents with zero SQL or Graph execution.",
+    "question": "What is our data retention policy?",
+    "expected_complexity": "simple",
+    "expected_strategies": ["vector"],
+    "requires_multi_hop": false,
+    "expected_hops": ["retention_policy"],
+    "expected_sql_tables": [],
+    "expected_cypher_relationships": [],
+    "expected_key_facts": [
+      "POL-DAT-001",
+      "7 years",
+      "90 days",
+      "180 days"
+    ],
+    "min_citations": 1
+  },
+  {
+    "id": "eval-03-incidents-lookup",
+    "name": "Relational SQL Incident Query",
+    "description": "Structured SQL query filtering relational incidents table for Payments API outages.",
+    "question": "What incidents affected the Payments API?",
+    "expected_complexity": "moderate",
+    "expected_strategies": ["sql"],
+    "requires_multi_hop": false,
+    "expected_hops": ["incident_records"],
+    "expected_sql_tables": ["incidents"],
+    "expected_cypher_relationships": [],
+    "expected_key_facts": [
+      "INC-2031",
+      "Payments API"
+    ],
+    "min_citations": 1
+  },
+  {
+    "id": "eval-04-team-ownership",
+    "name": "Knowledge Graph Relationship Traversal",
+    "description": "Direct graph traversal identifying team ownership and upstream dependencies for Payments API.",
+    "question": "Which team owns the Payments API service?",
+    "expected_complexity": "moderate",
+    "expected_strategies": ["graph"],
+    "requires_multi_hop": false,
+    "expected_hops": ["service_ownership"],
+    "expected_sql_tables": [],
+    "expected_cypher_relationships": ["OWNED_BY"],
+    "expected_key_facts": [
+      "team-payments",
+      "Payments API"
+    ],
+    "min_citations": 1
+  }
+]

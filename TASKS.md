@@ -202,7 +202,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 
 | Task | Branch | Needs | Proves | Status |
 |------|--------|-------|--------|--------|
-| P14-1 · Evaluation harness over `eval_cases.json` (6 CI thresholds) | `feature/eval-metrics-suite` | Phase 10 ✓ | §3.3 | Pending ❌ |
+| P14-1 · Evaluation harness over `eval_cases.json` (6 CI thresholds) | `feature/eval-metrics-suite` | Phase 10 ✓ | §3.3 | Completed ✅ |
 | P14-2 · Full offline integration test suite (`make test`) | `feature/test-suite-integration` | Phase 11 ✓ | F1–F17, N1–N9 | Pending ❌ |
 | P14-3 · Backend and frontend Dockerfiles | `feature/docker-container-images` | P14-2 | — | Pending ❌ |
 | P14-4 · Multi-service Docker Compose stack | `feature/docker-compose-stack` | P14-3 | — | Pending ❌ |
@@ -315,5 +315,5 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 11 | Graph explorer, documents, and approvals API | 3 | 3 ✅ |
 | 12 | Frontend console shell | 4 | 4 ✅ |
 | 13 | Research and graph UI screens | 4 | 4 ✅ |
-| 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **50 (89%)** |
+| 14 | Evaluation, testing, and delivery | 5 | 1 ⏳ |
+| **Total** | | **56** | **51 (91%)** |
