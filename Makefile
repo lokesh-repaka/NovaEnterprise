@@ -26,10 +26,10 @@ backend: ## Start FastAPI application on :8001 with reload
 	uvicorn backend.app.main:app --host $(HOST) --port $(PORT) --reload
 
 test: ## Run full offline pytest test suite (N1)
-	$(PYTHON) -m pytest tests/unit/ -v
+	$(PYTHON) -m pytest tests/unit/ tests/api/ tests/evaluation/ tests/integration/ -v
 
 test-cov: ## Run offline pytest suite with line-by-line coverage
-	$(PYTHON) -m pytest --cov=backend.app --cov=tests.mocks --cov-report=term-missing tests/unit/
+	$(PYTHON) -m pytest --cov=backend.app --cov=rag --cov=agents --cov=memory --cov-report=term-missing tests/unit/ tests/api/ tests/evaluation/ tests/integration/
 
 eval: ## Run CI evaluation harness over eval_cases.json (Claude.md §3.3)
 	$(PYTHON) -m tests.evaluation.evaluate
