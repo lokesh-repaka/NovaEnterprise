@@ -1,0 +1,48 @@
+name: NovaEnterprise Production Release
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+
+jobs:
+  build-and-tag-images:
+    name: Build & Package Container Images (Git SHA)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: actions/setup-buildx-action@v3
+
+      - name: Extract Metadata (Git SHA & Tags)
+        id: meta
+        run: |
+          echo "SHA_TAG=${{ github.sha }}" >> $GITHUB_OUTPUT
+          echo "SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)" >> $GITHUB_OUTPUT
+
+      - name: Build Backend Docker image
+        run: |
+          docker build \
+            -f Dockerfile.backend \
+            -t ghcr.io/${{ github.repository }}/backend:${{ steps.meta.outputs.SHA_TAG }} \
+            -t ghcr.io/${{ github.repository }}/backend:${{ steps.meta.outputs.SHORT_SHA }} \
+            -t ghcr.io/${{ github.repository }}/backend:latest \
+            .
+
+      - name: Build Frontend Docker image
+        run: |
+          docker build \
+            -f Dockerfile.frontend \
+            -t ghcr.io/${{ github.repository }}/frontend:${{ steps.meta.outputs.SHA_TAG }} \
+            -t ghcr.io/${{ github.repository }}/frontend:${{ steps.meta.outputs.SHORT_SHA }} \
+            -t ghcr.io/${{ github.repository }}/frontend:latest \
+            .
+
+      - name: Verify images created
+        run: |
+          docker image ls | grep "nova" || docker image ls
