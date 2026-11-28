@@ -25,8 +25,9 @@ export interface TokenResponse {
 }
 
 export interface LoginRequest {
-  username: string;
+  username_or_email: string;
   password?: string;
+  username?: string;
 }
 
 export interface UserProfileResponse {
