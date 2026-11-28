@@ -5,7 +5,7 @@
 # Guaranteed 100% offline-compatible by default.
 # ==============================================================================
 
-.PHONY: help setup backend test test-cov lint format demo ingest seed-graph clean frontend-dev frontend-build frontend-test frontend-lint
+.PHONY: help setup backend test test-cov eval lint format demo ingest seed-graph clean frontend-dev frontend-build frontend-test frontend-lint
 
 PYTHON ?= python3
 PORT ?= 8001
@@ -30,6 +30,9 @@ test: ## Run full offline pytest test suite (N1)
 
 test-cov: ## Run offline pytest suite with line-by-line coverage
 	$(PYTHON) -m pytest --cov=backend.app --cov=tests.mocks --cov-report=term-missing tests/unit/
+
+eval: ## Run CI evaluation harness over eval_cases.json (Claude.md §3.3)
+	$(PYTHON) -m tests.evaluation.evaluate
 
 lint: ## Execute static analysis via ruff and mypy
 	ruff check backend/ tests/ rag/ agents/

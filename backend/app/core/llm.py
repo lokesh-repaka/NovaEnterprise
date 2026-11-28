@@ -19,6 +19,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import threading
 from enum import Enum
 from typing import Any, Protocol, runtime_checkable
@@ -124,17 +125,25 @@ class FakeLLMClient:
 
         # Specialized synthesized response for synthesis node
         if "synthesize" in prompt.lower() or "synthesize_answer" in prompt.lower():
+            available_indices = [
+                int(x) for x in re.findall(r"\[(\d+)\] Store:", prompt)
+            ]
+            max_idx = max(available_indices) if available_indices else 1
+            c1 = min(1, max_idx)
+            c2 = min(2, max_idx)
+            c3 = min(3, max_idx)
+
             if "retention" in prompt.lower():
                 return (
-                    "According to enterprise policy POL-DAT-001 [1], transactional payment records "
-                    "are retained for 7 years [1], system telemetry and access logs are retained in hot storage "
-                    "for 90 days [2], and research sessions are retained for 180 days [3]."
+                    f"According to enterprise policy POL-DAT-001 [{c1}], transactional payment records "
+                    f"are retained for 7 years [{c1}], system telemetry and access logs are retained in hot storage "
+                    f"for 90 days [{c2}], and research sessions are retained for 180 days [{c3}]."
                 )
             return (
-                "During Fiscal Q2 2026, three enterprise customers were impacted by the "
-                "Payments API outage INC-2031 [1]: Acme Corp, TechFlow, and FinEdge [2]. "
-                "The service is Tier-1 and owned by team-payments [3]. "
-                "The root cause was identified as unhandled webhook connection timeouts [1]."
+                f"During Fiscal Q2 2026, three enterprise customers were impacted by the "
+                f"Payments API outage INC-2031 [{c1}]: Acme Corp, TechFlow, and FinEdge [{c2}]. "
+                f"The service is Tier-1 and owned by team-payments [{c3}]. "
+                f"The root cause was identified as unhandled webhook connection timeouts [{c1}]."
             )
 
         # Default synthetic text completion
