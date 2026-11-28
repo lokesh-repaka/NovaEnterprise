@@ -175,7 +175,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | Task | Branch | Needs | Proves | Status |
 |------|--------|-------|--------|--------|
 | P12-1 · Next.js 15 App Router, layout, and navigation | `feature/frontend-app-shell` | P4-1 | — | Completed ✅ |
-| P12-2 · Typed API client mirroring `docs/API_CONTRACT.md` | `feature/frontend-api-client` | P4-1 | — | Pending ❌ |
+| P12-2 · Typed API client mirroring `docs/API_CONTRACT.md` | `feature/frontend-api-client` | P4-1 | — | Completed ✅ |
 | P12-3 · Auth state, JWT handling, and role-aware UI | `feature/frontend-auth-layout` | P12-1, P12-2, P3-2 | — | Pending ❌ |
 | P12-4 · Read-only browse views (customers, incidents, decisions) | `feature/frontend-browse-views` | P12-3 | — | Pending ❌ |
 
@@ -313,7 +313,7 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 9 | Specialist agents and workflow nodes | 8 | 8 ✅ |
 | 10 | LangGraph research workflow engine | 4 | 4 ✅ |
 | 11 | Graph explorer, documents, and approvals API | 3 | 3 ✅ |
-| 12 | Frontend console shell | 4 | 1 ⏳ |
+| 12 | Frontend console shell | 4 | 2 ⏳ |
 | 13 | Research and graph UI screens | 4 | 0 ❌ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **43 (77%)** |
+| **Total** | | **56** | **44 (79%)** |
