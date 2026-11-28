@@ -1,7 +1,7 @@
 You have access to the project's authoritative documentation: `TASKS.md`, `CLAUDE.md`, `GEMINI.md`, `.agents/rules/`, and architecture specifications in `docs/` (`HLD_*.md`, `LLD_*.md`, `PRD_*.md`, `BRD_*.md`, `FRD_*.md`).
 
 
-Go ahead and complete **P13-4 · Document manager, upload dropzone, and approval modal** as defined in `TASKS.md`.
+Go ahead and complete **P14-1 · Evaluation harness over `eval_cases.json` (6 CI thresholds)** as defined in `TASKS.md`.
 
 
 ---

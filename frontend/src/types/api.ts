@@ -254,7 +254,7 @@ export interface DocumentResponse {
   content_hash: string;
   chunk_count: number;
   flagged_injection: boolean;
-  status: "indexed" | "pending" | "flagged";
+  status: "indexed" | "pending" | "flagged" | string;
   created_at: string;
 }
 
@@ -263,13 +263,23 @@ export interface DocumentChunkResponse {
   chunk_index: number;
   text: string;
   embedding_id: string | null;
+  metadata_json?: Record<string, unknown>;
 }
 
 export interface DocumentDetailResponse extends DocumentResponse {
   chunks: DocumentChunkResponse[];
 }
 
-export interface DocumentUploadResponse extends DocumentResponse {
+export interface DocumentUploadResponse {
+  document_id?: string;
+  id?: string;
+  filename: string;
+  content_hash: string;
+  chunk_count: number;
+  entities_extracted?: number;
+  flagged_injection: boolean;
+  status: "indexed" | "pending" | "flagged" | string;
+  created_at: string;
   message?: string;
 }
 
@@ -281,7 +291,10 @@ export interface DocumentDeletePendingResponse {
 
 export interface DocumentDeleteExecutedResponse {
   status: "deleted";
-  deleted_chunks_count: number;
+  deleted_document_id?: string;
+  pruned_chunks?: number;
+  deleted_chunks_count?: number;
+  message?: string;
 }
 
 export type DocumentDeleteResponse =
@@ -303,7 +316,9 @@ export interface ApprovalRequestResponse {
 }
 
 export interface ApprovalDecisionRequest {
-  status: "approved" | "rejected";
+  decision?: "approved" | "rejected";
+  reason?: string;
+  status?: "approved" | "rejected";
   decision_notes?: string;
 }
 

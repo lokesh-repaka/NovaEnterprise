@@ -480,11 +480,15 @@ export class ApiClient {
       id: string,
       req: ApprovalDecisionRequest
     ): Promise<ApprovalDecisionResponse> => {
+      const payload = {
+        decision: req.decision || (req.status as string) || "approved",
+        reason: req.reason || req.decision_notes || undefined,
+      };
       return this.request<ApprovalDecisionResponse>(
         `/approvals/${encodeURIComponent(id)}/decide`,
         {
           method: "POST",
-          body: JSON.stringify(req),
+          body: JSON.stringify(payload),
         }
       );
     },
