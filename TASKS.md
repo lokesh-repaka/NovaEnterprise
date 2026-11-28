@@ -205,7 +205,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 | P14-1 · Evaluation harness over `eval_cases.json` (6 CI thresholds) | `feature/eval-metrics-suite` | Phase 10 ✓ | §3.3 | Completed ✅ |
 | P14-2 · Full offline integration test suite (`make test`) | `feature/test-suite-integration` | Phase 11 ✓ | F1–F17, N1–N9 | Completed ✅ |
 | P14-3 · Backend and frontend Dockerfiles | `feature/docker-container-images` | P14-2 | — | Completed ✅ |
-| P14-4 · Multi-service Docker Compose stack | `feature/docker-compose-stack` | P14-3 | — | Pending ❌ |
+| P14-4 · Multi-service Docker Compose stack | `feature/docker-compose-stack` | P14-3 | — | Completed ✅ |
 | P14-5 · CI workflow configs and production runbooks | `feature/delivery-ci-runbooks` | P14-3, P14-4 | — | Pending ❌ |
 
 ---

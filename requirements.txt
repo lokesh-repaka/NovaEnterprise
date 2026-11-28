@@ -13,6 +13,8 @@ pydantic-settings>=2.5.0
 sqlalchemy>=2.0.30,<2.1.0
 alembic>=1.13.0
 sqlparse>=0.5.0
+psycopg2-binary>=2.9.9
+
 
 # Graph RAG & Document Parsing
 networkx>=3.3
