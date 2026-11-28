@@ -1,5 +1,5 @@
 import React from "react";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import ResearchSessionPage from "../page";
 import { apiClient } from "@/api/client";
@@ -164,5 +164,34 @@ describe("ResearchSessionPage Component", () => {
     });
 
     expect(screen.getByText(/Neo4j traversal timeout after 3 retries/i)).toBeInTheDocument();
+  });
+
+  it("renders 13-node timeline and switches to live telemetry stream tab", async () => {
+    vi.spyOn(apiClient.research, "get").mockResolvedValue(mockCompletedSession);
+    vi.spyOn(apiClient.research, "getEvents").mockResolvedValue([
+      {
+        event_id: 1,
+        session_id: sessionId,
+        node_name: "assess_complexity",
+        event_type: "node_complete",
+        payload: { complexity: "complex" },
+        latency_ms: 120,
+        timestamp: "2026-11-27T12:00:01Z",
+      },
+    ]);
+
+    render(<ResearchSessionPage params={Promise.resolve({ id: sessionId })} />);
+
+    // 13-node timeline and progress bar are immediately present
+    expect(screen.getByTestId("node-timeline")).toBeInTheDocument();
+    expect(screen.getByTestId("workflow-progress-bar")).toBeInTheDocument();
+
+    // Click Live Telemetry Stream tab
+    const eventTabBtn = screen.getByRole("button", { name: /Live Telemetry Stream/i });
+    fireEvent.click(eventTabBtn);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("live-event-stream")).toBeInTheDocument();
+    });
   });
 });

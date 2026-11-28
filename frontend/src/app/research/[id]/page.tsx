@@ -14,13 +14,18 @@ import {
   RotateCw,
   ShieldCheck,
   Zap,
+  ListOrdered,
+  Radio,
 } from "lucide-react";
 import { apiClient } from "@/api/client";
+import { NodeTimeline } from "@/components/research/NodeTimeline";
+import { LiveEventTracer } from "@/components/research/LiveEventTracer";
 import type {
   ResearchSessionResponse,
   CitationItem,
   SubQuestionItem,
   EvidenceSourceType,
+  WorkflowEventResponse,
 } from "@/types/api";
 
 interface PageProps {
@@ -30,9 +35,12 @@ interface PageProps {
 export default function ResearchSessionPage({ params }: PageProps) {
   const [sessionId, setSessionId] = useState<string>("");
   const [session, setSession] = useState<ResearchSessionResponse | null>(null);
+  const [events, setEvents] = useState<WorkflowEventResponse[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [fetchError, setFetchError] = useState<string | null>(null);
   const [selectedCitationId, setSelectedCitationId] = useState<number | null>(null);
+  const [selectedNode, setSelectedNode] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<"synthesis" | "events">("synthesis");
 
   // Safely resolve Next.js 15 async params without suspending the component
   useEffect(() => {
@@ -63,6 +71,17 @@ export default function ResearchSessionPage({ params }: PageProps) {
     }
   }, []);
 
+  const fetchEvents = useCallback(async (id: string) => {
+    try {
+      const evts = await apiClient.research.getEvents(id);
+      setEvents(evts);
+      return evts;
+    } catch {
+      // Non-blocking telemetry (Claude.md §16: Telemetry must never break a run)
+      return [];
+    }
+  }, []);
+
   useEffect(() => {
     if (!sessionId) return;
 
@@ -70,7 +89,11 @@ export default function ResearchSessionPage({ params }: PageProps) {
     let timer: NodeJS.Timeout | null = null;
 
     const poll = async () => {
-      const data = await fetchSession(sessionId);
+      const [data] = await Promise.all([
+        fetchSession(sessionId),
+        fetchEvents(sessionId),
+      ]);
+
       if (!isMounted) return;
 
       // Continue polling every 2000ms while status is running (Claude.md §11)
@@ -85,7 +108,7 @@ export default function ResearchSessionPage({ params }: PageProps) {
       isMounted = false;
       if (timer) clearTimeout(timer);
     };
-  }, [sessionId, fetchSession]);
+  }, [sessionId, fetchSession, fetchEvents]);
 
   const getSourceIcon = (sourceType: EvidenceSourceType) => {
     switch (sourceType) {
@@ -235,206 +258,239 @@ export default function ResearchSessionPage({ params }: PageProps) {
         </div>
       )}
 
-      {/* Main Two-Column Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Column (2 Cols): Synthesized Answer & Decomposed Sub-Questions */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Synthesized Research Report */}
-          <div className="rounded-xl border border-gray-800 bg-gray-900/60 p-5 space-y-4">
-            <div className="flex items-center justify-between border-b border-gray-800 pb-3">
-              <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
-                <Zap size={16} className="text-emerald-400" />
-                Synthesized Research Report
-              </h3>
-              {session?.status === "running" && (
-                <span className="flex items-center text-xs font-mono text-amber-400">
-                  <RotateCw size={12} className="animate-spin mr-1" />
-                  Generating...
-                </span>
+      {/* 13-Node LangGraph Timeline & Progress Bar (P13-2, F16) */}
+      <NodeTimeline
+        events={events}
+        sessionStatus={session?.status || "running"}
+        selectedNode={selectedNode}
+        onSelectNode={(nodeId) => {
+          setSelectedNode(nodeId);
+          if (nodeId) {
+            setActiveTab("events");
+          }
+        }}
+      />
+
+      {/* Operational View Switcher Tabs */}
+      <div className="flex items-center space-x-2 border-b border-gray-800 pb-2">
+        <button
+          type="button"
+          onClick={() => setActiveTab("synthesis")}
+          className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            activeTab === "synthesis"
+              ? "bg-blue-600 text-white shadow-sm"
+              : "text-gray-400 hover:text-white hover:bg-gray-800"
+          }`}
+        >
+          <Zap size={14} />
+          <span>Synthesis & Citations</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab("events")}
+          className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+            activeTab === "events"
+              ? "bg-blue-600 text-white shadow-sm"
+              : "text-gray-400 hover:text-white hover:bg-gray-800"
+          }`}
+        >
+          <Radio size={14} />
+          <span>Live Telemetry Stream ({events.length})</span>
+        </button>
+      </div>
+
+      {/* Tab 1: Synthesis & Citations View */}
+      {activeTab === "synthesis" && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column (2 Cols): Synthesized Answer & Decomposed Sub-Questions */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Synthesized Research Report */}
+            <div className="rounded-xl border border-gray-800 bg-gray-900/60 p-5 space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-800 pb-3">
+                <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+                  <Zap size={16} className="text-emerald-400" />
+                  Synthesized Research Report
+                </h3>
+                {session?.status === "running" && (
+                  <span className="flex items-center text-xs font-mono text-amber-400">
+                    <RotateCw size={12} className="animate-spin mr-1" />
+                    Generating...
+                  </span>
+                )}
+              </div>
+
+              {session?.status === "running" && !session.answer && (
+                <div className="space-y-3 py-4 text-center">
+                  <div className="inline-flex items-center justify-center p-3 rounded-full bg-amber-950/30 text-amber-400 mb-2">
+                    <Activity size={24} className="animate-pulse" />
+                  </div>
+                  <p className="text-xs text-gray-300 leading-relaxed">
+                    Workflow active. The database state will automatically refresh every 2 seconds.
+                  </p>
+                  <p className="text-xs text-gray-500 font-mono">
+                    LangGraph 13-node pipeline is orchestrating retrieval routes...
+                  </p>
+                </div>
+              )}
+
+              {session?.answer && (
+                <div className="text-sm text-gray-200 leading-relaxed space-y-3 font-sans">
+                  <p className="whitespace-pre-wrap">{session.answer}</p>
+                </div>
+              )}
+
+              {session?.status === "failed" && !session.answer && (
+                <p className="text-xs text-gray-400 italic">
+                  Report generation halted due to session failure.
+                </p>
               )}
             </div>
 
-            {session?.status === "running" && !session.answer && (
-              <div className="space-y-3 py-4 text-center">
-                <div className="inline-flex items-center justify-center p-3 rounded-full bg-amber-950/30 text-amber-400 mb-2">
-                  <Activity size={24} className="animate-pulse" />
+            {/* Decomposed Sub-Questions and Routing Strategies */}
+            {session?.sub_questions && session.sub_questions.length > 0 && (
+              <div className="rounded-xl border border-gray-800 bg-gray-900/60 p-5 space-y-4">
+                <div className="flex items-center justify-between border-b border-gray-800 pb-3">
+                  <h3 className="text-sm font-semibold text-white tracking-tight">
+                    Decomposed Sub-Questions & Routing
+                  </h3>
+                  <span className="text-xs font-mono text-gray-400">
+                    {session.sub_questions.length} queries
+                  </span>
                 </div>
-                <p className="text-xs text-gray-300 leading-relaxed">
-                  Workflow active. The database state will automatically refresh every 2 seconds.
-                </p>
-                <p className="text-xs text-gray-500 font-mono">
-                  LangGraph 13-node pipeline is orchestrating retrieval routes...
-                </p>
-              </div>
-            )}
 
-            {session?.answer && (
-              <div className="text-sm text-gray-200 leading-relaxed space-y-3 font-sans">
-                <p className="whitespace-pre-wrap">{session.answer}</p>
-              </div>
-            )}
+                <div className="space-y-3">
+                  {session.sub_questions.map((sq: SubQuestionItem) => (
+                    <div
+                      key={sq.id}
+                      className="p-3.5 rounded-lg border border-gray-800 bg-gray-950/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-gray-700 transition-colors"
+                    >
+                      <div className="space-y-1">
+                        <p className="text-xs font-mono text-gray-400">ID: {sq.id}</p>
+                        <p className="text-sm font-medium text-white">{sq.question}</p>
+                      </div>
 
-            {session?.status === "failed" && !session.answer && (
-              <p className="text-xs text-gray-400 italic">
-                Report generation halted due to session failure.
-              </p>
-            )}
-          </div>
-
-          {/* Decomposed Sub-Questions and Routing Strategies */}
-          {session?.sub_questions && session.sub_questions.length > 0 && (
-            <div className="rounded-xl border border-gray-800 bg-gray-900/60 p-5 space-y-4">
-              <div className="flex items-center justify-between border-b border-gray-800 pb-3">
-                <h3 className="text-sm font-semibold text-white tracking-tight">
-                  Decomposed Sub-Questions & Routing
-                </h3>
-                <span className="text-xs font-mono text-gray-400">
-                  {session.sub_questions.length} queries
-                </span>
-              </div>
-
-              <div className="space-y-3">
-                {session.sub_questions.map((sq: SubQuestionItem) => (
-                  <div
-                    key={sq.id}
-                    className="p-3.5 rounded-lg border border-gray-800 bg-gray-950/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-gray-700 transition-colors"
-                  >
-                    <div className="space-y-1">
-                      <p className="text-xs font-mono text-gray-400">ID: {sq.id}</p>
-                      <p className="text-sm font-medium text-white">{sq.question}</p>
-                    </div>
-
-                    <div className="flex items-center space-x-2 shrink-0">
-                      <span className="px-2 py-0.5 rounded text-xs font-mono font-medium bg-indigo-950/60 text-indigo-300 border border-indigo-800/40">
-                        {sq.strategy}
-                      </span>
-                      <span
-                        className={`px-2 py-0.5 rounded text-xs font-mono capitalize ${
-                          sq.status === "answered"
-                            ? "bg-emerald-950/60 text-emerald-300 border border-emerald-800/40"
-                            : sq.status === "failed"
-                            ? "bg-rose-950/60 text-rose-300 border border-rose-800/40"
-                            : "bg-gray-800 text-gray-300 border border-gray-700"
-                        }`}
-                      >
-                        {sq.status}
-                      </span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-
-        {/* Right Column (1 Col): Citations & Telemetry */}
-        <div className="space-y-6">
-          {/* Verified Citations List */}
-          <div className="rounded-xl border border-gray-800 bg-gray-900/60 p-5 space-y-4">
-            <div className="flex items-center justify-between border-b border-gray-800 pb-3">
-              <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
-                <ShieldCheck size={16} className="text-indigo-400" />
-                Verified Citations
-              </h3>
-              <span className="text-xs font-mono text-gray-400">
-                {session?.citations?.length || 0} citations
-              </span>
-            </div>
-
-            {session?.citations && session.citations.length > 0 ? (
-              <div className="space-y-3">
-                {session.citations.map((c: CitationItem) => (
-                  <div
-                    key={c.citation_id}
-                    onClick={() =>
-                      setSelectedCitationId(
-                        selectedCitationId === c.citation_id ? null : c.citation_id
-                      )
-                    }
-                    className={`p-3 rounded-lg border transition-all cursor-pointer ${
-                      selectedCitationId === c.citation_id
-                        ? "border-emerald-600/80 bg-emerald-950/20"
-                        : "border-gray-800 bg-gray-950/50 hover:border-gray-700"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center space-x-2">
-                        <span className="px-1.5 py-0.5 rounded text-xs font-mono font-bold bg-gray-800 text-emerald-400">
-                          [{c.citation_id}]
+                      <div className="flex items-center space-x-2 shrink-0">
+                        <span className="px-2 py-0.5 rounded text-xs font-mono font-medium bg-indigo-950/60 text-indigo-300 border border-indigo-800/40">
+                          {sq.strategy}
                         </span>
-                        <span className="inline-flex items-center space-x-1 text-xs font-mono text-gray-400">
-                          {getSourceIcon(c.source_type)}
-                          <span>{c.source_type.toUpperCase()}</span>
+                        <span
+                          className={`px-2 py-0.5 rounded text-xs font-mono capitalize ${
+                            sq.status === "answered"
+                              ? "bg-emerald-950/60 text-emerald-300 border border-emerald-800/40"
+                              : sq.status === "failed"
+                              ? "bg-rose-950/60 text-rose-300 border border-rose-800/40"
+                              : "bg-gray-800 text-gray-300 border border-gray-700"
+                          }`}
+                        >
+                          {sq.status}
                         </span>
                       </div>
-                      <span className="text-xs font-mono text-gray-500">
-                        {c.evidence_id}
-                      </span>
                     </div>
-
-                    <p className="text-xs text-gray-300 font-medium leading-relaxed mb-2">
-                      {c.snippet}
-                    </p>
-
-                    <div className="pt-2 border-t border-gray-800/80">
-                      <p className="text-[11px] font-mono text-gray-400 break-all">
-                        {c.locator}
-                      </p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-xs text-gray-400 italic py-2">
-                {session?.status === "running"
-                  ? "Awaiting citation verification..."
-                  : "No citations recorded for this session."}
-              </p>
-            )}
-          </div>
-
-          {/* 13-Node Graph Telemetry & Polling Status */}
-          <div className="rounded-xl border border-gray-800 bg-gray-900/60 p-5 space-y-4">
-            <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
-              <Activity size={16} className="text-blue-400" />
-              13-Node Graph Telemetry
-            </h3>
-
-            {session?.status === "running" ? (
-              <div className="flex items-center space-x-2 text-xs text-emerald-400 font-mono">
-                <Activity size={14} className="animate-spin text-emerald-400" />
-                <span>Polling /api/v1/research/...</span>
-              </div>
-            ) : (
-              <div className="flex items-center space-x-2 text-xs text-gray-400 font-mono">
-                <CheckCircle2 size={14} className="text-gray-500" />
-                <span>Polling inactive (terminal state reached)</span>
-              </div>
-            )}
-
-            {session?.strategies_used && session.strategies_used.length > 0 && (
-              <div className="space-y-1.5 pt-2 border-t border-gray-800">
-                <p className="text-xs font-mono text-gray-400">Active Routing Strategies:</p>
-                <div className="flex flex-wrap gap-1.5">
-                  {session.strategies_used.map((st: string) => (
-                    <span
-                      key={st}
-                      className="px-2 py-0.5 rounded text-[11px] font-mono bg-gray-800 text-indigo-300 border border-gray-700"
-                    >
-                      Route: {st}
-                    </span>
                   ))}
                 </div>
               </div>
             )}
+          </div>
 
-            <div className="pt-2 border-t border-gray-800 text-[11px] font-mono text-gray-400 space-y-1">
-              <div>Created: {session?.created_at ? new Date(session.created_at).toLocaleTimeString() : "--"}</div>
-              <div>Updated: {session?.updated_at ? new Date(session.updated_at).toLocaleTimeString() : "--"}</div>
+          {/* Right Column (1 Col): Citations & Telemetry */}
+          <div className="space-y-6">
+            {/* Verified Citations List */}
+            <div className="rounded-xl border border-gray-800 bg-gray-900/60 p-5 space-y-4">
+              <div className="flex items-center justify-between border-b border-gray-800 pb-3">
+                <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+                  <ShieldCheck size={16} className="text-indigo-400" />
+                  Verified Citations
+                </h3>
+                <span className="text-xs font-mono text-gray-400">
+                  {session?.citations?.length || 0} citations
+                </span>
+              </div>
+
+              {session?.citations && session.citations.length > 0 ? (
+                <div className="space-y-3">
+                  {session.citations.map((c: CitationItem) => (
+                    <div
+                      key={c.citation_id}
+                      onClick={() =>
+                        setSelectedCitationId(
+                          selectedCitationId === c.citation_id ? null : c.citation_id
+                        )
+                      }
+                      className={`p-3 rounded-lg border transition-all cursor-pointer ${
+                        selectedCitationId === c.citation_id
+                          ? "border-emerald-600/80 bg-emerald-950/20"
+                          : "border-gray-800 bg-gray-950/50 hover:border-gray-700"
+                      }`}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center space-x-2">
+                          <span className="px-1.5 py-0.5 rounded text-xs font-mono font-bold bg-gray-800 text-emerald-400">
+                            [{c.citation_id}]
+                          </span>
+                          <span className="inline-flex items-center space-x-1 text-xs font-mono text-gray-400">
+                            {getSourceIcon(c.source_type)}
+                            <span>{c.source_type.toUpperCase()}</span>
+                          </span>
+                        </div>
+                        <span className="text-xs font-mono text-gray-500">
+                          {c.evidence_id}
+                        </span>
+                      </div>
+
+                      <p className="text-xs text-gray-300 font-medium leading-relaxed mb-2">
+                        {c.snippet}
+                      </p>
+
+                      <div className="pt-2 border-t border-gray-800/80">
+                        <p className="text-[11px] font-mono text-gray-400 break-all">
+                          {c.locator}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-xs text-gray-400 italic py-2">
+                  {session?.status === "running"
+                    ? "Awaiting citation verification..."
+                    : "No citations recorded for this session."}
+                </p>
+              )}
+            </div>
+
+            {/* Quick Telemetry Link Card */}
+            <div className="rounded-xl border border-gray-800 bg-gray-900/60 p-5 space-y-3">
+              <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
+                <Activity size={16} className="text-blue-400" />
+                Telemetry Summary
+              </h3>
+              <p className="text-xs text-gray-400">
+                {events.length} workflow transition events captured in database.
+              </p>
+              <button
+                type="button"
+                onClick={() => setActiveTab("events")}
+                className="w-full py-2 px-3 text-xs font-mono font-medium rounded-lg bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 transition-colors flex items-center justify-center space-x-1.5"
+              >
+                <Radio size={13} />
+                <span>Open Live Event Tracer</span>
+              </button>
             </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {/* Tab 2: Live Event Tracer & Timeline View (P13-2, F16) */}
+      {activeTab === "events" && (
+        <LiveEventTracer
+          sessionId={sessionId}
+          isRunning={session?.status === "running"}
+          initialEvents={events}
+          selectedNode={selectedNode}
+          onSelectNode={setSelectedNode}
+        />
+      )}
     </div>
   );
 }
