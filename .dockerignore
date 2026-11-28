@@ -1,0 +1,44 @@
+# ==============================================================================
+# Root .dockerignore for NovaEnterprise
+# ==============================================================================
+
+# Version Control
+.git
+.gitignore
+
+# Python Virtual Environments, Caches & Bytecode
+.venv
+venv
+ENV
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+
+# Testing, Coverage & Linters
+.pytest_cache
+.coverage
+htmlcov
+.ruff_cache
+.mypy_cache
+tests
+
+# Node Modules & Frontend Build Artifacts
+node_modules
+frontend/node_modules
+frontend/.next
+frontend/dist
+.next
+dist
+
+# Secrets & Environment Files
+.env
+.env*.local
+*.pem
+*.key
+
+# Temporary Files, Logs & Backups
+*.log
+.DS_Store
+.agents.bak*
+AI_Solution_Architect_Masterclass_Slides.pdf
