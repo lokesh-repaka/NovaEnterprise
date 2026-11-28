@@ -1,5 +1,6 @@
 """API package for NovaEnterprise."""
 
+from backend.app.api.approvals import router as approvals_router
 from backend.app.api.auth import router as auth_router
 from backend.app.api.customers import router as customers_router
 from backend.app.api.decisions import router as decisions_router
@@ -14,6 +15,7 @@ from backend.app.api.teams import router as teams_router
 from backend.app.api.tickets import router as tickets_router
 
 __all__ = [
+    "approvals_router",
     "auth_router",
     "customers_router",
     "decisions_router",

@@ -10,6 +10,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from backend.app.api.approvals import router as approvals_router
 from backend.app.api.auth import router as auth_router
 from backend.app.api.customers import router as customers_router
 from backend.app.api.decisions import router as decisions_router
@@ -102,6 +103,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(documents_router, prefix=settings.api_v1_prefix)
     app.include_router(research_router, prefix=settings.api_v1_prefix)
     app.include_router(graph_router, prefix=settings.api_v1_prefix)
+    app.include_router(approvals_router, prefix=settings.api_v1_prefix)
 
     return app
 

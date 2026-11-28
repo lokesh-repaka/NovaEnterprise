@@ -15,6 +15,7 @@ from fastapi import (
     File,
     HTTPException,
     Query,
+    Response,
     UploadFile,
     status,
 )
@@ -24,13 +25,21 @@ from sqlalchemy.orm import Session
 from backend.app.core.config import Settings, get_settings
 from backend.app.core.db import get_db
 from backend.app.core.logging import get_logger
-from backend.app.core.security import AuthenticatedUser, require_role
+from backend.app.core.security import AuthenticatedUser, Role, require_role
 from backend.app.models.documents import Document, DocumentChunk
+from backend.app.schemas.approvals import (
+    DocumentDeleteExecutedResponse,
+    DocumentDeletePendingResponse,
+)
 from backend.app.schemas.documents import (
     DocumentChunkDetail,
     DocumentDetailResponse,
     DocumentResponse,
     DocumentUploadResponse,
+)
+from backend.app.services.approval_service import (
+    ApprovalService,
+    get_approval_service,
 )
 from rag.graph_store import get_graph_store
 from rag.ingest import ingest_document
@@ -227,4 +236,67 @@ def get_document(
         status=doc.status,
         created_at=doc.created_at,
         chunks=chunk_details,
+    )
+
+
+def _get_approval_service() -> ApprovalService:
+    """Dependency provider yielding ApprovalService singleton."""
+    return get_approval_service()
+
+
+@router.delete(
+    "/{document_id}",
+    response_model=None,
+    summary="Delete document or queue approval request",
+    description="Prune document and associated chunks (admin), or queue approval request (analyst) (F17).",
+)
+def delete_document(
+    document_id: str,
+    response: Response,
+    current_user: Annotated[
+        AuthenticatedUser,
+        Depends(require_role(Role.ANALYST, Role.ADMIN)),
+    ],
+    service: Annotated[ApprovalService, Depends(_get_approval_service)],
+) -> DocumentDeletePendingResponse | DocumentDeleteExecutedResponse:
+    """Delete document or queue approval request depending on caller role."""
+    is_admin = current_user.role == Role.ADMIN.value or current_user.role == "admin"
+
+    if not is_admin:
+        # Analyst role: intercept destructive deletion and queue approval request (F17)
+        try:
+            req = service.request_document_deletion(
+                document_id=document_id,
+                requester_id=current_user.username,
+            )
+        except KeyError as exc:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail=str(exc),
+            ) from exc
+
+        response.status_code = status.HTTP_202_ACCEPTED
+        return DocumentDeletePendingResponse(
+            message="Deletion request queued for administrative approval",
+            approval_request_id=req.id,
+            status="pending_approval",
+        )
+
+    # Admin role: execute immediate destructive deletion
+    try:
+        result = service.execute_document_deletion(
+            document_id=document_id,
+            admin_id=current_user.username,
+        )
+    except KeyError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(exc),
+        ) from exc
+
+    return DocumentDeleteExecutedResponse(
+        message=f"Document '{document_id}' successfully deleted",
+        deleted_document_id=document_id,
+        status="deleted",
+        pruned_chunks=int(result.get("pruned_chunks", 0)),
     )
