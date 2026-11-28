@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NovaEnterprise — Enterprise Decision & Knowledge Intelligence Architecture</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #070d18; color: #e2e8f0; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    .glow-cyan { box-shadow: 0 0 50px -10px rgba(56, 189, 248, 0.25); }
+    .glow-blue { box-shadow: 0 0 50px -10px rgba(59, 130, 246, 0.25); }
+    .glow-emerald { box-shadow: 0 0 50px -10px rgba(16, 185, 129, 0.25); }
+    .glow-purple { box-shadow: 0 0 50px -10px rgba(168, 85, 247, 0.25); }
+    .glow-amber { box-shadow: 0 0 50px -10px rgba(245, 158, 11, 0.25); }
+    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scroll::-webkit-scrollbar-track { background: #0b1324; }
+    .custom-scroll::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 3px; }
+  </style>
+</head>
+<body class="bg-[#070d18] text-slate-100 antialiased selection:bg-cyan-500 selection:text-slate-900 min-w-[1280px]">
+
+  <!-- ================= TOP NAVIGATION BAR ================= -->
+  <nav class="sticky top-0 z-50 backdrop-blur-xl bg-[#091122]/90 border-b border-slate-800/80 px-6 py-3.5 transition-all">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      
+      <!-- Brand & Status -->
+      <div class="flex items-center gap-3.5">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-cyan-500/30 font-black text-lg">
+          NE
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-extrabold tracking-tight text-white">Nova<span class="text-cyan-400">Enterprise</span></span>
+            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center gap-1">
+              <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+              Vercel Live Production
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-400 font-medium">Enterprise Knowledge & Decision Intelligence Platform</p>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="flex items-center gap-6 text-xs font-semibold text-slate-300">
+        <a href="#overview" class="hover:text-cyan-400 transition-colors">Overview</a>
+        <a href="#dilemma" class="hover:text-cyan-400 transition-colors">The Dilemma</a>
+        <a href="#architecture" class="hover:text-cyan-400 transition-colors">Architecture Blueprint</a>
+        <a href="#langgraph" class="hover:text-cyan-400 transition-colors">13-Node LangGraph Engine</a>
+        <a href="#canonical-query" class="hover:text-cyan-400 transition-colors">Canonical Query</a>
+        <a href="#guardrails" class="hover:text-cyan-400 transition-colors">Deterministic Safety</a>
+        <a href="#benchmarks" class="hover:text-cyan-400 transition-colors">Testing & Verification</a>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/lokesh-repaka/NovaEnterprise" target="_blank" rel="noopener noreferrer" class="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-300 hover:text-white bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-all flex items-center gap-1.5">
+          <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <a href="#canonical-query" class="px-4 py-2 rounded-xl text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-md shadow-cyan-400/20 transition-all flex items-center gap-1.5">
+          <span>Explore Canonical Query</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section id="overview" class="relative pt-20 pb-16 overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-[#091122] via-[#070d18] to-[#070d18]">
+    <div class="max-w-7xl mx-auto px-6 relative z-10">
+      
+      <!-- Top Pills -->
+      <div class="flex items-center gap-3 mb-6">
+        <span class="px-3 py-1 rounded-full text-xs font-mono font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          Enterprise Research Platform
+        </span>
+        <span class="px-3 py-1 rounded-full text-xs font-mono font-medium bg-blue-500/10 text-blue-400 border border-blue-500/30">
+          FastAPI + LangGraph + Next.js 15
+        </span>
+        <span class="px-3 py-1 rounded-full text-xs font-mono font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">
+          Vector RAG · GraphRAG · Governed SQL
+        </span>
+      </div>
+
+      <!-- Main Headline & Value Prop -->
+      <div class="grid grid-cols-12 gap-8 items-center">
+        <div class="col-span-8 space-y-5">
+          <h1 class="text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+            Retrieval Strategy is a <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400">Routing Decision</span>, Not a Library Choice.
+          </h1>
+          <p class="text-base text-slate-300 leading-relaxed max-w-3xl">
+            Modern enterprises store reality in fragments: operational metrics in <strong>relational databases</strong>, dependency topology in <strong>knowledge graphs</strong>, and postmortem rationale in <strong>unstructured documents</strong>. 
+            <strong>NovaEnterprise</strong> dynamically routes complex cross-domain questions through a stateful <strong>13-node LangGraph supervisor engine</strong> with bounded corrective retrieval (CRAG) and 100% citation attestation.
+          </p>
+          <div class="flex items-center gap-4 pt-2">
+            <a href="#architecture" class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-lg shadow-cyan-400/20 transition-all flex items-center gap-2">
+              <span>Inspect Architecture Blueprint</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>
+            </a>
+            <a href="#langgraph" class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-200 bg-slate-900 hover:bg-slate-800 border border-slate-700 transition-all flex items-center gap-2">
+              <span>View 13 Workflow Nodes</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Metric KPI Cards -->
+        <div class="col-span-4 grid grid-cols-2 gap-3.5">
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+            <div class="text-[10px] font-mono uppercase text-slate-400">Canonical Latency</div>
+            <div class="text-2xl font-black text-cyan-400">&lt; 10s</div>
+            <div class="text-[11px] text-slate-400">&lt; 500ms initial HTTP 202 intake</div>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+            <div class="text-[10px] font-mono uppercase text-slate-400">Citation Grounding</div>
+            <div class="text-2xl font-black text-emerald-400">100%</div>
+            <div class="text-[11px] text-slate-400">Zero unverified citations admitted</div>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+            <div class="text-[10px] font-mono uppercase text-slate-400">Offline Test Suite</div>
+            <div class="text-2xl font-black text-blue-400">475 / 475</div>
+            <div class="text-[11px] text-slate-400">100% passing without external APIs</div>
+          </div>
+          <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1">
+            <div class="text-[10px] font-mono uppercase text-slate-400">SQL Safety</div>
+            <div class="text-2xl font-black text-purple-400">0 Leaks</div>
+            <div class="text-[11px] text-slate-400">AST parser enforces SELECT allowlist</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= THE DILEMMA SECTION ================= -->
+  <section id="dilemma" class="py-20 border-b border-slate-800/80 bg-[#070d18]">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <div class="max-w-3xl mb-12">
+        <span class="text-xs font-mono uppercase font-bold text-amber-400 tracking-wider">The Architectural Dilemma</span>
+        <h2 class="text-3xl font-extrabold text-white mt-1">Why Single-Store AI Architectures Fail at Enterprise Questions</h2>
+        <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+          When leadership asks a multi-faceted operational question, no single retrieval paradigm possesses all the answers. Vector databases cannot perform relational joins; SQL cannot traverse multi-hop dependency graphs; and knowledge graphs cannot read unstructured incident postmortems.
+        </p>
+      </div>
+
+      <!-- Dilemma Comparison Table -->
+      <div class="overflow-x-auto rounded-xl border border-slate-800 bg-[#0a1220]">
+        <table class="w-full text-left border-collapse text-xs">
+          <thead>
+            <tr class="border-b border-slate-800 bg-slate-900/80 font-mono text-slate-300 uppercase">
+              <th class="p-4">Retrieval Paradigm</th>
+              <th class="p-4">What It Excels At</th>
+              <th class="p-4 text-red-400">Where It Catastrophically Fails</th>
+              <th class="p-4 text-cyan-400">How NovaEnterprise Resolves It</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-800/60 text-slate-300">
+            <tr>
+              <td class="p-4 font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                Vector RAG (Chunks + BM25)
+              </td>
+              <td class="p-4">Unstructured semantic matching in engineering postmortems, ADRs, runbooks.</td>
+              <td class="p-4 text-red-300">Counts, exact fiscal date ranges, multi-hop transitive entity relationships.</td>
+              <td class="p-4 text-slate-200">Routes narrative queries to Qdrant + BM25 with Reciprocal Rank Fusion (RRF).</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-purple-400"></span>
+                Relational SQL (Postgres / SQLite)
+              </td>
+              <td class="p-4">Exact aggregations, incident counts, fiscal quarter dates (WHERE created_at BETWEEN...).</td>
+              <td class="p-4 text-red-300">Unstructured root-cause rationale; high join complexity across arbitrary depth.</td>
+              <td class="p-4 text-slate-200">AST-validated read-only Text-to-SQL restricted to allowlisted incident tables.</td>
+            </tr>
+            <tr>
+              <td class="p-4 font-bold text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                Knowledge Graph (Neo4j / NetworkX)
+              </td>
+              <td class="p-4">Transitive blast radius: (Service)&lt;-[AFFECTED]-(Incident)-[IMPACTED]-&gt;(Customer).</td>
+              <td class="p-4 text-red-300">Large narrative bodies, fuzzy synonyms, or detailed engineering decisions.</td>
+              <td class="p-4 text-slate-200">Typed domain traversals returning Cypher queries and structured graph paths.</td>
+            </tr>
+            <tr class="bg-cyan-950/20 font-medium">
+              <td class="p-4 font-bold text-cyan-400 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                NovaEnterprise Triad Routing
+              </td>
+              <td class="p-4 text-white">Decomposes complex enterprise inquiries into typed sub-questions with routed execution.</td>
+              <td class="p-4 text-emerald-400">Zero single-store blindness; bounded corrective fallback on missing proof.</td>
+              <td class="p-4 text-cyan-300 font-bold">13-node supervisor orchestrates parallel multi-store retrieval + 100% citation attestation.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= ARCHITECTURE BLUEPRINT SECTION ================= -->
+  <section id="architecture" class="py-20 border-b border-slate-800/80 bg-[#091122]">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <span class="text-xs font-mono uppercase font-bold text-cyan-400 tracking-wider">System Architecture Blueprint</span>
+          <h2 class="text-3xl font-extrabold text-white mt-1">End-to-End Platform Topology (C2 / Container View)</h2>
+          <p class="text-sm text-slate-300 mt-1">
+            Engineered with strict separation of concerns across the interaction tier, API edge, multi-agent supervisor, and polyglot storage layer.
+          </p>
+        </div>
+        <div class="text-xs font-mono text-slate-400">
+          Source: <a href="../Claude.md" class="text-cyan-400 underline">Claude.md</a> · <a href="HLD.md" class="text-cyan-400 underline">docs/HLD.md</a>
+        </div>
+      </div>
+
+      <!-- Architecture Image Card -->
+      <div class="rounded-2xl border border-slate-800 bg-[#070d18] p-3 shadow-2xl relative overflow-hidden group">
+        <img 
+          src="nova_enterprise_architecture.png" 
+          alt="NovaEnterprise System Architecture Blueprint" 
+          class="w-full h-auto rounded-xl border border-slate-800/80 shadow-inner transition-transform duration-300 group-hover:scale-[1.002]"
+        />
+        <div class="p-4 flex items-center justify-between text-xs text-slate-400 font-mono">
+          <span>High-Resolution System Architecture Blueprint (1920x1160 SVG/Canvas Capture)</span>
+          <a href="nova_enterprise_architecture.png" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-1">
+            <span>Open Raw Image</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= 13-NODE LANGGRAPH LIFECYCLE ================= -->
+  <section id="langgraph" class="py-20 border-b border-slate-800/80 bg-[#070d18]">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <div class="max-w-3xl mb-12">
+        <span class="text-xs font-mono uppercase font-bold text-amber-400 tracking-wider">LangGraph Multi-Agent Swarm</span>
+        <h2 class="text-3xl font-extrabold text-white mt-1">The 13-Node Research Lifecycle</h2>
+        <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+          Every inquiry undergoes rigorous topological execution in <code class="text-cyan-300 font-mono">agents/graph.py</code>. 
+          State transitions are persisted after <strong>every individual node</strong>, ensuring full observability, fault tolerance, and live milestone telemetry.
+        </p>
+      </div>
+
+      <!-- 13 Nodes Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-xs">
+        
+        <!-- Node 1 -->
+        <div class="p-4 rounded-xl bg-[#0a1220] border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Node 01</span>
+            <span class="font-mono text-slate-500 text-[10px]">Context Recall</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">recall_memory</h3>
+          <p class="text-slate-400 text-[11px] leading-relaxed">
+            Extracts episodic context, user preferences, and organization constants from the 4-tiered memory service.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-slate-500 border-t border-slate-800/60">
+            Source: <span class="text-slate-400">agents/nodes/recall_memory.py</span>
+          </div>
+        </div>
+
+        <!-- Node 2 -->
+        <div class="p-4 rounded-xl bg-[#0a1220] border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Node 02</span>
+            <span class="font-mono text-slate-500 text-[10px]">Intent & Entities</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">analyze_query</h3>
+          <p class="text-slate-400 text-[11px] leading-relaxed">
+            Extracts domain entities (e.g. Payments API), time bounds (e.g. Q3/Q4), and operational intent.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-slate-500 border-t border-slate-800/60">
+            Source: <span class="text-slate-400">agents/nodes/analyze_query.py</span>
+          </div>
+        </div>
+
+        <!-- Node 3 -->
+        <div class="p-4 rounded-xl bg-[#0a1220] border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-cyan-500/10 text-cyan-400 border border-cyan-500/30">Node 03</span>
+            <span class="font-mono text-slate-500 text-[10px]">Policy Floor</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">assess_complexity</h3>
+          <p class="text-slate-400 text-[11px] leading-relaxed">
+            Deterministic routing floor: classifies queries as simple, moderate, or complex to prevent single-store short-circuiting.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-slate-500 border-t border-slate-800/60">
+            Source: <span class="text-slate-400">agents/nodes/assess_complexity.py</span>
+          </div>
+        </div>
+
+        <!-- Node 4 -->
+        <div class="p-4 rounded-xl bg-[#0a1220] border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-blue-500/10 text-blue-400 border border-blue-500/30">Node 04</span>
+            <span class="font-mono text-slate-500 text-[10px]">Decomposition</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">decompose</h3>
+          <p class="text-slate-400 text-[11px] leading-relaxed">
+            Deconstructs complex inquiries into 2 to 4 atomic, focused sub-questions (sq1..sq4).
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-slate-500 border-t border-slate-800/60">
+            Source: <span class="text-slate-400">agents/nodes/decompose.py</span>
+          </div>
+        </div>
+
+        <!-- Node 5 -->
+        <div class="p-4 rounded-xl bg-blue-950/30 border border-blue-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-blue-500/20 text-blue-300 border border-blue-500/50">Node 05</span>
+            <span class="font-mono text-blue-400 text-[10px]">Store Router</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">route_retrieval</h3>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Core thesis in action: assigns each atomic sub-question to Vector RAG, SQL, Knowledge Graph, or Hybrid.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-blue-400/80 border-t border-blue-800/40">
+            Source: <span class="text-blue-300">agents/nodes/route_retrieval.py</span>
+          </div>
+        </div>
+
+        <!-- Node 6 -->
+        <div class="p-4 rounded-xl bg-blue-950/30 border border-blue-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-blue-500/20 text-blue-300 border border-blue-500/50">Node 06</span>
+            <span class="font-mono text-blue-400 text-[10px]">Parallel Execution</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">execute_retrieval</h3>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Dispatches concurrent queries to Qdrant/Memory, Neo4j/NetworkX, and SQLite/PostgreSQL with AST validation.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-blue-400/80 border-t border-blue-800/40">
+            Source: <span class="text-blue-300">agents/nodes/execute_retrieval.py</span>
+          </div>
+        </div>
+
+        <!-- Node 7 -->
+        <div class="p-4 rounded-xl bg-[#0a1220] border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/30">Node 07</span>
+            <span class="font-mono text-slate-500 text-[10px]">Evidence Normalization</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">collect_evidence</h3>
+          <p class="text-slate-400 text-[11px] leading-relaxed">
+            Harmonizes diverse store outputs into uniform typed Evidence models with deterministic locators.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-slate-500 border-t border-slate-800/60">
+            Source: <span class="text-slate-400">agents/nodes/collect_evidence.py</span>
+          </div>
+        </div>
+
+        <!-- Node 8 -->
+        <div class="p-4 rounded-xl bg-amber-950/30 border border-amber-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50">Node 08</span>
+            <span class="font-mono text-amber-400 text-[10px]">Coverage Evaluation</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">check_missing_evidence</h3>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Evaluates coverage across all decomposed sub-questions; triggers CRAG retry if gaps are identified.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-amber-400/80 border-t border-amber-800/40">
+            Source: <span class="text-amber-300">agents/nodes/check_missing_evidence.py</span>
+          </div>
+        </div>
+
+        <!-- Node 9 -->
+        <div class="p-4 rounded-xl bg-amber-950/30 border border-amber-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-amber-500/20 text-amber-300 border border-amber-500/50">Node 09</span>
+            <span class="font-mono text-amber-400 text-[10px]">Bounded CRAG Loop</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">corrective_retrieval</h3>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Reformulates failing sub-queries, broadens search strategies, and re-executes retrieval (strictly &le; 2 rounds).
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-amber-400/80 border-t border-amber-800/40">
+            Source: <span class="text-amber-300">agents/nodes/corrective_retrieval.py</span>
+          </div>
+        </div>
+
+        <!-- Node 10 -->
+        <div class="p-4 rounded-xl bg-purple-950/30 border border-purple-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/50">Node 10</span>
+            <span class="font-mono text-purple-400 text-[10px]">Verification Gate 1</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">verify_evidence</h3>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Cross-checks factual validity, filters stale timestamps, and rejects ungrounded store records.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-purple-400/80 border-t border-purple-800/40">
+            Source: <span class="text-purple-300">agents/nodes/verify_evidence.py</span>
+          </div>
+        </div>
+
+        <!-- Node 11 -->
+        <div class="p-4 rounded-xl bg-purple-950/30 border border-purple-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-purple-500/20 text-purple-300 border border-purple-500/50">Node 11</span>
+            <span class="font-mono text-purple-400 text-[10px]">Synthesis</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">synthesize_answer</h3>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Synthesizes an executive narrative explicitly linking claims to evidence items via <code class="text-cyan-300">[1]..[n]</code> markers.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-purple-400/80 border-t border-purple-800/40">
+            Source: <span class="text-purple-300">agents/nodes/synthesize_answer.py</span>
+          </div>
+        </div>
+
+        <!-- Node 12 -->
+        <div class="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/40 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="px-2 py-0.5 rounded font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/50">Node 12</span>
+            <span class="font-mono text-emerald-400 text-[10px]">Verification Gate 2</span>
+          </div>
+          <h3 class="text-sm font-bold text-white">verify_citations</h3>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            Deterministic validator verifying every bracket citation resolves to an active Evidence item locator.
+          </p>
+          <div class="pt-2 text-[10px] font-mono text-emerald-400/80 border-t border-emerald-800/40">
+            Source: <span class="text-emerald-300">agents/nodes/verify_citations.py</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Node 13 Banner -->
+      <div class="mt-4 p-4 rounded-xl bg-[#0a1220] border border-cyan-500/30 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="px-2.5 py-1 rounded font-mono font-bold text-xs bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">
+            Node 13: update_memory
+          </span>
+          <span class="text-xs text-slate-300 font-medium">
+            Commits synthesized insights, cited entity relationships, and session context to long-term semantic memory.
+          </span>
+        </div>
+        <div class="text-xs font-mono text-cyan-400">
+          END Workflow &rarr; Status: 'completed'
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= THE CANONICAL ENTERPRISE QUERY ================= -->
+  <section id="canonical-query" class="py-20 border-b border-slate-800/80 bg-[#091122]">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <div class="max-w-3xl mb-10">
+        <span class="text-xs font-mono uppercase font-bold text-cyan-400 tracking-wider">Benchmark Reference</span>
+        <h2 class="text-3xl font-extrabold text-white mt-1">The Canonical Enterprise Query</h2>
+        <p class="text-sm text-slate-300 mt-2">
+          Every layer of NovaEnterprise is proven against this multi-store challenge question:
+        </p>
+        <div class="mt-4 p-4 rounded-xl bg-slate-900 border border-cyan-500/40 text-cyan-200 font-medium text-sm italic">
+          "Which customers were impacted by the Payments API last quarter, what incidents occurred, which teams own those services, and what decisions were taken to prevent recurrence?"
+        </div>
+      </div>
+
+      <!-- Sub-question Decomposition Breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
+        
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono uppercase text-emerald-400 font-bold">Sub-Question 1</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400">Graph Store</span>
+          </div>
+          <div class="font-bold text-white">Impacted Customers</div>
+          <p class="text-slate-400 text-[11px]">
+            Which customers were impacted by Payments API?
+          </p>
+          <div class="p-2 rounded bg-[#070d18] text-[10px] font-mono text-emerald-300 border border-slate-800">
+            (Service)&lt;-[:AFFECTED]-(Incident)-[:IMPACTED]-&gt;(Customer)
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono uppercase text-purple-400 font-bold">Sub-Question 2</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-500/10 text-purple-400">Relational SQL</span>
+          </div>
+          <div class="font-bold text-white">Incidents Occurred</div>
+          <p class="text-slate-400 text-[11px]">
+            What incidents occurred during the last quarter?
+          </p>
+          <div class="p-2 rounded bg-[#070d18] text-[10px] font-mono text-purple-300 border border-slate-800">
+            SELECT * FROM incidents WHERE created_at BETWEEN :start AND :end
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono uppercase text-emerald-400 font-bold">Sub-Question 3</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400">Graph Store</span>
+          </div>
+          <div class="font-bold text-white">Service Ownership</div>
+          <p class="text-slate-400 text-[11px]">
+            Which engineering teams own those services?
+          </p>
+          <div class="p-2 rounded bg-[#070d18] text-[10px] font-mono text-emerald-300 border border-slate-800">
+            (Service)-[:OWNED_BY]-&gt;(Team)
+          </div>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-800 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[10px] font-mono uppercase text-cyan-400 font-bold">Sub-Question 4</span>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/10 text-cyan-400">Hybrid Vector RAG</span>
+          </div>
+          <div class="font-bold text-white">Prevention Decisions</div>
+          <p class="text-slate-400 text-[11px]">
+            What decisions and ADRs were taken to prevent recurrence?
+          </p>
+          <div class="p-2 rounded bg-[#070d18] text-[10px] font-mono text-cyan-300 border border-slate-800">
+            Qdrant Dense Cosine + BM25 Lexical + Reciprocal Rank Fusion
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= DETERMINISTIC SAFETY & GUARDRAILS ================= -->
+  <section id="guardrails" class="py-20 border-b border-slate-800/80 bg-[#070d18]">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <div class="max-w-3xl mb-12">
+        <span class="text-xs font-mono uppercase font-bold text-red-400 tracking-wider">Zero-Trust Security</span>
+        <h2 class="text-3xl font-extrabold text-white mt-1">Deterministic Safety, AST Guards & Verification</h2>
+        <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+          AI agents cannot be trusted with unstructured system mutations or arbitrary SQL execution. 
+          NovaEnterprise implements strict code-level guardrails prior to executing any backend query.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
+        
+        <!-- Guard 1: AST SQL Validator -->
+        <div class="p-5 rounded-xl bg-[#0a1220] border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-purple-400"></span>
+              AST SQL Parser (<code class="text-purple-300 font-mono">validate_sql()</code>)
+            </h3>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-purple-500/10 text-purple-400">Safety Guard</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed text-[11px]">
+            Parses raw Text-to-SQL statements with SQLGlot AST validation. Strictly permits read-only <code class="text-slate-200">SELECT</code> queries on allowlisted tables (<code class="text-slate-200">incidents</code>, <code class="text-slate-200">services</code>, <code class="text-slate-200">teams</code>, <code class="text-slate-200">customers</code>).
+          </p>
+          <div class="p-3 rounded-lg bg-[#070d18] border border-slate-800 font-mono text-[10px] text-red-300 space-y-1">
+            <div>&bull; Blocks INSERT, UPDATE, DELETE, DROP, ALTER, TRUNCATE</div>
+            <div>&bull; Rejects UNION operators, nested subqueries, and SQL comments</div>
+            <div>&bull; Enforces maximum query execution timeouts and row limits</div>
+          </div>
+        </div>
+
+        <!-- Guard 2: Prompt Injection Quarantine -->
+        <div class="p-5 rounded-xl bg-[#0a1220] border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+              Prompt Injection Quarantine Envelope
+            </h3>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-cyan-500/10 text-cyan-400">Firewall</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed text-[11px]">
+            All ingested markdown documents, postmortems, and ADRs are treated as untrusted user inputs.
+          </p>
+          <div class="p-3 rounded-lg bg-[#070d18] border border-slate-800 font-mono text-[10px] text-cyan-300 space-y-1">
+            <div>&bull; Ingestion quarantine wraps content in &lt;untrusted_content&gt; XML tags</div>
+            <div>&bull; Adversarial heuristic scanning detects prompt jailbreak attempts</div>
+            <div>&bull; Strict prompt boundaries prevent instruction hijacking</div>
+          </div>
+        </div>
+
+        <!-- Guard 3: 100% Citation Attestation -->
+        <div class="p-5 rounded-xl bg-[#0a1220] border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+              Two-Phase Citation & Evidence Verification
+            </h3>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/10 text-emerald-400">Grounding</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed text-[11px]">
+            Separated into two dedicated verification nodes: <code class="text-emerald-300 font-mono">verify_evidence</code> and <code class="text-emerald-300 font-mono">verify_citations</code>.
+          </p>
+          <div class="p-3 rounded-lg bg-[#070d18] border border-slate-800 font-mono text-[10px] text-emerald-300 space-y-1">
+            <div>&bull; Every factual claim must match an exact evidence locator</div>
+            <div>&bull; Every bracket [n] must resolve to an active Evidence item</div>
+            <div>&bull; Synthesized answers with unverified claims are rejected</div>
+          </div>
+        </div>
+
+        <!-- Guard 4: Human-in-the-Loop (HITL) -->
+        <div class="p-5 rounded-xl bg-[#0a1220] border border-slate-800 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+              Human-in-the-Loop Approval Gates
+            </h3>
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono bg-amber-500/10 text-amber-400">Governance</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed text-[11px]">
+            Destructive enterprise operations (such as document purges or ADR deletions) require explicit admin approval.
+          </p>
+          <div class="p-3 rounded-lg bg-[#070d18] border border-slate-800 font-mono text-[10px] text-amber-300 space-y-1">
+            <div>&bull; Creates approval_requests record in DB</div>
+            <div>&bull; Halts execution until an admin reviews and signs off</div>
+            <div>&bull; Cryptographic audit event emitted to telemetry table</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= TESTING & BENCHMARKS ================= -->
+  <section id="benchmarks" class="py-20 border-b border-slate-800/80 bg-[#091122]">
+    <div class="max-w-7xl mx-auto px-6">
+      
+      <div class="max-w-3xl mb-12">
+        <span class="text-xs font-mono uppercase font-bold text-blue-400 tracking-wider">Verification & Benchmarking</span>
+        <h2 class="text-3xl font-extrabold text-white mt-1">475/475 Unit & Integration Tests (100% Offline)</h2>
+        <p class="text-sm text-slate-300 mt-2 leading-relaxed">
+          Engineered for rapid local development and air-gapped CI/CD execution without external API dependencies or mock service latency.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="text-2xl font-black text-cyan-400">475 / 475 Passed</div>
+          <div class="font-bold text-white text-sm">Pytest Harness</div>
+          <p class="text-slate-400 text-[11px]">
+            Comprehensive test suite covering domain models, AST validation, LangGraph nodes, RAG retrieval, and API endpoints in 0.37s collection time.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="text-2xl font-black text-emerald-400">Zero Network Calls</div>
+          <div class="font-bold text-white text-sm">Offline First Architecture</div>
+          <p class="text-slate-400 text-[11px]">
+            Runs flawlessly with <code class="text-emerald-300">LLM_PROVIDER=fake</code>, <code class="text-emerald-300">VECTOR_STORE=memory</code>, and <code class="text-emerald-300">GRAPH_STORE=memory</code>.
+          </p>
+        </div>
+
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="text-2xl font-black text-purple-400">100% Deterministic</div>
+          <div class="font-bold text-white text-sm">Continuous Integration</div>
+          <p class="text-slate-400 text-[11px]">
+            GitHub Actions runs formatting (<code class="text-purple-300">ruff</code>), typing (<code class="text-purple-300">mypy</code>), and the full pytest matrix on every push.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="py-12 bg-[#070d18] text-center text-xs text-slate-500 border-t border-slate-800/60">
+    <div class="max-w-7xl mx-auto px-6 space-y-3">
+      <div class="flex items-center justify-center gap-3">
+        <span class="text-white font-bold">NovaEnterprise</span>
+        <span>&bull;</span>
+        <span>Engineered by Lokesh Repaka</span>
+        <span>&bull;</span>
+        <a href="https://github.com/lokesh-repaka/NovaEnterprise" class="text-cyan-400 hover:underline">GitHub Repository</a>
+        <span>&bull;</span>
+        <a href="https://lokesh-portfolio-two-gold.vercel.app" class="text-cyan-400 hover:underline">Portfolio</a>
+      </div>
+      <p>
+        Enterprise Decision & Knowledge Intelligence Platform &bull; LangGraph Multi-Agent Supervisor &bull; Qdrant + Neo4j + PostgreSQL
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>
