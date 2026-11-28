@@ -124,6 +124,12 @@ class FakeLLMClient:
 
         # Specialized synthesized response for synthesis node
         if "synthesize" in prompt.lower() or "synthesize_answer" in prompt.lower():
+            if "retention" in prompt.lower():
+                return (
+                    "According to enterprise policy POL-DAT-001 [1], transactional payment records "
+                    "are retained for 7 years [1], system telemetry and access logs are retained in hot storage "
+                    "for 90 days [2], and research sessions are retained for 180 days [3]."
+                )
             return (
                 "During Fiscal Q2 2026, three enterprise customers were impacted by the "
                 "Payments API outage INC-2031 [1]: Acme Corp, TechFlow, and FinEdge [2]. "

@@ -10,7 +10,7 @@
 PYTHON ?= python3
 PORT ?= 8001
 HOST ?= 0.0.0.0
-QUESTION ?= What was the root cause of the Payments API incident last quarter?
+QUESTION ?= Which customers were impacted by the Payments API last quarter, what incidents occurred, which teams own those services, and what decisions were taken to prevent recurrence?
 
 help: ## Show this help message and target descriptions
 	@echo "NovaEnterprise Developer Automation Interface"
@@ -32,16 +32,15 @@ test-cov: ## Run offline pytest suite with line-by-line coverage
 	$(PYTHON) -m pytest --cov=backend.app --cov=tests.mocks --cov-report=term-missing tests/unit/
 
 lint: ## Execute static analysis via ruff and mypy
-	ruff check backend/ tests/ rag/
-	mypy backend/app tests/ rag/
+	ruff check backend/ tests/ rag/ agents/
+	mypy backend/app tests/ rag/ agents/
 
 format: ## Auto-format code and sort imports using ruff
-	ruff check --fix backend/ tests/ rag/
-	ruff format backend/ tests/ rag/
+	ruff check --fix backend/ tests/ rag/ agents/
+	ruff format backend/ tests/ rag/ agents/
 
 demo: ## Run canonical multi-hop research demo (Claude.md §14)
-	@echo "Executing canonical demo for question: '$(QUESTION)'"
-	$(PYTHON) -c "import urllib.request, json; print('Testing backend liveness:'); res = urllib.request.urlopen('http://localhost:$(PORT)/health/ready', timeout=2); print(json.dumps(json.loads(res.read()), indent=2))" || echo "Note: Run 'make backend' in a separate terminal to query live API."
+	$(PYTHON) -m agents.demo_runner --question "$(QUESTION)"
 
 ingest: ## Index and chunk enterprise documentation into vector & graph stores
 	@echo "Ingestion command: Indexing documents from sample_data/ into stores..."
