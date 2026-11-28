@@ -316,9 +316,12 @@ def get_llm(
     If provider is omitted, resolves from settings.llm_provider (default 'fake').
     """
     settings = get_settings()
-    target_provider_str = (
-        str(provider).lower() if provider is not None else settings.llm_provider.lower()
-    )
+    if isinstance(provider, LLMProvider):
+        target_provider_str = provider.value
+    elif provider is not None:
+        target_provider_str = str(provider).lower()
+    else:
+        target_provider_str = settings.llm_provider.lower()
 
     try:
         provider_enum = LLMProvider(target_provider_str)
