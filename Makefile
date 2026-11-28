@@ -5,12 +5,14 @@
 # Guaranteed 100% offline-compatible by default.
 # ==============================================================================
 
-.PHONY: help setup backend test test-cov eval lint format demo ingest seed-graph clean frontend-dev frontend-build frontend-test frontend-lint docker-build-backend docker-build-frontend docker-build
+.PHONY: help setup backend test test-cov eval lint format demo ingest seed-graph clean frontend-dev frontend-build frontend-test frontend-lint docker-build-backend docker-build-frontend docker-build compose-up compose-down compose-logs compose-ps
 
 PYTHON ?= python3
 PORT ?= 8001
 HOST ?= 0.0.0.0
+COMPOSE ?= docker-compose
 QUESTION ?= Which customers were impacted by the Payments API last quarter, what incidents occurred, which teams own those services, and what decisions were taken to prevent recurrence?
+
 
 help: ## Show this help message and target descriptions
 	@echo "NovaEnterprise Developer Automation Interface"
@@ -77,4 +79,18 @@ docker-build-frontend: ## Build frontend Next.js standalone container image
 	docker build -f Dockerfile.frontend -t nova-frontend:latest .
 
 docker-build: docker-build-backend docker-build-frontend ## Build both container images
+
+compose-up: ## Start multi-service Docker Compose stack in background
+	$(COMPOSE) up -d
+
+compose-down: ## Stop and remove all Docker Compose stack containers
+	$(COMPOSE) down
+
+compose-logs: ## Follow Docker Compose stack logs
+	$(COMPOSE) logs -f
+
+compose-ps: ## Display status of Docker Compose stack services
+	$(COMPOSE) ps
+
+
 
