@@ -5,7 +5,7 @@
 # Guaranteed 100% offline-compatible by default.
 # ==============================================================================
 
-.PHONY: help setup backend test test-cov lint format demo ingest seed-graph clean
+.PHONY: help setup backend test test-cov lint format demo ingest seed-graph clean frontend-dev frontend-build frontend-test frontend-lint
 
 PYTHON ?= python3
 PORT ?= 8001
@@ -54,3 +54,15 @@ clean: ## Remove temporary build caches, bytecode, and coverage artifacts
 	rm -rf .pytest_cache .coverage htmlcov .ruff_cache .mypy_cache
 	find . -type d -name "__pycache__" -exec rm -rf {} +
 	@echo "Caches cleaned."
+
+frontend-dev: ## Start Next.js 15 frontend on :3001
+	cd frontend && npm run dev
+
+frontend-build: ## Build Next.js 15 frontend production bundle
+	cd frontend && npm run build
+
+frontend-test: ## Run frontend Vitest test suite
+	cd frontend && npm test
+
+frontend-lint: ## Run frontend ESLint and TypeScript checks
+	cd frontend && npm run lint && npm run type-check
