@@ -14,9 +14,12 @@ import {
   ChevronLeft,
   ChevronRight,
   ShieldCheck,
-  Sparkles,
+  Lock,
+  LogOut,
 } from "lucide-react";
 import { NAVIGATION_SECTIONS, NavItem } from "./NavLinks";
+import { useOptionalAuth, ROLE_HIERARCHY } from "@/context/AuthContext";
+import type { UserRole } from "@/types/api";
 
 const ICON_MAP: Record<string, React.ElementType> = {
   LayoutDashboard,
@@ -29,12 +32,15 @@ const ICON_MAP: Record<string, React.ElementType> = {
 };
 
 export interface SidebarProps {
-  currentRole?: "viewer" | "analyst" | "admin";
+  currentRole?: UserRole;
 }
 
-export function Sidebar({ currentRole = "analyst" }: SidebarProps) {
+export function Sidebar({ currentRole }: SidebarProps) {
   const pathname = usePathname();
   const [collapsed, setCollapsed] = useState(false);
+  const authContext = useOptionalAuth();
+
+  const effectiveRole: UserRole = authContext ? authContext.role : (currentRole ?? "analyst");
 
   return (
     <aside
@@ -92,14 +98,26 @@ export function Sidebar({ currentRole = "analyst" }: SidebarProps) {
                     ? pathname === "/"
                     : pathname.startsWith(item.href);
 
+                const isLocked =
+                  item.requiredRole &&
+                  (ROLE_HIERARCHY[effectiveRole] ?? 0) < (ROLE_HIERARCHY[item.requiredRole] ?? 0);
+
                 return (
                   <Link
                     key={item.href}
                     href={item.href}
-                    title={collapsed ? item.name : undefined}
+                    title={
+                      collapsed
+                        ? item.name
+                        : isLocked
+                        ? `Requires ${item.requiredRole} role`
+                        : undefined
+                    }
                     className={`flex items-center group px-3 py-2 text-xs font-medium rounded-lg transition-colors ${
                       isActive
                         ? "bg-blue-600/20 text-blue-400 border border-blue-500/30"
+                        : isLocked
+                        ? "text-gray-500 hover:text-gray-400"
                         : "text-gray-400 hover:text-gray-100 hover:bg-gray-800/60"
                     }`}
                   >
@@ -108,13 +126,23 @@ export function Sidebar({ currentRole = "analyst" }: SidebarProps) {
                       className={`flex-shrink-0 ${
                         isActive
                           ? "text-blue-400"
+                          : isLocked
+                          ? "text-gray-600"
                           : "text-gray-400 group-hover:text-gray-200"
                       }`}
                     />
                     {!collapsed && (
                       <span className="ml-3 truncate">{item.name}</span>
                     )}
-                    {!collapsed && item.badge && (
+
+                    {!collapsed && isLocked && (
+                      <Lock
+                        size={12}
+                        className="ml-auto text-gray-500 flex-shrink-0"
+                      />
+                    )}
+
+                    {!collapsed && !isLocked && item.badge && (
                       <span className="ml-auto px-1.5 py-0.5 text-[9px] font-mono font-medium rounded bg-blue-900/60 text-blue-300 border border-blue-700/40">
                         {item.badge}
                       </span>
@@ -129,17 +157,29 @@ export function Sidebar({ currentRole = "analyst" }: SidebarProps) {
 
       {/* Footer Role / Mode Status */}
       <div className="p-3 border-t border-gray-800 bg-[#090d16]">
-        <div className="flex items-center space-x-3 px-2 py-1.5 rounded-lg bg-gray-900/80 border border-gray-800">
-          <ShieldCheck size={18} className="text-emerald-400 flex-shrink-0" />
-          {!collapsed && (
-            <div className="flex flex-col min-w-0">
-              <span className="text-[11px] font-medium text-gray-200 truncate">
-                Role: <span className="font-mono text-emerald-400 font-semibold">{currentRole}</span>
-              </span>
-              <span className="text-[9px] text-gray-400 font-mono">
-                Port :3001 ↔ :8001
-              </span>
-            </div>
+        <div className="flex items-center justify-between px-2 py-1.5 rounded-lg bg-gray-900/80 border border-gray-800">
+          <div className="flex items-center space-x-2.5 min-w-0">
+            <ShieldCheck size={18} className="text-emerald-400 flex-shrink-0" />
+            {!collapsed && (
+              <div className="flex flex-col min-w-0">
+                <span className="text-[11px] font-medium text-gray-200 truncate">
+                  Role: <span className="font-mono text-emerald-400 font-semibold">{effectiveRole}</span>
+                </span>
+                <span className="text-[9px] text-gray-400 font-mono truncate">
+                  {authContext?.user?.username ? `@${authContext.user.username}` : "Port :3001 ↔ :8001"}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {!collapsed && authContext?.isAuthenticated && (
+            <button
+              onClick={() => authContext?.logout()}
+              title="Logout"
+              className="p-1 rounded text-gray-400 hover:text-red-400 hover:bg-gray-800 transition-colors"
+            >
+              <LogOut size={14} />
+            </button>
           )}
         </div>
       </div>

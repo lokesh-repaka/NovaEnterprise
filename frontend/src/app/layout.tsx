@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Sidebar } from "@/components/navigation/Sidebar";
 import { Header } from "@/components/navigation/Header";
+import { AuthProvider } from "@/context/AuthContext";
 
 export const metadata: Metadata = {
   title: "NovaEnterprise — Intelligence & Decision Console",
@@ -17,16 +18,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className="min-h-screen bg-[#0b0f19] text-gray-100 antialiased flex flex-row overflow-hidden">
-        {/* Persistent Collapsible Sidebar */}
-        <Sidebar />
+        <AuthProvider>
+          {/* Persistent Collapsible Sidebar */}
+          <Sidebar />
 
-        {/* Content Viewport */}
-        <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
-          <Header />
-          <main className="flex-1 overflow-y-auto p-6 bg-[#0b0f19]">
-            <div className="max-w-7xl mx-auto">{children}</div>
-          </main>
-        </div>
+          {/* Content Viewport */}
+          <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
+            <Header />
+            <main className="flex-1 overflow-y-auto p-6 bg-[#0b0f19]">
+              <div className="max-w-7xl mx-auto">{children}</div>
+            </main>
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

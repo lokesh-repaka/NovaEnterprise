@@ -117,6 +117,10 @@ export class ApiClient {
     this.token = token;
   }
 
+  public clearToken(): void {
+    this.token = null;
+  }
+
   public getToken(): string | null {
     return this.token;
   }
@@ -229,10 +233,10 @@ export class ApiClient {
       return this.request<DemoUser[]>("/auth/demo-users", { method: "GET" });
     },
     getDemoToken: async (role: UserRole = "analyst"): Promise<TokenResponse> => {
-      return this.request<TokenResponse>(
-        `/auth/demo-token?role=${encodeURIComponent(role)}`,
-        { method: "POST" }
-      );
+      return this.request<TokenResponse>("/auth/demo-token", {
+        method: "POST",
+        body: JSON.stringify({ role }),
+      });
     },
     login: async (credentials: LoginRequest): Promise<TokenResponse> => {
       return this.request<TokenResponse>("/auth/login", {
@@ -503,3 +507,6 @@ export function getApiClient(config?: ApiClientConfig): ApiClient {
   }
   return defaultApiClient;
 }
+
+export const apiClient: ApiClient = getApiClient();
+
