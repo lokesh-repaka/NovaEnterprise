@@ -109,6 +109,14 @@ class GraphStoreService(Protocol):
         """Retrieve a node by its unique ID."""
         ...
 
+    def get_all_nodes(self) -> list[dict[str, Any]]:
+        """Return all nodes in graph."""
+        ...
+
+    def get_all_edges(self) -> list[dict[str, Any]]:
+        """Return all edges in graph."""
+        ...
+
     def node_count(self) -> int:
         """Return total number of nodes in graph."""
         ...
@@ -198,6 +206,14 @@ class InMemoryGraphStore:
         """Retrieve a node by its unique ID."""
         return self._nodes.get(node_id)
 
+    def get_all_nodes(self) -> list[dict[str, Any]]:
+        """Return all nodes currently in graph."""
+        return list(self._nodes.values())
+
+    def get_all_edges(self) -> list[dict[str, Any]]:
+        """Return all edges currently in graph."""
+        return list(self._edges)
+
     def node_count(self) -> int:
         """Return total number of nodes in graph."""
         return len(self._nodes)
@@ -280,6 +296,19 @@ class InMemoryGraphStore:
             label = node.get("label", "")
             if f":{label.upper()}" in query_upper or f":{label}" in cypher:
                 results.append(node)
+
+        if params:
+            filtered = []
+            for node in results:
+                props = node.get("properties", {})
+                matches = True
+                for k, v in params.items():
+                    if k in props and str(props[k]).lower() != str(v).lower():
+                        matches = False
+                        break
+                if matches:
+                    filtered.append(node)
+            results = filtered
 
         return results
 
@@ -404,6 +433,14 @@ class Neo4jGraphStore:
     def get_node(self, node_id: str) -> dict[str, Any] | None:
         """Retrieve node."""
         return self._nodes.get(node_id)
+
+    def get_all_nodes(self) -> list[dict[str, Any]]:
+        """Return all nodes currently in graph."""
+        return list(self._nodes.values())
+
+    def get_all_edges(self) -> list[dict[str, Any]]:
+        """Return all edges currently in graph."""
+        return list(self._edges)
 
     def node_count(self) -> int:
         """Return total node count."""
