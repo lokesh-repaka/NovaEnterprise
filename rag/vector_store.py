@@ -209,6 +209,18 @@ class InMemoryVectorStore:
             return True
         return False
 
+    def delete_document(self, document_id: str) -> int:
+        """Delete all chunks belonging to a document. Returns count of deleted chunks."""
+        to_delete = [
+            cid
+            for cid, c in self._chunks.items()
+            if getattr(c, "document_id", None) == document_id
+            or (isinstance(c, dict) and c.get("document_id") == document_id)
+        ]
+        for cid in to_delete:
+            del self._chunks[cid]
+        return len(to_delete)
+
     def clear(self) -> None:
         """Remove all chunks from memory."""
         self._chunks.clear()
@@ -299,6 +311,18 @@ class QdrantVectorStore:
             del self._chunks[chunk_id]
             return True
         return False
+
+    def delete_document(self, document_id: str) -> int:
+        """Delete all chunks belonging to a document. Returns count of deleted chunks."""
+        to_delete = [
+            cid
+            for cid, c in self._chunks.items()
+            if getattr(c, "document_id", None) == document_id
+            or (isinstance(c, dict) and c.get("document_id") == document_id)
+        ]
+        for cid in to_delete:
+            del self._chunks[cid]
+        return len(to_delete)
 
     def clear(self) -> None:
         """Clear store."""

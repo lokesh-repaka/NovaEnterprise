@@ -1,5 +1,7 @@
 """Document, chunk, and human-in-the-loop approval repositories."""
 
+import uuid
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -97,7 +99,7 @@ class ApprovalRequestRepository(BaseRepository[ApprovalRequest]):
     ) -> ApprovalRequest:
         """Create a new pending HITL approval request."""
         req = ApprovalRequest(
-            id=f"appr-{resource_type}-{resource_id[:8]}",
+            id=f"appr-{resource_type}-{resource_id[:8]}-{uuid.uuid4().hex[:6]}",
             resource_type=resource_type,
             resource_id=resource_id,
             action=action,
@@ -105,6 +107,36 @@ class ApprovalRequestRepository(BaseRepository[ApprovalRequest]):
             status="pending",
         )
         return self.create(req)
+
+    def list_requests(
+        self,
+        status: str | None = None,
+        skip: int = 0,
+        limit: int = 50,
+    ) -> list[ApprovalRequest]:
+        """List approval requests with optional status filtering and pagination."""
+        stmt = select(ApprovalRequest)
+        if status:
+            stmt = stmt.where(ApprovalRequest.status == status)
+        stmt = (
+            stmt.order_by(ApprovalRequest.created_at.desc()).offset(skip).limit(limit)
+        )
+        return list(self.db.scalars(stmt).all())
+
+    def get_pending_for_resource(
+        self, resource_type: str, resource_id: str
+    ) -> ApprovalRequest | None:
+        """Find an active pending approval request for a given resource."""
+        stmt = (
+            select(ApprovalRequest)
+            .where(
+                ApprovalRequest.resource_type == resource_type,
+                ApprovalRequest.resource_id == resource_id,
+                ApprovalRequest.status == "pending",
+            )
+            .order_by(ApprovalRequest.created_at.desc())
+        )
+        return self.db.scalars(stmt).first()
 
     def list_pending(self) -> list[ApprovalRequest]:
         """List all pending approval requests awaiting review."""

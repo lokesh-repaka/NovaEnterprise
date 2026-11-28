@@ -1,5 +1,12 @@
 """Pydantic v2 schemas package for NovaEnterprise API contracts."""
 
+from backend.app.schemas.approvals import (
+    ApprovalDecisionRequest,
+    ApprovalDecisionResponse,
+    ApprovalRequestResponse,
+    DocumentDeleteExecutedResponse,
+    DocumentDeletePendingResponse,
+)
 from backend.app.schemas.auth import (
     DemoTokenRequest,
     DemoUser,
@@ -51,6 +58,9 @@ from backend.app.schemas.research import (
 )
 
 __all__ = [
+    "ApprovalDecisionRequest",
+    "ApprovalDecisionResponse",
+    "ApprovalRequestResponse",
     "Citation",
     "CustomerResponse",
     "CypherQueryRequest",
@@ -60,6 +70,8 @@ __all__ = [
     "DemoTokenRequest",
     "DemoUser",
     "DocumentChunkDetail",
+    "DocumentDeleteExecutedResponse",
+    "DocumentDeletePendingResponse",
     "DocumentDetailResponse",
     "DocumentResponse",
     "DocumentUploadResponse",
