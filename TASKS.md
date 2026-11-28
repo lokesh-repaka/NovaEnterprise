@@ -188,7 +188,7 @@ Sub-tasks in the same phase that do not share files can be open at the same time
 
 | Task | Branch | Needs | Proves | Status |
 |------|--------|-------|--------|--------|
-| P13-1 · Research interface and active session view | `feature/frontend-research-view` | Phase 11 ✓, Phase 12 ✓ | F1 | Pending ❌ |
+| P13-1 · Research interface and active session view | `feature/frontend-research-view` | Phase 11 ✓, Phase 12 ✓ | F1 | Completed ✅ |
 | P13-2 · Live event tracer, node timeline, and progress poll | `feature/frontend-event-timeline` | P13-1 | F16 | Pending ❌ |
 | P13-3 · Knowledge Graph visualizer and node expansion canvas | `feature/frontend-graph-canvas` | P13-1 | F14 | Pending ❌ |
 | P13-4 · Document manager, upload dropzone, and approval modal | `feature/frontend-documents-approvals` | P13-1 | F13, F17 | Pending ❌ |
@@ -314,6 +314,6 @@ Every F-requirement and N-requirement from `Claude.md §3` must be covered by at
 | 10 | LangGraph research workflow engine | 4 | 4 ✅ |
 | 11 | Graph explorer, documents, and approvals API | 3 | 3 ✅ |
 | 12 | Frontend console shell | 4 | 4 ✅ |
-| 13 | Research and graph UI screens | 4 | 0 ❌ |
+| 13 | Research and graph UI screens | 4 | 1 ⏳ |
 | 14 | Evaluation, testing, and delivery | 5 | 0 ❌ |
-| **Total** | | **56** | **46 (82%)** |
+| **Total** | | **56** | **47 (84%)** |
