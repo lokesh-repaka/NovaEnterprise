@@ -237,9 +237,11 @@ export interface CypherQueryResponse {
 }
 
 export interface GraphExpandResponse {
-  center_node: GraphNode;
-  neighbors: GraphNode[];
+  nodes?: GraphNode[];
   edges: GraphEdge[];
+  root?: GraphNode | null;
+  center_node?: GraphNode;
+  neighbors?: GraphNode[];
 }
 
 // ------------------------------------------
